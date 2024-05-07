@@ -9,7 +9,6 @@ const Guide = () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <Subheader />
         <Steps />
       </div>
     </div>

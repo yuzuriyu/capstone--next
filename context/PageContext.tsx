@@ -10,7 +10,7 @@ interface Props {
 const PageContext = createContext<PageContextType | undefined>(undefined);
 
 const PageContextProvider: React.FC<Props> = ({ children }) => {
-  const [activePage, setActivePage] = useState<string>("overview");
+  const [activePage, setActivePage] = useState<string>("Overview");
 
   const handleActivePage = (page: string) => {
     setActivePage(page);

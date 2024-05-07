@@ -9,7 +9,6 @@ const Contact = async () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <Subheader />
         <Form />
       </div>
     </div>

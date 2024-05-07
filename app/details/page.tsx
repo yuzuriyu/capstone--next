@@ -9,7 +9,6 @@ const Details = () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <Subheader />
         <Project />
       </div>
     </div>

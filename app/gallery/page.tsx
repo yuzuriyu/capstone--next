@@ -9,7 +9,6 @@ const Gallery = () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <Subheader />
         <Documentation />
       </div>
     </div>

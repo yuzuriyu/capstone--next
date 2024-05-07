@@ -10,7 +10,6 @@ const About = async () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <Subheader />
         <Researchers />
       </div>
     </div>
