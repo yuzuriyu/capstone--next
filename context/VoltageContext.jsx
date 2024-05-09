@@ -24,15 +24,23 @@ const VoltageContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // Calculate total accumulated voltage
     let totalVoltage = 0;
     voltageData.forEach((item) => {
-      item.voltages.forEach((voltage) => {
-        totalVoltage += voltage;
+      item.voltages.forEach((voltageObj) => {
+        if (voltageObj && typeof voltageObj.voltage === 'number') {
+          totalVoltage += voltageObj.voltage;
+        } else {
+          console.error('Invalid voltage object:', voltageObj);
+        }
       });
     });
+    // Convert to fixed decimal places and then parse it back to float
+    totalVoltage = parseFloat(totalVoltage.toFixed(2));
     setTotalAccumulatedVoltage(totalVoltage);
+    console.log('Calculated Total Voltage:', totalVoltage);
   }, [voltageData]);
+  
+  
   console.log(totalAccumulatedVoltage);
   return (
     <VoltageContext.Provider

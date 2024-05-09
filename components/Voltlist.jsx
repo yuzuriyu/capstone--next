@@ -33,14 +33,12 @@ const Voltlist = () => {
         : dayData.voltages;
 
     return sortedVoltages.map((voltageObj, index) => {
-      const voltage = voltageObj.voltage;
+      const voltage = parseFloat(voltageObj.voltage.toFixed(2));
 
       return (
         <div
           key={index}
-          className={`py-4 pr-4 border-b  flex justify-between align-middle ${
-            index === 0 ? "" : ""
-          }`}
+          className={`py-4 pr-4 border-b flex justify-between align-middle ${index === 0 ? "" : ""}`}
         >
           <p className={`text-sm ${index === 0 ? "text-customblue" : ""}`}>
             {voltage} volts

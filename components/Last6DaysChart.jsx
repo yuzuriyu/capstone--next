@@ -16,7 +16,7 @@ import VoltageChartInfo from "./VoltageChartInfo";
 import WeeklyChart from "./WeeklyChart";
 
 const Last6DaysChart = () => {
-  const { voltageData, totalCombinedVoltage } = useContext(VoltageContext);
+  const { voltageData, totalAccumulatedVoltage } = useContext(VoltageContext);
   const [aggregatedData, setAggregatedData] = useState([]);
   const [activeChart, setActiveChart] = useState("last 6 days");
   const [isChartInfoOpen, setIsChartInfoOpen] = useState(false);
@@ -44,6 +44,8 @@ const Last6DaysChart = () => {
 
   const toggleChartInfo = () => {
     setIsChartInfoOpen((prevStatus) => !prevStatus);
+
+    console.log(totalAccumulatedVoltage)
   };
   return (
     <div className="w-11/12 m-auto md:border-r col-span-2 md:pr-6 pb-6 md:pb-0 md:border-b-0 border-b">
@@ -58,7 +60,7 @@ const Last6DaysChart = () => {
         </button>
         {isChartInfoOpen && <VoltageChartInfo />}
       </div>
-      <p className="text-lg font-bold">{totalCombinedVoltage}</p>
+      <p className="text-lg font-bold">{totalAccumulatedVoltage}</p>
       <div>
         {activeChart === "last 6 days" && (
           <ResponsiveContainer width="100%" height={400}>
