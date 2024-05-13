@@ -1,13 +1,17 @@
 import React from "react";
+import Image from "next/image";
 
 const Steps = () => {
   return (
     <>
       <div className="relative h-[316px] w-full">
-        <img
+        <Image
           src="/images/winter.jpg"
           alt=""
           className="w-full h-full object-cover"
+          width={0}
+          height={0}
+          sizes="100vw"
         />
         <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center items-center">
           <h1 className="text-5xl font-playfair text-white">Functionality</h1>

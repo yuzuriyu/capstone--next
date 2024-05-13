@@ -3,8 +3,7 @@
 import React, { useContext } from "react";
 import { PageContext } from "../context/PageContext";
 import Link from "next/link";
-import Image from "next/image";
-const hrefggleMenu = () => {
+const ToggleMenu = () => {
   const { handleActivePage, activePage } = useContext(PageContext);
 
   return (
@@ -180,4 +179,4 @@ const hrefggleMenu = () => {
   );
 };
 
-export default hrefggleMenu;
+export default ToggleMenu;
