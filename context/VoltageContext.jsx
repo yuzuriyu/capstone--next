@@ -19,6 +19,8 @@ const VoltageContextProvider = ({ children }) => {
           }
         );
         const data = await res.json();
+        console.log(data);
+
         setVoltageData(data);
       } catch (error) {
         console.error("Error fetching voltage data:", error);
