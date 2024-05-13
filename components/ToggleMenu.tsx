@@ -8,11 +8,13 @@ import { PageContextType } from "@/app/interfaces";
 const ToggleMenu = () => {
   const contextValue = useContext<PageContextType | undefined>(PageContext);
 
+  // Check if contextValue is undefined
   if (!contextValue) {
     // Handle the case where contextValue is undefined
     return null; // Or any other fallback UI
   }
 
+  // Destructure handleActivePage and activePage from contextValue
   const { handleActivePage, activePage } = contextValue;
 
   return (
