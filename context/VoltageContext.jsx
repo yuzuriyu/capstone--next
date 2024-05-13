@@ -1,41 +1,60 @@
-import React, { createContext } from "react";
-import useSWR from "swr";
+"use client";
+
+import React, { useEffect, useState, createContext } from "react";
 
 const VoltageContext = createContext();
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 const VoltageContextProvider = ({ children }) => {
-  const { data: voltageData, error } = useSWR(
-    "https://next-structure-chi.vercel.app/api/voltages",
-    fetcher,
-    { refreshInterval: 5000 } // Refresh every 5 seconds
-  );
+  const [latestRecord, setLatestRecord] = useState(0);
+  const [voltageData, setVoltageData] = useState([]);
+  const [totalAccumulatedVoltage, setTotalAccumulatedVoltage] = useState(0);
 
-  if (error) {
-    console.error("Error fetching voltage data:", error);
-  }
+  useEffect(() => {
+    const fetchVoltageData = async () => {
+      try {
+        const res = await fetch(
+          "https://next-structure-chi.vercel.app/api/voltages",
+          {
+            next:  {
+              revalidate: 5
+            }
+          }
+        );
+        const data = await res.json();
+        console.log(data);
 
-  let totalAccumulatedVoltage = 0;
-  if (voltageData) {
+        setVoltageData(data);
+      } catch (error) {
+        console.error("Error fetching voltage data:", error);
+      }
+    };
+
+    fetchVoltageData();
+  }, []);
+
+  useEffect(() => {
+    let totalVoltage = 0;
     voltageData.forEach((item) => {
       item.voltages.forEach((voltageObj) => {
         if (voltageObj && typeof voltageObj.voltage === "number") {
-          totalAccumulatedVoltage += voltageObj.voltage;
+          totalVoltage += voltageObj.voltage;
         } else {
           console.error("Invalid voltage object:", voltageObj);
         }
       });
     });
     // Convert to fixed decimal places and then parse it back to float
-    totalAccumulatedVoltage = parseFloat(totalAccumulatedVoltage.toFixed(2));
-    console.log("Calculated Total Voltage:", totalAccumulatedVoltage);
-  }
+    totalVoltage = parseFloat(totalVoltage.toFixed(2));
+    setTotalAccumulatedVoltage(totalVoltage);
+    console.log("Calculated Total Voltage:", totalVoltage);
+  }, [voltageData]);
 
+  console.log(totalAccumulatedVoltage);
   return (
     <VoltageContext.Provider
       value={{
         voltageData,
+        latestRecord,
         totalAccumulatedVoltage,
       }}
     >
