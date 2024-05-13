@@ -1,9 +1,9 @@
 import { VoltageModel } from "@/models/Voltage";
 import { NextResponse } from "next/server";
-
-export const revalidate = 1; //revalidate api every 1 second
+import { revalidatePath } from "next/cache";
 
 export const GET = async () => {
   const voltageData = await VoltageModel.find({});
+  revalidatePath(voltageData);
   return NextResponse.json(voltageData);
 };
