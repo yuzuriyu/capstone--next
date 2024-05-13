@@ -51,12 +51,6 @@ export async function PATCH(
   } catch (err) {
     console.error("Error updating voltage data:", err);
 
-    if (err.name === "MongoError" && err.code === 11000) {
-      return NextResponse.json({
-        message: "duplicate key error ",
-      });
-    }
-
     return NextResponse.json({
       message: "failed to update data",
     });
