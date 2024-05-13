@@ -4,8 +4,18 @@ import React, { useContext } from "react";
 import { PageContext } from "../context/PageContext";
 import Image from "next/image";
 import Link from "next/link";
+import { PageContextType } from "@/app/interfaces";
 const Sidebar = () => {
-  const { handleActivePage, activePage } = useContext(PageContext);
+  const contextValue = useContext<PageContextType | undefined>(PageContext);
+
+  // Check if contextValue is undefined
+  if (!contextValue) {
+    // Handle the case where contextValue is undefined
+    return null; // Or any other fallback UI
+  }
+
+  // Destructure handleActivePage and activePage from contextValue
+  const { handleActivePage, activePage } = contextValue;
   return (
     <div className="bg-bggray h-full hidden md:block relative">
       <div className="w-10/12 m-auhref py-4">
