@@ -12,7 +12,9 @@ const VoltageContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchVoltageData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/voltages");
+        const res = await fetch(
+          "https://next-structure-pym1yb2at-coles-projects-b7ced9a1.vercel.app/api/voltages"
+        );
         const data = await res.json();
         setVoltageData(data);
       } catch (error) {
@@ -27,20 +29,19 @@ const VoltageContextProvider = ({ children }) => {
     let totalVoltage = 0;
     voltageData.forEach((item) => {
       item.voltages.forEach((voltageObj) => {
-        if (voltageObj && typeof voltageObj.voltage === 'number') {
+        if (voltageObj && typeof voltageObj.voltage === "number") {
           totalVoltage += voltageObj.voltage;
         } else {
-          console.error('Invalid voltage object:', voltageObj);
+          console.error("Invalid voltage object:", voltageObj);
         }
       });
     });
     // Convert to fixed decimal places and then parse it back to float
     totalVoltage = parseFloat(totalVoltage.toFixed(2));
     setTotalAccumulatedVoltage(totalVoltage);
-    console.log('Calculated Total Voltage:', totalVoltage);
+    console.log("Calculated Total Voltage:", totalVoltage);
   }, [voltageData]);
-  
-  
+
   console.log(totalAccumulatedVoltage);
   return (
     <VoltageContext.Provider

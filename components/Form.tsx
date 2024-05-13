@@ -24,10 +24,13 @@ const Form = () => {
 
   const submit = async () => {
     try {
-      await fetch("http://localhost:3000/api/inquiries/new", {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
+      await fetch(
+        "https://next-structure-pym1yb2at-coles-projects-b7ced9a1.vercel.app/api/inquiries/new",
+        {
+          method: "POST",
+          body: JSON.stringify(formData),
+        }
+      );
       alert("submission complete");
     } catch (err) {
       alert("submission failed");
