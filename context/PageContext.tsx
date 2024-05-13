@@ -1,7 +1,7 @@
 "use client";
 
-import { PageContextType } from "@/app/interfaces";
 import { createContext, useState, ReactNode } from "react";
+import { PageContextType } from "@/app/interfaces";
 
 interface Props {
   children: ReactNode;
@@ -16,7 +16,7 @@ const PageContextProvider: React.FC<Props> = ({ children }) => {
     setActivePage(page);
   };
 
-  const value = {
+  const value: PageContextType = {
     activePage,
     handleActivePage,
   };

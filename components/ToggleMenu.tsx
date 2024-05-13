@@ -3,8 +3,17 @@
 import React, { useContext } from "react";
 import { PageContext } from "../context/PageContext";
 import Link from "next/link";
+import { PageContextType } from "@/app/interfaces";
+
 const ToggleMenu = () => {
-  const { handleActivePage, activePage } = useContext(PageContext);
+  const contextValue = useContext<PageContextType | undefined>(PageContext);
+
+  if (!contextValue) {
+    // Handle the case where contextValue is undefined
+    return null; // Or any other fallback UI
+  }
+
+  const { handleActivePage, activePage } = contextValue;
 
   return (
     <div className="bg-bggray h-full absolute z-50 w-2/3 right-0">

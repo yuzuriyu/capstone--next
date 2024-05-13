@@ -18,4 +18,3 @@ export interface VoltageType {
   day: string;
   voltages: number[];
 }
-
