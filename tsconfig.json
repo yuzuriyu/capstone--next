@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "context/VoltageContext.jsx", "lib/utils.js", "app/api/submit-voltage/[day].ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "context/VoltageContext.jsx", "lib/utils.js", "app/api/submit-voltage/route.ts"],
   "exclude": ["node_modules"]
 }

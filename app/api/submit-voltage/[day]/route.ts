@@ -1,36 +1,38 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { VoltageModel } from "@/models/Voltage";
 import { connectToDb } from "@/lib/utils";
+import { NextResponse } from "next/server";
 
-export const patchHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
+export async function PATCH(
+  request: Request,
+  { params }: { params: { day: string } }
+) {
   try {
     await connectToDb();
 
-    const { day } = req.query;
-    const { voltages } = req.body;
+    const day = params.day;
+    const { voltages } = await request.json();
+
     const timestamp = new Date();
 
     if (!day) {
-      return res
-        .status(400)
-        .json({ message: "Day parameter is missing in the request" });
+      return NextResponse.json({
+        message: "Day parameter is missing in the request",
+      });
     }
 
     if (!voltages || !Array.isArray(voltages) || voltages.length === 0) {
-      return res
-        .status(400)
-        .json({ message: "Invalid voltage data provided in the request" });
+      return NextResponse.json({
+        message: "Invalid voltage data ",
+      });
     }
 
     const existingVoltage = await VoltageModel.findOne({ day });
 
     if (!existingVoltage) {
-      return res
-        .status(404)
-        .json({ message: `Voltage data for ${day} not found` });
+      return NextResponse.json({
+        message: `voltage data for ${day} not found`,
+      });
     }
 
     voltages.forEach((voltage: any) => {
@@ -43,9 +45,20 @@ export const patchHandler = async (
     await existingVoltage.save();
 
     console.log("Voltage data updated successfully");
-    res.status(200).json({ message: "Voltage data updated successfully" });
+    return NextResponse.json({
+      message: "voltage data updated successfully",
+    });
   } catch (err) {
     console.error("Error updating voltage data:", err);
-    res.status(500).json({ message: "Failed to update voltage data" });
+
+    if (err.name === "MongoError" && err.code === 11000) {
+      return NextResponse.json({
+        message: "duplicate key error ",
+      });
+    }
+
+    return NextResponse.json({
+      message: "failed to update data",
+    });
   }
-};
+}
