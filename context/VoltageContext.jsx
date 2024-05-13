@@ -13,7 +13,7 @@ const VoltageContextProvider = ({ children }) => {
     const fetchVoltageData = async () => {
       try {
         const res = await fetch(
-          "https://next-structure-pym1yb2at-coles-projects-b7ced9a1.vercel.app/api/voltages"
+          "https://next-structure-chi.vercel.app/api/voltages"
         );
         const data = await res.json();
         setVoltageData(data);
