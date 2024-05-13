@@ -50,14 +50,14 @@ const ToggleMenu = () => {
           </svg>
           <p
             className={`${
-              activePage === "Overview" ? "text-cushrefmblue" : "text-textgray"
+              activePage === "Overview" ? "text-customblue" : "text-textgray"
             }`}
           >
             Overview
           </p>
         </Link>
         <Link
-          href={"/about-us"}
+          href={"/about"}
           className={`flex items-center py-4  px-4 ${
             activePage === "About" ? "" : ""
           }`}
@@ -76,7 +76,7 @@ const ToggleMenu = () => {
           </svg>
           <p
             className={`${
-              activePage === "About us" ? "text-cushrefmblue" : "text-textgray"
+              activePage === "About us" ? "text-customblue" : "text-textgray"
             }`}
           >
             About us
@@ -101,7 +101,7 @@ const ToggleMenu = () => {
           </svg>
           <p
             className={`${
-              activePage === "Contact" ? "text-cushrefmblue" : "text-textgray"
+              activePage === "Contact" ? "text-customblue" : "text-textgray"
             }`}
           >
             Contact
@@ -126,7 +126,7 @@ const ToggleMenu = () => {
           </svg>
           <p
             className={`${
-              activePage === "Details" ? "text-cushrefmblue" : "text-textgray"
+              activePage === "Details" ? "text-customblue" : "text-textgray"
             }`}
           >
             Details
@@ -134,7 +134,7 @@ const ToggleMenu = () => {
         </Link>
 
         <Link
-          href={"/functionality"}
+          href={"/guide"}
           className={`flex items-center py-4  px-4 ${
             activePage === "How it Works" ? "" : ""
           }`}
@@ -153,7 +153,7 @@ const ToggleMenu = () => {
           <p
             className={`${
               activePage === "How it Works"
-                ? "text-cushrefmblue"
+                ? "text-customblue"
                 : "text-textgray"
             }`}
           >
@@ -179,7 +179,7 @@ const ToggleMenu = () => {
           </svg>
           <p
             className={`${
-              activePage === "Gallery" ? "text-cushrefmblue" : "text-textgray"
+              activePage === "Gallery" ? "text-customblue" : "text-textgray"
             }`}
           >
             Gallery
