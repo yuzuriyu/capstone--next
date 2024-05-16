@@ -3,12 +3,12 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Allow CORS for all API routes
+        // Allow CORS for all API routes and prevent caching
         source: "/api/:path*",
         headers: [
           {
             key: "Cache-Control",
-            value: "s-maxage=1, stale-while-revalidate=59",
+            value: "no-store",
           },
           { key: "Access-Control-Allow-Origin", value: "*" },
           {
