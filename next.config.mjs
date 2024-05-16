@@ -6,10 +6,6 @@ const nextConfig = {
         // Allow CORS for all API routes and prevent caching
         source: "/api/:path*",
         headers: [
-          {
-            key: "Cache-Control",
-            value: "no-store",
-          },
           { key: "Access-Control-Allow-Origin", value: "*" },
           {
             key: "Access-Control-Allow-Methods",
