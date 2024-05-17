@@ -15,10 +15,7 @@ const VoltageContextProvider = ({ children }) => {
         const res = await fetch(
           "https://next-structure-chi.vercel.app/api/voltages",
           {
-            next: {
-              tags: ["voltage"],
-              revalidate: 10,
-            },
+            cache: "no-store",
           }
         );
         const data = await res.json();
