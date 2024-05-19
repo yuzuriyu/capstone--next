@@ -1,51 +1,79 @@
 "use client";
+import React, { useState } from "react";
 
-import React, { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { InquiriesType } from "@/app/interfaces";
 
-const Form = () => {
-  const [formData, setFormData] = useState<InquiriesType>({
+const Contact = () => {
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const [notice, setNotice] = useState("");
+  const [errors, setErrors] = useState({
+    name: false,
+    email: false,
+    subject: false,
+    message: false,
+  });
 
-  const submit = async () => {
+  const submitForm = async () => {
     try {
+      // Checking if any of the fields are empty
+      if (!formData.name || !formData.email || !formData.message) {
+        setNotice("Please fill in all required fields.");
+        setErrors({
+          name: !formData.name,
+          email: !formData.email,
+          subject: false,
+          message: !formData.message,
+        });
+        return;
+      }
+
       await fetch("https://next-structure-chi.vercel.app/api/inquiries/new", {
         method: "POST",
-        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
-      alert("submission complete");
-    } catch (err) {
-      alert("submission failed");
-      console.log(err);
+      setNotice("Submitted Successfully");
+      // Reset form data and errors after successful submission
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+      setErrors({
+        name: false,
+        email: false,
+        subject: false,
+        message: false,
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
-  console.log(formData);
 
   return (
-    <>
+    <div className="py-16">
       <div className="relative h-[316px]">
         <Image
-          src="/images/autumn.jpg"
+          src={"/images/autumn.jpg"}
           alt=""
-          className="w-full h-full object-cover object-bottom"
           width={0}
           height={0}
           sizes="100vw"
+          className="w-full h-full object-cover object-bottom"
         />
         <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center">
           <h1 className="text-5xl font-playfair text-white">Contact</h1>
@@ -66,47 +94,31 @@ const Form = () => {
             <div className="flex">
               <div className="mr-4">
                 <Image
-                  src="/icons/location--dark.png"
+                  src={"/icons/location--dark.png"}
                   alt=""
-                  width={24}
-                  height={24}
+                  className="w-6"
+                  width={40}
+                  height={40}
                 />
               </div>
               <div>
                 <p className="font-bold ">Address</p>
-                <p className="text-sm ">
-                  236 5th SE Avenue, New York NY10000, United States
-                </p>
+                <p className="text-sm ">Camiling, Tarlac, Philippines</p>
               </div>
             </div>
             <div className="flex">
               <div className="mr-4">
                 <Image
-                  src="/icons/phone--dark.png"
+                  src={"/icons/phone--dark.png"}
                   alt=""
-                  width={24}
-                  height={24}
+                  className="w-5"
+                  width={40}
+                  height={40}
                 />
               </div>
               <div>
-                <p className="font-bold ">Phone</p>
-                <p className="text-sm ">Mobile: +(84) 546-6789</p>
-                <p className="text-sm ">Hotline: +(84) 456-6789</p>
-              </div>
-            </div>
-            <div className="flex">
-              <div className="mr-4">
-                <Image
-                  src="/icons/time--dark.png"
-                  alt=""
-                  width={24}
-                  height={24}
-                />
-              </div>
-              <div>
-                <p className="font-bold dark:text-white">Working Time</p>
-                <p className="text-sm ">Monday-Friday: 9:00 - 22:00</p>
-                <p className="text-sm ">Saturday-Sunday: 9:00 - 21:00</p>
+                <p className="font-bold ">Email</p>
+                <p className="text-sm ">biz.ccole@gmail.com</p>
               </div>
             </div>
           </div>
@@ -115,49 +127,70 @@ const Form = () => {
             <p className="text-sm mb-2 ">Your Name</p>
             <input
               type="text"
-              name="name"
-              value={formData.name}
               placeholder="Abc"
-              className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
-              onChange={handleChange}
+              className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
+                errors.name ? "border-red-500" : ""
+              }`}
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
             <p className="text-sm mb-2 ">Email address</p>
             <input
               type="text"
-              name="email"
-              value={formData.email}
               placeholder="Abc@gmail.com"
-              className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
-              onChange={handleChange}
+              className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
+                errors.email ? "border-red-500" : ""
+              }`}
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
             <p className="text-sm mb-2 ">Subject</p>
             <input
               type="text"
-              name="subject"
-              value={formData.subject}
               placeholder="This is optional"
               className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
-              onChange={handleChange}
+              value={formData.subject}
+              onChange={(e) =>
+                setFormData({ ...formData, subject: e.target.value })
+              }
             />
             <p className="text-sm mb-2 ">Message</p>
             <textarea
               placeholder="Hi! I'd like to ask about"
-              className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
-              name="message"
+              className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
+                errors.message ? "border-red-500" : ""
+              }`}
               value={formData.message}
-              onChange={handleChange}
+              onChange={(e) =>
+                setFormData({ ...formData, message: e.target.value })
+              }
             />
             <button
-              className="bg-orange-400 text-white px-7 py-3 mt-4 rounded-lg w-[200px]"
-              onClick={submit}
+              className="bg-orange-400 text-white px-7 py-3 mt-4 rounded-lg w-[200px] mr-4 mb-4"
+              onClick={submitForm}
             >
               Submit
             </button>
+            <p
+              className={`text-xs ${
+                notice === "Submitted Successfully"
+                  ? "text-green-400"
+                  : "text-red-400"
+              }`}
+            >
+              {notice === "Submitted Successfully"
+                ? "Submitted Successfully"
+                : notice}
+            </p>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default Form;
+export default Contact;

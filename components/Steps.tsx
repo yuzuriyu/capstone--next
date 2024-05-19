@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Steps = () => {
   return (
-    <>
+    <div className="py-16">
       <div className="relative h-[316px] w-full">
         <Image
           src="/images/winter.jpg"
@@ -143,7 +143,7 @@ const Steps = () => {
           </li>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
