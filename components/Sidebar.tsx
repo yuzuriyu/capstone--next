@@ -19,7 +19,7 @@ const Sidebar = () => {
   return (
     <div className="border-r h-full hidden md:block relative">
       <div className="w-10/12 py-2">
-        <div className="flex items-center py-4 px-4">
+        <Link href={"/profile"} className="flex items-center py-4 px-4">
           <Image
             src="/images/profile.jpg"
             width={40}
@@ -28,7 +28,7 @@ const Sidebar = () => {
             className="rounded-full"
           />
           <p className="ml-2">Carey Cole Garcia</p>
-        </div>
+        </Link>
         <Link
           href={"/"}
           className={`flex items-center py-4  px-4 mb-2  ${

@@ -21,7 +21,10 @@ const ToggleMenu = () => {
   return (
     <div className="bg-bggray h-full absolute z-50 w-2/3 right-0 md:right-4 md:bg-white md:rounded-lg md:border-2 md:w-[300px] md:h-[150px]">
       <div className="w-10/12 py-2">
-        <div className="flex items-center py-4 px-4 border-b">
+        <Link
+          href={"/profile"}
+          className="flex items-center py-4 px-4 border-b"
+        >
           <Image
             src="/images/profile.jpg"
             width={40}
@@ -30,7 +33,7 @@ const ToggleMenu = () => {
             className="rounded-full"
           />
           <p className="ml-2 text-sm">Carey Cole Garcia</p>
-        </div>
+        </Link>
         <Link
           href={"/"}
           className={`flex items-center py-4  px-4 md:hidden  ${
