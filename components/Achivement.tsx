@@ -263,7 +263,7 @@ const Achivement = () => {
       <div className="grid grid-cols-1 gap-4">
         {badges.map((badge) => (
           <div className="flex w-11/12 m-auto border-b py-4 px-4 items-center rounded-lg justify-between">
-            <div className="flex">
+            <div className="flex w-1/2">
               <Image
                 src={badge.badgeIcon}
                 alt=""

@@ -1,6 +1,4 @@
-import Steps from "@/components/Steps";
 import Sidebar from "@/components/Sidebar";
-import Subheader from "@/components/Subheader";
 import Achivement from "@/components/Achivement";
 
 const Achivements = () => {

@@ -65,8 +65,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="py-16">
-      <div className="relative h-[316px]">
+    <div className="">
+      <div className="relative h-[300px]">
         <Image
           src={"/images/autumn.jpg"}
           alt=""

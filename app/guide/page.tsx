@@ -1,6 +1,5 @@
-import Steps from "@/components/Steps";
 import Sidebar from "@/components/Sidebar";
-import Subheader from "@/components/Subheader";
+import Guidebook from "@/components/Guidebook";
 
 const Guide = () => {
   return (
@@ -9,7 +8,7 @@ const Guide = () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <Steps />
+        <Guidebook />
       </div>
     </div>
   );

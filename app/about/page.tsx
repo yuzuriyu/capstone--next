@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar";
-import Subheader from "@/components/Subheader";
 import Researchers from "@/components/Researchers";
 
 const About = async () => {

@@ -1,5 +1,4 @@
 import Sidebar from "@/components/Sidebar";
-import Subheader from "@/components/Subheader";
 import Form from "@/components/Form";
 
 const Contact = async () => {

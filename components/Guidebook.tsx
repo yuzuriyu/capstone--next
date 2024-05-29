@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
 
-const Steps = () => {
+const Guidebook = () => {
   return (
-    <div className="py-16">
-      <div className="relative h-[316px] w-full">
+    <div className="">
+      <div className="relative h-[300px] w-full">
         <Image
           src="/images/winter.jpg"
           alt=""
@@ -14,7 +14,7 @@ const Steps = () => {
           sizes="100vw"
         />
         <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center items-center">
-          <h1 className="text-5xl font-playfair text-white">Functionality</h1>
+          <h1 className="text-5xl font-playfair text-white">Guide</h1>
         </div>
       </div>
       <div className="w-11/12 m-auto py-20 md:w-10/12">
@@ -147,4 +147,4 @@ const Steps = () => {
   );
 };
 
-export default Steps;
+export default Guidebook;
