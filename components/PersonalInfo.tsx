@@ -1,7 +1,26 @@
-import React from "react";
+"use client";
+
+import React, { useContext, useState } from "react";
 import Image from "next/image";
+import { BadgeType, BadgeContext } from "@/context/BadgeContext";
 
 const PersonalInfo = () => {
+  const badgeContext = useContext(BadgeContext);
+
+  if (!badgeContext || !badgeContext.badges) {
+    return <div>Loading...</div>;
+  }
+
+  const { badges } = badgeContext;
+  const [showAllBagdge, setShowAllBadge] = useState(false);
+  const filterBadge = badges.slice(0, 7);
+
+  const badgeData = showAllBagdge ? badges : filterBadge;
+
+  const toggleBadge = () => {
+    setShowAllBadge((prevStatus) => !prevStatus);
+  };
+
   return (
     <div className="bg-bggray">
       <div className="relative h-[300px] w-full">
@@ -22,7 +41,7 @@ const PersonalInfo = () => {
             className="rounded-lg p-1 bg-white"
           />
         </div>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 absolute md:left-1/2 md:-translate-x-1/2 bottom-2 right-4">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 absolute lg:left-1/2 lg:-translate-x-1/2 bottom-2 right-4">
           <div className="">
             <p className="font-bold text-xl text-white">1</p>
 
@@ -40,7 +59,7 @@ const PersonalInfo = () => {
           </div>
         </div>
       </div>
-      <div className="w-11/12 m-auto py-20 flex flex-col md:flex-row">
+      <div className="w-11/12 m-auto py-20 flex flex-col lg:flex-row gap-4">
         <div className="md:w-1/4 w-full">
           <p className="text-lg font-bold ">Carey Cole Garcia</p>
           <p className="text-sm mb-4 text-gray-500">CEO of Kaiba Corporation</p>
@@ -91,14 +110,29 @@ const PersonalInfo = () => {
             <p className="text-customblue text-xs">Edit bio</p>
           </div>
           <p className="text-gray-500 py-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam
-            debitis tenetur vel accusantium aliquam, adipisci itaque
-            reprehenderit vero deserunt excepturi qui veniam enim eum modi saepe
-            culpa reiciendis sunt voluptatem.
+            "Lost in the rythm of stardust and ink."
           </p>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mb-4">
             <p className="font-bold text-lg">Badges</p>
-            <p className="text-customblue text-xs ">Show more</p>
+            <p
+              className="text-customblue text-xs cursor-pointer "
+              onClick={toggleBadge}
+            >
+              {showAllBagdge ? "See less" : "Show more"}
+            </p>
+          </div>
+          <div className="grid md:grid-cols-4 lg:grid-cols-8 gap-4 grid-cols-3">
+            {badgeData.map((badge: BadgeType) => (
+              <div>
+                <Image
+                  src={badge.badgeIcon}
+                  alt=""
+                  height={75}
+                  width={75}
+                  className="rounded-full"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

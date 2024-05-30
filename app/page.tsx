@@ -11,7 +11,7 @@ const Home = () => {
         <Sidebar />
       </div>
       <div className="flex-1">
-        <div className="py-12 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2">
+        <div className="py-8 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2">
           <Last6DaysChart />
           <Voltlist />
           <StepsChart />

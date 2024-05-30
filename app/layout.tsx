@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import PageContextProvider from "@/context/PageContext";
 import VoltageContextProvider from "@/context/VoltageContext";
+import BadgeContextProvider from "@/context/BadgeContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <PageContextProvider>
-          <VoltageContextProvider>
-            <Header />
-            {children}
-          </VoltageContextProvider>
-        </PageContextProvider>
+        <BadgeContextProvider>
+          <PageContextProvider>
+            <VoltageContextProvider>
+              <Header />
+              {children}
+            </VoltageContextProvider>
+          </PageContextProvider>
+        </BadgeContextProvider>
       </body>
     </html>
   );
