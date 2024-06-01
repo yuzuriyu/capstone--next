@@ -6,14 +6,16 @@ import menu from "../assets/menu--light.png";
 import ToggleMenu from "./ToggleMenu";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
   const [isToggleMenuOpen, setIsToggleMenu] = useState(false);
+  const { data: session } = useSession();
 
   const handleToggleMenu = () => {
     setIsToggleMenu((prevStatus) => !prevStatus);
   };
-
+  console.log(session?.user?.email);
   return (
     <div className="w-full bg-bggray py-2 md:bg-white border-b ">
       <div className="flex md:justify-end justify-between w-11/12 m-auto items-center">

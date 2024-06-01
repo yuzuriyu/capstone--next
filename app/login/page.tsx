@@ -2,11 +2,30 @@
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const handleSubmit = async () => {
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+      if (res.error) {
+        setError("Invalid Credentials");
+        return;
+      }
+      router.replace("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="w-[366px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
@@ -72,7 +91,10 @@ const Login = () => {
           )}
         </div>
 
-        <button className="bg-customblue text-white flex-1 py-2 mt-10 rounded-full mb-4">
+        <button
+          className="bg-customblue text-white flex-1 py-2 mt-10 rounded-full mb-4"
+          onClick={handleSubmit}
+        >
           Sign in
         </button>
 

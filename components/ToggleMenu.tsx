@@ -5,6 +5,7 @@ import { PageContext } from "../context/PageContext";
 import Link from "next/link";
 import { PageContextType } from "@/app/interfaces";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
 
 const ToggleMenu = () => {
   const contextValue = useContext<PageContextType | undefined>(PageContext);
@@ -113,7 +114,10 @@ const ToggleMenu = () => {
           <p className={`text-sm `}>About us</p>
         </Link>
 
-        <div className="flex items-center py-4 px-4 border-t md:border-t-0">
+        <div
+          className="flex items-center py-4 px-4 border-t md:border-t-0"
+          onClick={() => signOut()}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
