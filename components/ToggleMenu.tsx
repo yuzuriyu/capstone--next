@@ -6,14 +6,26 @@ import Link from "next/link";
 import { PageContextType } from "@/app/interfaces";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { ClipLoader } from "react-spinners";
 
 const ToggleMenu = () => {
   const contextValue = useContext<PageContextType | undefined>(PageContext);
+
+  const { data: session, loading } = useSession();
 
   // Check if contextValue is undefined
   if (!contextValue) {
     // Handle the case where contextValue is undefined
     return null; // Or any other fallback UI
+  }
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <ClipLoader size={50} color={"#123abc"} loading={true} />
+      </div>
+    ); // or a loading spinner if you prefer
   }
 
   // Destructure handleActivePage and activePage from contextValue
@@ -27,13 +39,13 @@ const ToggleMenu = () => {
           className="flex items-center py-4 px-4 border-b"
         >
           <Image
-            src="/images/profile.jpg"
+            src={session?.user?.profilePicture}
             width={40}
             height={40}
             alt=""
             className="rounded-full"
           />
-          <p className="ml-2 text-sm">Carey Cole Garcia</p>
+          <p className="ml-2 text-sm">{session?.user?.username}</p>
         </Link>
         <Link
           href={"/"}

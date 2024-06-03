@@ -1,5 +1,4 @@
 import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
 import Voltlist from "../components/Voltlist";
 import Last6DaysChart from "../components/Last6DaysChart";
 import StepsChart from "../components/StepsChart";

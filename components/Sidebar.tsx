@@ -5,6 +5,7 @@ import { PageContext } from "../context/PageContext";
 import Image from "next/image";
 import Link from "next/link";
 import { PageContextType } from "@/app/interfaces";
+import { useSession } from "next-auth/react";
 const Sidebar = () => {
   const contextValue = useContext<PageContextType | undefined>(PageContext);
 
@@ -12,19 +13,21 @@ const Sidebar = () => {
     return null;
   }
 
+  const { data: session } = useSession();
+
   const { handleActivePage, activePage } = contextValue;
   return (
     <div className="border-r h-full hidden md:block relative">
       <div className="w-10/12 py-2 m-auto">
         <Link href={"/profile"} className="flex items-center pt-4 pb-6 px-4">
           <Image
-            src="/images/profile.jpg"
+            src={session?.user?.profilePicture}
             width={40}
             height={40}
             alt=""
             className="rounded-full"
           />
-          <p className="ml-2">Carey Cole Garcia</p>
+          <p className="ml-2">{session?.user?.username}</p>
         </Link>
         <Link
           href={"/"}

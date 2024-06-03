@@ -7,15 +7,24 @@ import ToggleMenu from "./ToggleMenu";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { ClipLoader } from "react-spinners"; // Import the spinner
 
 const Header = () => {
   const [isToggleMenuOpen, setIsToggleMenu] = useState(false);
-  const { data: session } = useSession();
+  const { data: session, loading } = useSession();
 
   const handleToggleMenu = () => {
     setIsToggleMenu((prevStatus) => !prevStatus);
   };
-  console.log(session?.user?.email);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <ClipLoader size={50} color={"#123abc"} loading={true} />
+      </div>
+    ); // or a loading spinner if you prefer
+  }
+  console.log(session?.user);
   return (
     <div className="w-full bg-bggray py-2 md:bg-white border-b ">
       <div className="flex md:justify-end justify-between w-11/12 m-auto items-center">
@@ -52,7 +61,7 @@ const Header = () => {
             <path d="M12 22a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22zm7-7.414V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v4.586l-1.707 1.707A.996.996 0 0 0 3 17v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1a.996.996 0 0 0-.293-.707L19 14.586z"></path>
           </svg>
           <Image
-            src={"/images/profile.jpg"}
+            src={session?.user?.profilePicture}
             alt=""
             width={40}
             height={40}
