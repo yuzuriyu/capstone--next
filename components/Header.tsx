@@ -22,7 +22,7 @@ const Header = () => {
   }
   console.log(session?.user);
   return (
-    <div className="w-full bg-bggray py-2 md:bg-white border-b ">
+    <div className="w-full py-2 md:bg-white border-b ">
       <div className="flex md:justify-end justify-between w-11/12 m-auto items-center">
         <svg
           height="50"
