@@ -39,13 +39,13 @@ const Last6DaysChart = () => {
   };
 
   if (!aggregatedData || aggregatedData.length === 0) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   const toggleChartInfo = () => {
     setIsChartInfoOpen((prevStatus) => !prevStatus);
 
-    console.log(totalAccumulatedVoltage)
+    console.log(totalAccumulatedVoltage);
   };
   return (
     <div className="w-11/12 m-auto md:border-r col-span-2 md:pr-6 pb-6 md:pb-0 md:border-b-0 border-b">

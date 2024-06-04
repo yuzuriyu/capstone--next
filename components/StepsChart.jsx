@@ -1,9 +1,9 @@
-
-'use client'
+"use client";
 import React, { useContext, useState, useEffect } from "react";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { VoltageContext } from "../context/VoltageContext";
 import StepsChartInfo from "./StepsChartInfo";
+import { ClipLoader } from "react-spinners";
 
 const StepsChart = () => {
   const { voltageData, totalSteps } = useContext(VoltageContext);
@@ -25,7 +25,7 @@ const StepsChart = () => {
   };
 
   if (!aggregatedData || aggregatedData.length === 0) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (

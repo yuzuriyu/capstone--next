@@ -127,7 +127,7 @@ const ToggleMenu = () => {
         </Link>
 
         <div
-          className="flex items-center py-4 px-4 border-t md:border-t-0"
+          className="flex items-center py-4 px-4 border-t md:border-t-0 group cursor-pointer"
           onClick={() => signOut()}
         >
           <svg
@@ -136,7 +136,7 @@ const ToggleMenu = () => {
             height="24"
             viewBox="0 0 24 24"
             fill="#A6ABC8"
-            className="mr-4"
+            className="mr-4 group-hover:fill-customblue"
           >
             <path d="M5.002 21h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2h-14c-1.103 0-2 .897-2 2v6.001H10V7l6 5-6 5v-3.999H3.002V19c0 1.103.897 2 2 2z"></path>
           </svg>

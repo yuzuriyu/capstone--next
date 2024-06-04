@@ -11,18 +11,14 @@ import { ClipLoader } from "react-spinners"; // Import the spinner
 
 const Header = () => {
   const [isToggleMenuOpen, setIsToggleMenu] = useState(false);
-  const { data: session, loading } = useSession();
+  const { data: session } = useSession();
 
   const handleToggleMenu = () => {
     setIsToggleMenu((prevStatus) => !prevStatus);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-full">
-        <ClipLoader size={50} color={"#123abc"} loading={true} />
-      </div>
-    ); // or a loading spinner if you prefer
+  if (!session) {
+    return null;
   }
   console.log(session?.user);
   return (
@@ -65,7 +61,7 @@ const Header = () => {
             alt=""
             width={40}
             height={40}
-            className="rounded-full ml-4 mr-2"
+            className="rounded-full ml-4 mr-2 cursor-pointer"
             onClick={handleToggleMenu}
           />
         </div>

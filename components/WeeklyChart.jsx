@@ -67,7 +67,7 @@ const WeeklyChart = () => {
   }, [voltageData]);
 
   if (!aggregatedData || aggregatedData.length === 0) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (

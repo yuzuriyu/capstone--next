@@ -6,7 +6,6 @@ import PageContextProvider from "@/context/PageContext";
 import VoltageContextProvider from "@/context/VoltageContext";
 import BadgeContextProvider from "@/context/BadgeContext";
 import { AuthProvider } from "./Providers";
-import { usePathname } from "next/navigation"; // Import usePathname
 import HeaderWrapper from "@/components/HeaderWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
