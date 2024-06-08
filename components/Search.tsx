@@ -1,22 +1,50 @@
 "use client";
 
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { User } from "next-auth";
+import { useRouter } from "next/navigation";
+import AllUserContextProvider, {
+  AllUserContext,
+} from "@/context/AllUserContext";
 
 interface Props {
   toggleSearch: () => void;
 }
 
 const Search: React.FC<Props> = ({ toggleSearch }) => {
+  const { allUsers, setSelectedUser } = useContext(AllUserContext);
   const { data: session } = useSession();
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (searchQuery) {
+      const results = allUsers.filter((user) =>
+        user.username.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(results);
+    } else {
+      setFilteredUsers(allUsers); // Reset to all users if search query is empty
+    }
+  }, [searchQuery, allUsers]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   if (!session) {
     return null;
   }
 
+  if (!filteredUsers) {
+    return null;
+  }
   return (
-    <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 bg-white w-full z-50 shadow-lg rounded-lg py-4 px-4">
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white w-full z-50 shadow-lg rounded-lg py-4 px-4">
       <div className="flex items-center mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -43,32 +71,41 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
           <input
             placeholder="Search"
             className="rounded-full flex-1 py-2 hidden md:block focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
       </div>
-
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <Image
-            src={session?.user?.profilePicture}
-            alt=""
-            width={40}
-            height={40}
-            className="rounded-full mr-2"
-          />
-          <p>{session?.user?.username}</p>
-        </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="#A6ABC8"
-          className="hover:fill-customblue cursor-pointer"
+      {filteredUsers.map((user) => (
+        <div
+          className="flex items-center justify-between my-2"
+          onClick={() => {
+            setSelectedUser(user);
+            router.push(`/profile/${user.username}`);
+            toggleSearch(); // Close the search dropdown
+          }}
         >
-          <path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path>
-        </svg>
-      </div>
+          <div className="flex items-center">
+            <Image
+              src={user?.profilePicture}
+              alt=""
+              width={40}
+              height={40}
+              className="rounded-full mr-2"
+            />
+            <p>{user?.username}</p>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="#A6ABC8"
+            className="hover:fill-customblue cursor-pointer"
+          >
+            <path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path>
+          </svg>
+        </div>
+      ))}
     </div>
   );
 };
