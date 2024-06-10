@@ -44,7 +44,7 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
     return null;
   }
   return (
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white w-full z-50 shadow-lg rounded-lg py-4 px-4">
+    <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-white w-full z-50 shadow-lg rounded-lg py-4 px-4">
       <div className="flex items-center mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"

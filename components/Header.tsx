@@ -42,7 +42,7 @@ const Header = () => {
           </svg>
         </Link>
 
-        <div className="w-1/3 md:flex rounded-full px-4 border items-center hidden relative">
+        <div className="w-1/3 md:flex rounded-lg px-4 border items-center hidden relative">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -56,7 +56,7 @@ const Header = () => {
           </svg>
           <input
             placeholder="Search"
-            className="rounded-full flex-1 py-2 hidden md:block focus:outline-none"
+            className=" flex-1 py-2 hidden md:block focus:outline-none"
             onClick={toggleSearch}
           />
           {isSearchOpen && <Search toggleSearch={toggleSearch} />}

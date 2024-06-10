@@ -12,6 +12,8 @@ export interface InquiriesType {
   email: string;
   subject: string;
   message: string;
+  profilePicture: string;
+  timestamp: string;
 }
 
 export interface VoltageType {

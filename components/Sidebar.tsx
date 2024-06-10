@@ -34,6 +34,29 @@ const Sidebar = () => {
           />
           <p className="ml-2">{session?.user?.username}</p>
         </Link>
+        {session?.user?.role === "admin" && (
+          <Link
+            href={"/"}
+            className={`flex items-center pb-6 px-4 group ${
+              activePage === "Admin Panel" ? "" : ""
+            }`}
+            onClick={() => handleActivePage("Dashboard")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              className="mr-4 group-hover:fill-customblue"
+              fill={`${activePage === "Analysis" ? "#2FBFDE" : "#A6ABC8"}`}
+            >
+              <path d="M4.626 8.878a7.937 7.937 0 0 1 1.71-2.541 7.92 7.92 0 0 1 2.542-1.71 8.12 8.12 0 0 1 6.13-.041A2.49 2.49 0 0 0 17.5 7C18.886 7 20 5.886 20 4.5S18.886 2 17.5 2c-.689 0-1.312.276-1.763.725-2.431-.973-5.223-.958-7.635.059-1.19.5-2.26 1.22-3.18 2.139A9.98 9.98 0 0 0 2 12h2c0-1.086.211-2.136.626-3.122zm14.747 6.244c-.401.952-.977 1.808-1.71 2.541s-1.589 1.309-2.542 1.71a8.12 8.12 0 0 1-6.13.041A2.488 2.488 0 0 0 6.5 17C5.114 17 4 18.114 4 19.5S5.114 22 6.5 22c.689 0 1.312-.276 1.763-.725A9.973 9.973 0 0 0 12 22a9.983 9.983 0 0 0 9.217-6.102A9.992 9.992 0 0 0 22 12h-2a7.993 7.993 0 0 1-.627 3.122z"></path>
+              <path d="M12 7.462c-2.502 0-4.538 2.036-4.538 4.538S9.498 16.538 12 16.538c2.502 0 4.538-2.036 4.538-4.538S14.502 7.462 12 7.462z"></path>
+            </svg>
+            <p>Admin Panel</p>
+          </Link>
+        )}
+
         <Link
           href={"/"}
           className={`flex items-center pb-6 px-4 group ${
@@ -52,6 +75,25 @@ const Sidebar = () => {
             <path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z"></path>
           </svg>
           <p>Dashboard</p>
+        </Link>
+        <Link
+          href={"/inbox"}
+          className={`flex items-center pb-6 px-4 group ${
+            activePage === "Dashboard" ? "" : ""
+          }`}
+          onClick={() => handleActivePage("Inbox")}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            className="mr-4 group-hover:fill-customblue"
+            fill={`${activePage === "Inbox" ? "#2FBFDE" : "#A6ABC8"}`}
+          >
+            <path d="M20 3H4c-1.103 0-2 .897-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5c0-1.103-.897-2-2-2zm-1 9h-3.142c-.446 1.722-1.997 3-3.858 3s-3.412-1.278-3.858-3H4V5h16v7h-1z"></path>
+          </svg>
+          <p>Inbox</p>
         </Link>
         <Link
           href={"/guide"}

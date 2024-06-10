@@ -2,19 +2,26 @@
 import React, { useState } from "react";
 
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import { format } from "date-fns"; // Import format function from date-fns
 
 const Contact = () => {
+  const { data: session } = useSession();
+  if (!session) {
+    return null;
+  }
+
+  const getCurrentTimestamp = () => {
+    return format(new Date(), "yyyy-MM-dd HH:mm:ss");
+  };
+
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
     subject: "",
     message: "",
   });
 
   const [notice, setNotice] = useState("");
   const [errors, setErrors] = useState({
-    name: false,
-    email: false,
     subject: false,
     message: false,
   });
@@ -22,40 +29,50 @@ const Contact = () => {
   const submitForm = async () => {
     try {
       // Checking if any of the fields are empty
-      if (!formData.name || !formData.email || !formData.message) {
+      if (!formData.message) {
         setNotice("Please fill in all required fields.");
         setErrors({
-          name: !formData.name,
-          email: !formData.email,
           subject: false,
           message: !formData.message,
         });
         return;
       }
 
-      await fetch("https://next-structure-chi.vercel.app/api/inquiries/new", {
+      const timestamp = getCurrentTimestamp(); // Capture timestamp
+      const profilePicture = session?.user?.profilePicture; // Capture profile picture
+      const name = session?.user?.username;
+      const email = session?.user?.email;
+
+      console.log("Timestamp:", timestamp);
+      console.log("Profile Picture:", profilePicture);
+
+      const fullFormData = {
+        ...formData, // Spread form data
+        name: name,
+        email: email,
+        profilePicture: profilePicture,
+        timeStamp: timestamp,
+      };
+
+      // Log the full form data
+      console.log("Full Form Data:", fullFormData);
+
+      await fetch("api/inquiries/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        }),
+        body: JSON.stringify(fullFormData),
       });
+
       setNotice("Submitted Successfully");
+
       // Reset form data and errors after successful submission
       setFormData({
-        name: "",
-        email: "",
         subject: "",
         message: "",
       });
       setErrors({
-        name: false,
-        email: false,
         subject: false,
         message: false,
       });
@@ -124,30 +141,6 @@ const Contact = () => {
           </div>
 
           <div className="w-full flex flex-col md:w-1/2">
-            <p className="text-sm mb-2 ">Your Name</p>
-            <input
-              type="text"
-              placeholder="Abc"
-              className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
-                errors.name ? "border-red-500" : ""
-              }`}
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
-            <p className="text-sm mb-2 ">Email address</p>
-            <input
-              type="text"
-              placeholder="Abc@gmail.com"
-              className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
-                errors.email ? "border-red-500" : ""
-              }`}
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
             <p className="text-sm mb-2 ">Subject</p>
             <input
               type="text"

@@ -16,6 +16,12 @@ const InquiriesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  timeStamp: {
+    type: String,
+  },
+  profilePicture: {
+    type: String,
+  },
 });
 
 export const InquiriesModel =
