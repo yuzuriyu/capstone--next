@@ -1,4 +1,3 @@
-"use client";
 import React, { useContext, useState, useEffect } from "react";
 import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { VoltageContext } from "../context/VoltageContext";
@@ -6,16 +5,24 @@ import StepsChartInfo from "./StepsChartInfo";
 import { ClipLoader } from "react-spinners";
 
 const StepsChart = () => {
-  const { voltageData, totalSteps } = useContext(VoltageContext);
+  const { voltageData } = useContext(VoltageContext);
   const [aggregatedData, setAggregatedData] = useState([]);
   const [isStepChartInfoOpen, setIsStepChartInfoOpen] = useState(false);
+  const [totalSteps, setTotalSteps] = useState(0); // State to hold the total steps
 
   useEffect(() => {
     if (voltageData && voltageData.length > 0) {
-      const data = voltageData.reduce((accumulator, dayData) => {
-        accumulator.push({ name: dayData.day, value: dayData.voltages.length });
-        return accumulator;
-      }, []);
+      // Calculate total steps
+      const total = voltageData.reduce((accumulator, dayData) => {
+        return accumulator + dayData.voltages.length;
+      }, 0);
+      setTotalSteps(total);
+
+      // Aggregate data for the PieChart
+      const data = voltageData.map((dayData) => ({
+        name: dayData.day,
+        value: dayData.voltages.length,
+      }));
       setAggregatedData(data);
     }
   }, [voltageData]);
@@ -24,20 +31,20 @@ const StepsChart = () => {
     setIsStepChartInfoOpen((prevStatus) => !prevStatus);
   };
 
+  // If data is still loading, return a loading spinner
   if (!aggregatedData || aggregatedData.length === 0) {
-    return null;
+    return <ClipLoader color="#2FBFDE" loading={true} />;
   }
 
   return (
-    <div className="w-10/12 m-auto md:border-r md:col-span-1 col-span-2 md:pr-6 pb-6 md:pb-0 md:border-b-0 border-b mt-12">
+    <div className="w-full bg-white py-4 px-4 rounded-lg">
       <div className="flex justify-between relative">
         <div>
-          <p className="text-sm">Total Steps</p>
-          <p className="text-lg font-bold mt-2">{totalSteps}</p>
+          <p className=" font-bold">{totalSteps}</p>
         </div>
 
         <button
-          className="rounded-lg text-sm shadow px-3 text-customblue py-1"
+          className=" text-customgreen text-sm"
           onClick={() => toggleStepChartInfo()}
         >
           {isStepChartInfoOpen ? "Hide Details" : "View Details"}

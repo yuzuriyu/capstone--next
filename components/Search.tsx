@@ -44,7 +44,7 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
     return null;
   }
   return (
-    <div className="absolute -top-1 left-1/2 -translate-x-1/2 bg-white w-full z-50 shadow-lg rounded-lg py-4 px-4">
+    <div className="absolute top-0 right-0 bg-white w-[400px] z-50 shadow-lg rounded-lg py-4 px-4">
       <div className="flex items-center mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
         >
           <path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path>
         </svg>
-        <div className="w-full md:flex rounded-full px-4 border items-center hidden">
+        <div className="w-full flex rounded-full px-4 border items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -70,7 +70,7 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
           </svg>
           <input
             placeholder="Search"
-            className="rounded-full flex-1 py-2 hidden md:block focus:outline-none"
+            className="rounded-full flex-1 py-2 focus:outline-none"
             onChange={handleInputChange}
           />
         </div>

@@ -46,6 +46,8 @@ const config: Config = {
       },
       colors: {
         customblue: "#2FBFDE",
+        customgray: "#f5f5f5",
+        customgreen: "#4ABD4E",
         reactblue: "#61dafb",
         matteblack: "#1f1f1f",
         textgray: "#273240",

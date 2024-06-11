@@ -48,19 +48,17 @@ const Last6DaysChart = () => {
     console.log(totalAccumulatedVoltage);
   };
   return (
-    <div className="w-11/12 m-auto md:border-r col-span-2 md:pr-6 pb-6 md:pb-0 md:border-b-0 border-b">
-      <p className="mb-8">Dashboard</p>
-      <div className="flex justify-between relative">
-        <p className="text-sm">Total Voltage</p>
+    <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">
+      <div className="flex justify-between relative mb-2">
+        <p className="font-bold">{totalAccumulatedVoltage}</p>
         <button
-          className="rounded-lg text-sm shadow px-3 text-customblue py-1"
+          className="text-sm  text-customgreen"
           onClick={() => toggleChartInfo()}
         >
           {isChartInfoOpen ? "Hide Details" : "View Details"}
         </button>
         {isChartInfoOpen && <VoltageChartInfo />}
       </div>
-      <p className="text-lg font-bold">{totalAccumulatedVoltage}</p>
       <div>
         {activeChart === "last 6 days" && (
           <ResponsiveContainer width="100%" height={400}>
