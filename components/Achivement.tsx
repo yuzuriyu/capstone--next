@@ -14,46 +14,40 @@ const Achivement = () => {
   const { badges } = badgeContext;
 
   return (
-    <div className="py-4">
-      <div className="w-11/12 m-auto flex justify-between flex-col md:flex-row items-center py-4">
+    <div className="lg:py-20 w-11/12 lg:w-8/12 m-auto ">
+      <div className="w-full py-4">
         <ul className="flex ">
-          <li className="mr-7">All</li>
-          <li className="mr-7">Completed</li>
-          <li className="mr-7">Inprogress</li>
-          <li>Unachieved</li>
+          <li className="mr-7 text-sm">All</li>
+          <li className="mr-7 text-sm">Completed</li>
+          <li className="text-sm">Unachieved</li>
         </ul>
-        <p className="mt-4 md:mt-0">
-          Total: <span className="font-bold text-lg">500</span>
-        </p>
       </div>
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid lg:grid-cols-4 gap-4 grid-cols-2 md:grid-cols-3">
         {badges.map((badge: BadgeType) => (
-          <div className="flex w-11/12 m-auto border-b py-4 px-4 items-center rounded-lg justify-between">
-            <div className="flex w-1/2">
-              <Image
-                src={badge.badgeIcon}
-                alt=""
-                width={0}
-                height={0}
-                sizes="100vh"
-                className="rounded-full mr-4 w-16 h-16"
-              />
-              <div className="flex-1">
-                <p className="font-bold">{badge.badgeName}</p>
-                <p className="text-sm">{badge.requirement}</p>
-              </div>
+          <div className="py-4 px-4 rounded-lg bg-white relative">
+            <Image
+              src={badge.badgeIcon}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-full rounded-lg"
+            />
+            <div className="py-1">
+              <p className="font-bold">{badge.badgeName}</p>
+              <p className="text-sm mb-4">{badge.requirement}</p>
+              <p className="text-sm h-16">{badge.description}</p>
             </div>
-
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              fill="green"
+              className="absolute bottom-4 right-4"
+              fill="#4ABD4E"
             >
-              <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path>
+              <path d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479zm-9.01 7.895-3.667-3.714 1.424-1.404 2.257 2.286 4.327-4.294 1.408 1.42-5.749 5.706z"></path>
             </svg>
-            <p className="font-bold text-xl ml-8">+{badge.exp}</p>
           </div>
         ))}
       </div>

@@ -4,12 +4,12 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <div className="py-16 w-11/12 lg:w-9/12 m-auto grid md:grid-cols-3 gap-4 grid-cols-1 h-[750px]">
+    <div className="lg:my-20 my-4 py-4 px-4 w-11/12 lg:w-8/12 m-auto grid md:grid-cols-3 gap-4 grid-cols-1 h-[750px] bg-white rounded-lg">
       <div className="relative col-start-1 col-end-1 row-start-1 row-end-2">
         <Image
           src={"/images/sunny.jpg"}
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-tl-lg"
           width={0}
           height={0}
           sizes="100vw"
@@ -37,7 +37,7 @@ export default function About() {
         <Image
           src={"/images/winter.jpg"}
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-tr-lg"
           width={0}
           height={0}
           sizes="100vw"
@@ -51,7 +51,7 @@ export default function About() {
         <Image
           src={"/images/autumn.jpg"}
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover rounded-bl-lg"
           width={0}
           height={0}
           sizes="100vw"

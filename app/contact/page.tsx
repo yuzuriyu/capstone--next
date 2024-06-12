@@ -3,13 +3,8 @@ import Form from "@/components/Form";
 
 const Contact = async () => {
   return (
-    <div className="flex">
-      <div className="w-[300px] hidden md:block">
-        <Sidebar />
-      </div>
-      <div className="flex-1">
-        <Form />
-      </div>
+    <div className="">
+      <Form />
     </div>
   );
 };

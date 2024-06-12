@@ -8,6 +8,7 @@ import BadgeContextProvider from "@/context/BadgeContext";
 import { AuthProvider } from "./Providers";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import AllUserContextProvider from "@/context/AllUserContext";
+import MobileNav from "@/components/MobileNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`inter.className bg-customgray`}>
         <AuthProvider>
           <AllUserContextProvider>
             <BadgeContextProvider>
@@ -31,6 +32,7 @@ export default function RootLayout({
                 <VoltageContextProvider>
                   <HeaderWrapper /> {/* Use the client component */}
                   {children}
+                  <MobileNav />
                 </VoltageContextProvider>
               </PageContextProvider>
             </BadgeContextProvider>

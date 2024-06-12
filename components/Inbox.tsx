@@ -25,10 +25,10 @@ const Inbox = () => {
 
   console.log(selectedEmail);
   return (
-    <div className="w-11/12 m-auto py-4">
+    <div className="w-11/12 m-auto lg:w-8/12 py-20">
       <div className="flex gap-8 flex-col lg:flex-row">
         <div className="lg:w-1/3">
-          <div className="w-full md:flex rounded-lg px-4 border items-center hidden my-8">
+          <div className="w-full flex rounded-lg px-4 items-center mb-8 bg-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -41,13 +41,13 @@ const Inbox = () => {
             </svg>
             <input
               placeholder="Search"
-              className="rounded-lg flex-1 py-2 hidden md:block focus:outline-none"
+              className="rounded-lg flex-1 py-2  focus:outline-none"
             />
           </div>
           <div className="grid w-full m-auto gap-4 grid-cols-1 ">
             {inquiries?.map((inquiry) => (
               <div
-                className="border rounded-lg py-4 px-4 flex items-center relative"
+                className=" rounded-lg py-4 px-4 flex items-center relative bg-white"
                 onClick={() => {
                   setSelectedEmail(inquiry);
                   toggleEmailModal();

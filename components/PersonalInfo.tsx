@@ -100,7 +100,7 @@ const PersonalInfo = () => {
           Steps
         </p>
       </div>
-      <div className=" bg-customgray w-full h-full py-8">
+      <div className="w-full h-full py-8">
         <div className="w-11/12 lg:w-8/12 m-auto lg:flex-row flex-col flex gap-8">
           <div className="w-full lg:w-[40%]">
             <div className="rounded-lg py-4 px-4 bg-white mb-8">

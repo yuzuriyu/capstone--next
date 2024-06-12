@@ -148,7 +148,10 @@ const Contact = () => {
               className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
               value={formData.subject}
               onChange={(e) =>
-                setFormData({ ...formData, subject: e.target.value })
+                setFormData((prevData) => ({
+                  ...prevData,
+                  subject: e.target.value,
+                }))
               }
             />
             <p className="text-sm mb-2 ">Message</p>
@@ -159,7 +162,10 @@ const Contact = () => {
               }`}
               value={formData.message}
               onChange={(e) =>
-                setFormData({ ...formData, message: e.target.value })
+                setFormData((prevData) => ({
+                  ...prevData,
+                  message: e.target.value,
+                }))
               }
             />
             <button

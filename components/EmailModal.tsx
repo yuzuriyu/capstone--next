@@ -7,7 +7,7 @@ interface Props {
 }
 const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
   return (
-    <div className="bg-white px-4 py-8 lg:w-1/2">
+    <div className="bg-white px-4 py-8 lg:w-1/2 rounded-lg">
       {selectedEmail && (
         <div className="flex">
           <div>
