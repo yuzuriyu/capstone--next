@@ -27,13 +27,11 @@ const Home = () => {
   }
 
   return (
-    <div className="flex">
-      <div className="flex-1">
-        <div className="py-8 grid grid-cols-1 md:grid-cols-3 md:grid-rows-2">
-          <Last6DaysChart />
-          <Voltlist />
-          <StepsChart />
-        </div>
+    <div className=" w-11/12 m-auto lg:w-8/12 my-20">
+      <Last6DaysChart />
+      <Voltlist />
+      <div className="my-8">
+        <StepsChart />
       </div>
     </div>
   );

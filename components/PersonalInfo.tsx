@@ -76,7 +76,7 @@ const PersonalInfo = () => {
             className="align-baseline"
           />
           <div className="flex relative">
-            <p className="text-lg font-bold ml-6 absolute bottom-4 text-white">
+            <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
               {session?.user?.username}
             </p>
           </div>

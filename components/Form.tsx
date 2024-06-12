@@ -83,7 +83,7 @@ const Contact = () => {
 
   return (
     <div className="">
-      <div className="relative h-[300px]">
+      {/* <div className="relative h-[300px]">
         <Image
           src={"/images/autumn.jpg"}
           alt=""
@@ -95,10 +95,10 @@ const Contact = () => {
         <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center">
           <h1 className="text-5xl font-playfair text-white">Contact</h1>
         </div>
-      </div>
-      <div className="w-11/12 m-auto py-10">
+      </div> */}
+      <div className="w-11/12 lg:w-8/12 bg-white m-auto  lg:my-20 rounded-lg px-4 my-4">
         <div className="lg:w-1/2 m-auto py-10">
-          <h1 className="text-3xl font-bold mb-4 text-center ">
+          <h1 className="text-lg font-bold mb-4 text-center ">
             Get In Touch With Us
           </h1>
           <p className="text-sm text-gray-500 text-center ">
@@ -106,8 +106,8 @@ const Contact = () => {
             An Email. Our Team Will Be There To Help You Out. Do Not Hesitate!
           </p>
         </div>
-        <div className="flex flex-col md:flex-row py-20 md:w-10/12 m-auto gap-20">
-          <div className="grid grid-cols-1 gap-8 md:w-1/2 h-[250px]">
+        <div className="flex flex-col md:flex-row  w-11/12 m-auto">
+          <div className="grid grid-cols-1 gap-8 md:w-1/2 mb-8">
             <div className="flex">
               <div className="mr-4">
                 <Image
@@ -119,7 +119,7 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <p className="font-bold ">Address</p>
+                <p className="font-bold text-sm">Address</p>
                 <p className="text-sm ">Camiling, Tarlac, Philippines</p>
               </div>
             </div>
@@ -134,7 +134,7 @@ const Contact = () => {
                 />
               </div>
               <div>
-                <p className="font-bold ">Email</p>
+                <p className="font-bold text-sm">Email</p>
                 <p className="text-sm ">biz.ccole@gmail.com</p>
               </div>
             </div>

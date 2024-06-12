@@ -51,13 +51,13 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
           width="24"
           height="24"
           viewBox="0 0 24 24"
-          className="mr-4 cursor-pointer hover:fill-customblue"
+          className="mr-4 cursor-pointer hover:fill-customgreen"
           fill="#A6ABC8"
           onClick={toggleSearch}
         >
           <path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"></path>
         </svg>
-        <div className="w-full flex rounded-full px-4 border items-center">
+        <div className="w-full flex rounded-lg px-4 border items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -70,7 +70,7 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
           </svg>
           <input
             placeholder="Search"
-            className="rounded-full flex-1 py-2 focus:outline-none"
+            className="rounded-lg flex-1 py-2 focus:outline-none"
             onChange={handleInputChange}
           />
         </div>

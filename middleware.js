@@ -4,7 +4,7 @@ export const config = {
   matcher: [
     "/",
     "/profile",
-    "/achievement",
+    "/achievements",
     "/guide",
     "/contact",
     "/about",
