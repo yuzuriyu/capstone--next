@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const DropDown = () => {
   return (
-    <div className="absolute top-8 z-50 bg-white px-4 py-4 rounded-lg shadow-lg">
+    <div className="absolute top-8 z-40 bg-white px-4 py-4 rounded-lg shadow-lg">
       <Link
         href={"/profile"}
         className="flex items-center mb-4 group cursor-pointer"

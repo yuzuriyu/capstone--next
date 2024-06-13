@@ -40,7 +40,7 @@ const Login = () => {
       </div>
       <div className="flex flex-col">
         <div
-          className={`flex items-center mb-4 border-b py-2 ${
+          className={`flex items-center mb-4 py-2 bg-white px-4 rounded-lg ${
             error ? "border-red-400" : ""
           }`}
         >
@@ -63,7 +63,7 @@ const Login = () => {
           />
         </div>
         <div
-          className={`flex items-center mb-4 border-b py-2 relative ${
+          className={`flex items-center mb-4  py-2 relative bg-white rounded-lg px-4${
             error ? "border-red-400" : ""
           }`}
         >

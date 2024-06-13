@@ -15,10 +15,8 @@ const Contact = () => {
     return format(new Date(), "yyyy-MM-dd HH:mm:ss");
   };
 
-  const [formData, setFormData] = useState({
-    subject: "",
-    message: "",
-  });
+  const [message, setMessage] = useState("");
+  const [subject, setSubject] = useState("");
 
   const [notice, setNotice] = useState("");
   const [errors, setErrors] = useState({
@@ -29,29 +27,41 @@ const Contact = () => {
   const submitForm = async () => {
     try {
       // Checking if any of the fields are empty
-      if (!formData.message) {
+      if (!message) {
         setNotice("Please fill in all required fields.");
         setErrors({
           subject: false,
-          message: !formData.message,
+          message: !message,
         });
         return;
       }
 
-      const timestamp = getCurrentTimestamp(); // Capture timestamp
-      const profilePicture = session?.user?.profilePicture; // Capture profile picture
-      const name = session?.user?.username;
-      const email = session?.user?.email;
+      const timestamp = getCurrentTimestamp();
+      const senderName = session?.user?.username; // Use session user's name
+      const profilePicture = session?.user?.profilePicture; // Use session user's image
+      const senderEmail = session?.user?.email;
+      const recipientEmail = "admin";
+
+      console.log("Sender Name:", senderName);
+      console.log("Sender Email:", senderEmail);
+      console.log("Recipient Email:", recipientEmail);
+      console.log("Subject:", subject);
+      console.log("Message:", message);
+      console.log("Timestamp:", timestamp);
+      console.log("Profile Picture:", profilePicture);
 
       console.log("Timestamp:", timestamp);
       console.log("Profile Picture:", profilePicture);
 
       const fullFormData = {
-        ...formData, // Spread form data
-        name: name,
-        email: email,
-        profilePicture: profilePicture,
+        message,
+        senderName,
+        senderEmail,
         timeStamp: timestamp,
+        recipientEmail,
+        subject,
+        adminPrivilege: false, // Set adminPrivilege to true for admin replies
+        profilePicture, // Include profile picture
       };
 
       // Log the full form data
@@ -68,10 +78,7 @@ const Contact = () => {
       setNotice("Submitted Successfully");
 
       // Reset form data and errors after successful submission
-      setFormData({
-        subject: "",
-        message: "",
-      });
+      setMessage("");
       setErrors({
         subject: false,
         message: false,
@@ -83,19 +90,6 @@ const Contact = () => {
 
   return (
     <div className="">
-      {/* <div className="relative h-[300px]">
-        <Image
-          src={"/images/autumn.jpg"}
-          alt=""
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="w-full h-full object-cover object-bottom"
-        />
-        <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col justify-center">
-          <h1 className="text-5xl font-playfair text-white">Contact</h1>
-        </div>
-      </div> */}
       <div className="w-11/12 lg:w-8/12 bg-white m-auto  lg:my-20 rounded-lg px-4 my-4">
         <div className="lg:w-1/2 m-auto py-10">
           <h1 className="text-lg font-bold mb-4 text-center ">
@@ -146,13 +140,8 @@ const Contact = () => {
               type="text"
               placeholder="This is optional"
               className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
-              value={formData.subject}
-              onChange={(e) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  subject: e.target.value,
-                }))
-              }
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
             />
             <p className="text-sm mb-2 ">Message</p>
             <textarea
@@ -160,14 +149,10 @@ const Contact = () => {
               className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
                 errors.message ? "border-red-500" : ""
               }`}
-              value={formData.message}
-              onChange={(e) =>
-                setFormData((prevData) => ({
-                  ...prevData,
-                  message: e.target.value,
-                }))
-              }
+              value={message} // Change this from 'subject' to 'message'
+              onChange={(e) => setMessage(e.target.value)}
             />
+
             <button
               className="bg-orange-400 text-white px-7 py-3 mt-4 rounded-lg w-[200px] mr-4 mb-4"
               onClick={submitForm}

@@ -44,10 +44,8 @@ const VoltageContextProvider = ({ children }) => {
     // Convert to fixed decimal places and then parse it back to float
     totalVoltage = parseFloat(totalVoltage.toFixed(2));
     setTotalAccumulatedVoltage(totalVoltage);
-    console.log("Calculated Total Voltage:", totalVoltage);
   }, [voltageData]);
 
-  console.log(totalAccumulatedVoltage);
   return (
     <VoltageContext.Provider
       value={{

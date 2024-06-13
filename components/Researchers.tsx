@@ -9,7 +9,7 @@ export default function About() {
         <Image
           src={"/images/sunny.jpg"}
           alt=""
-          className="w-full h-full object-cover rounded-tl-lg"
+          className="w-full h-full object-cover rounded-tl-lg brightness-75"
           width={0}
           height={0}
           sizes="100vw"
@@ -23,7 +23,7 @@ export default function About() {
         <Image
           src={"/images/spring.jpg"}
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover brightness-75"
           width={0}
           height={0}
           sizes="100vw"
@@ -37,7 +37,7 @@ export default function About() {
         <Image
           src={"/images/winter.jpg"}
           alt=""
-          className="w-full h-full object-cover rounded-tr-lg"
+          className="w-full h-full object-cover rounded-tr-lg brightness-75"
           width={0}
           height={0}
           sizes="100vw"
@@ -51,7 +51,7 @@ export default function About() {
         <Image
           src={"/images/autumn.jpg"}
           alt=""
-          className="w-full h-full object-cover rounded-bl-lg"
+          className="w-full h-full object-cover rounded-bl-lg brightness-75"
           width={0}
           height={0}
           sizes="100vw"

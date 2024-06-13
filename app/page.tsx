@@ -27,12 +27,10 @@ const Home = () => {
   }
 
   return (
-    <div className=" w-11/12 m-auto lg:w-8/12 my-20">
+    <div className=" w-11/12 m-auto lg:w-8/12 my-20 grid grid-cols-2 gap-4">
       <Last6DaysChart />
       <Voltlist />
-      <div className="my-8">
-        <StepsChart />
-      </div>
+      <StepsChart />
     </div>
   );
 };

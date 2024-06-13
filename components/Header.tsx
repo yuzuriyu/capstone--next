@@ -98,7 +98,7 @@ const Header = () => {
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              className="mr-4"
+              className="mr-4 hover:fill-customgreen cursor-pointer"
               fill="white"
               onClick={toggleSearch}
             >
