@@ -52,15 +52,15 @@ const PersonalInfo = () => {
   const toggleBadge = () => {
     setShowAllBadge((prevStatus) => !prevStatus);
   };
-  console.log(badges);
   if (!badges) {
     return null;
   }
+  console.log(session);
   return (
     <>
       <div className="relative h-[330px] w-full">
         <Image
-          src={"/images/city.jpg"}
+          src={session?.user?.coverPhoto}
           alt=""
           className="w-full h-full object-cover"
           width={0}

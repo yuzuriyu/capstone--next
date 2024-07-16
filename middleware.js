@@ -8,5 +8,6 @@ export const config = {
     "/contact",
     "/about",
     "/inbox",
+    "/settings",
   ],
 };

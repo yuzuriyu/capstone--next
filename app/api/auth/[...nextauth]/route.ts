@@ -8,7 +8,6 @@ const authOptions = {
     CredentialsProvider({
       name: "credentials",
       credentials: {},
-
       async authorize(credentials) {
         const { email, password } = credentials;
         try {
@@ -16,11 +15,24 @@ const authOptions = {
           const user = await UserModel.findOne({ email });
 
           if (!user || user.password !== password) {
-            // Return null if user not found or password does not match
             return null;
           }
 
-          // Return the user object
+          console.log("Authorized user:", {
+            id: user._id,
+            email: user.email,
+            username: user.username,
+            role: user.role,
+            bio: user.bio,
+            phoneNumber: user.phoneNumber,
+            profilePicture: user.profilePicture,
+            location: user.location,
+            birthday: user.birthday,
+            title: user.title,
+            level: user.level,
+            coverPhoto: user.coverPhoto,
+          });
+
           return {
             id: user._id,
             email: user.email,
@@ -33,6 +45,7 @@ const authOptions = {
             birthday: user.birthday,
             title: user.title,
             level: user.level,
+            coverPhoto: user.coverPhoto,
           };
         } catch (error) {
           console.log(error);
@@ -51,6 +64,8 @@ const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        console.log("JWT callback user:", user);
+
         token.id = user.id;
         token.email = user.email;
         token.username = user.username;
@@ -62,10 +77,15 @@ const authOptions = {
         token.birthday = user.birthday;
         token.title = user.title;
         token.level = user.level;
+        token.coverPhoto = user.coverPhoto;
       }
+
+      console.log("JWT callback token:", token);
       return token;
     },
     async session({ session, token }) {
+      console.log("Session callback token:", token);
+
       session.user.id = token.id;
       session.user.email = token.email;
       session.user.username = token.username;
@@ -77,6 +97,9 @@ const authOptions = {
       session.user.birthday = token.birthday;
       session.user.title = token.title;
       session.user.level = token.level;
+      session.user.coverPhoto = token.coverPhoto;
+
+      console.log("Session callback session:", session);
       return session;
     },
   },

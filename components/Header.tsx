@@ -27,7 +27,6 @@ const Header = () => {
   if (!session) {
     return null;
   }
-  console.log(session?.user);
 
   return (
     <div className="w-full py-2 fixed top-0 z-50 bg-matteblack bg-opacity-20 hover:bg-opacity-100 transition-all duration-300 ease-in-out hidden lg:block">
