@@ -30,6 +30,7 @@ const Settings = () => {
   const [passwordMessage, setPasswordMessage] = useState("");
   const [bioMessage, setBioMessage] = useState("");
   const [pictureMessage, setPictureMessage] = useState("");
+  const [coverMessage, setCoverMessage] = useState("");
 
   useEffect(() => {
     console.log("Session data:", session); // Check session data
@@ -48,6 +49,8 @@ const Settings = () => {
   const isBioChanged = bio !== session?.user?.bio;
   const isProfilePictureChanged =
     profilePicture !== session?.user?.profilePicture;
+
+  const isCoverPhotoChanged = coverPhoto !== session?.user?.coverPhoto;
 
   const isPasswordChanged =
     newPassword !== "" && newPassword === confirmPassword;
@@ -138,6 +141,31 @@ const Settings = () => {
       }
     } catch (error) {
       setPictureMessage("Error updating profile picture");
+      console.error("Error updating profile picture:", error);
+    }
+
+    setTimeout(() => setPictureMessage(""), 5000);
+  };
+
+  const handleUpdateCoverPhoto = async () => {
+    try {
+      const res = await fetch("/api/settings/updateCoverPhoto", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ coverPhoto }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setCoverMessage(data.message);
+      } else {
+        const data = await res.json();
+        setCoverMessage(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      setCoverMessage("Error updating profile picture");
       console.error("Error updating profile picture:", error);
     }
 
@@ -256,6 +284,27 @@ const Settings = () => {
           )}
         </div>
         <div className="mb-4">
+          <p className="mb-4 text-sm font-bold">Cover Photo URL</p>
+          <input
+            placeholder=""
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg"
+            value={coverPhoto}
+            onChange={(e) => setCoverPhoto(e.target.value)}
+          />
+          {isCoverPhotoChanged && (
+            <>
+              <button
+                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                onClick={handleUpdateCoverPhoto}
+              >
+                Save Profile Picture
+              </button>
+              <p className="text-sm mt-2">{coverMessage}</p>
+            </>
+          )}
+        </div>
+
+        <div className="mb-4">
           <p className="text-sm font-bold">Avatar</p>
           <p className="text-sm mb-4">
             Allowed Formats: JPEG, PNG. Max size: 3mb. Optimal
@@ -272,6 +321,7 @@ const Settings = () => {
             />
           </div>
         </div>
+
         <div className="mb-4">
           <p className="text-sm font-bold">Banner</p>
           <p className="text-sm mb-4">
