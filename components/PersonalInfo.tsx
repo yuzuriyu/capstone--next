@@ -8,10 +8,20 @@ import Voltlist from "./Voltlist";
 import Image from "next/image";
 import Last6DaysChart from "./Last6DaysChart";
 import StepsChart from "./StepsChart";
+import { VoltageContext } from "@/context/VoltageContext";
 const PersonalInfo = () => {
   const badgeContext = useContext(BadgeContext);
   const { data: session, loading } = useSession();
   const [showAllBadge, setShowAllBadge] = useState(false);
+
+  const {
+    totalAccumulatedVoltage,
+    latestRecord,
+    totalSteps,
+    averageVoltage,
+    voltageRange,
+    voltagePercentageChange,
+  } = useContext(VoltageContext);
 
   const [activeCategory, setActiveCategory] = useState("voltage");
 
@@ -55,7 +65,6 @@ const PersonalInfo = () => {
   if (!badges) {
     return null;
   }
-  console.log(session);
   return (
     <>
       <div className="relative h-[330px] w-full">
@@ -108,33 +117,43 @@ const PersonalInfo = () => {
             </div>
             <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
               <div>
-                <p className="text-customgreen text-center mb-2">349</p>
+                <p className="text-customgreen text-center mb-2">
+                  {totalAccumulatedVoltage}
+                </p>
                 <p className="text-xs text-center">Total Voltage</p>
               </div>
               <div>
-                <p className="text-customgreen text-center mb-2">172</p>
+                <p className="text-customgreen text-center mb-2">
+                  {totalSteps}
+                </p>
                 <p className="text-xs text-center">Total Steps</p>
               </div>
               <div>
-                <p className="text-customgreen text-center mb-2">90%</p>
-                <p className="text-xs text-center">Percentage</p>
+                <p className="text-customgreen text-center mb-2">
+                  {averageVoltage}
+                </p>
+                <p className="text-xs text-center">Average Voltage</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
+              <div>
+                <p className="text-customgreen text-center mb-2">
+                  {latestRecord}
+                </p>
+                <p className="text-xs text-center">Latest Record</p>
+              </div>
+              <div>
+                <p className="text-customgreen text-center mb-2"></p>
+                <p className="text-xs text-center">Voltage Range</p>
+              </div>
+              <div>
+                <p className="text-customgreen text-center mb-2">
+                  {voltagePercentageChange}
+                </p>
+                <p className="text-xs text-center">Voltage Percentage Change</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
-              <div>
-                <p className="text-customgreen text-center mb-2">349</p>
-                <p className="text-xs text-center">Total Voltage</p>
-              </div>
-              <div>
-                <p className="text-customgreen text-center mb-2">172</p>
-                <p className="text-xs text-center">Total Steps</p>
-              </div>
-              <div>
-                <p className="text-customgreen text-center mb-2">90%</p>
-                <p className="text-xs text-center">Percentage</p>
-              </div>
-            </div>
             <div className="bg-white py-4 px-4 rounded-lg">
               <div className="flex justify-between mb-4">
                 <p className="text-sm ">Badges</p>

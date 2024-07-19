@@ -31,6 +31,7 @@ const authOptions = {
             title: user.title,
             level: user.level,
             coverPhoto: user.coverPhoto,
+            voltages: user.voltages,
           });
 
           return {
@@ -46,6 +47,7 @@ const authOptions = {
             title: user.title,
             level: user.level,
             coverPhoto: user.coverPhoto,
+            voltages: user.voltages,
           };
         } catch (error) {
           console.log(error);
@@ -78,6 +80,7 @@ const authOptions = {
         token.title = user.title;
         token.level = user.level;
         token.coverPhoto = user.coverPhoto;
+        token.voltages = user.voltages;
       }
 
       console.log("JWT callback token:", token);
@@ -98,6 +101,7 @@ const authOptions = {
       session.user.title = token.title;
       session.user.level = token.level;
       session.user.coverPhoto = token.coverPhoto;
+      session.user.voltages = token.voltages;
 
       console.log("Session callback session:", session);
       return session;

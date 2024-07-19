@@ -1,5 +1,24 @@
 const mongoose = require("mongoose");
 
+const voltageSchema = new mongoose.Schema({
+  voltage: {
+    type: Number,
+    required: true,
+  },
+  timestamp: {
+    type: Date,
+    required: true,
+  },
+});
+
+const daySchema = new mongoose.Schema({
+  day: {
+    type: String,
+    required: true,
+  },
+  voltages: [voltageSchema],
+});
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -17,8 +36,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin"], // Assuming two roles: user and admin
-    default: "user", // Default role is user
+    enum: ["user", "admin"],
+    default: "user",
   },
   bio: {
     type: String,
@@ -41,6 +60,7 @@ const userSchema = new mongoose.Schema({
   coverPhoto: {
     type: String,
   },
+  voltages: [daySchema],
 });
 
 export const UserModel =
