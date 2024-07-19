@@ -12,8 +12,10 @@ const VoltageContextProvider = ({ children }) => {
   const [totalAccumulatedVoltage, setTotalAccumulatedVoltage] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [averageVoltage, setAverageVoltage] = useState(0);
-  const [voltageRange, setVoltageRange] = useState({ min: null, max: null });
-  const [voltagePercentageChange, setVoltagePercentageChange] = useState([]);
+  const [standardDeviation, setStandardDeviation] = useState(0);
+  const [totalVoltageChange, setTotalVoltageChange] = useState(0);
+  const [peakVoltage, setPeakVoltage] = useState(0);
+  const [medianVoltage, setMedianVoltage] = useState(0);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.voltages) {
@@ -24,29 +26,18 @@ const VoltageContextProvider = ({ children }) => {
   useEffect(() => {
     let totalVoltage = 0;
     let stepsCount = 0;
-    let minVoltage = Infinity;
-    let maxVoltage = -Infinity;
-    let previousVoltage = null;
-    let percentageChanges = [];
+    let voltagesArray = [];
+    let firstVoltage = null;
+    let lastVoltage = null;
 
     voltageData.forEach((item) => {
       item.voltages.forEach((voltageObj) => {
         if (voltageObj && typeof voltageObj.voltage === "number") {
+          voltagesArray.push(voltageObj.voltage);
           totalVoltage += voltageObj.voltage;
           stepsCount += 1;
-          if (voltageObj.voltage < minVoltage) minVoltage = voltageObj.voltage;
-          if (voltageObj.voltage > maxVoltage) maxVoltage = voltageObj.voltage;
-
-          if (previousVoltage !== null) {
-            const percentageChange =
-              ((voltageObj.voltage - previousVoltage) / previousVoltage) * 100;
-            const formattedChange = parseFloat(percentageChange.toFixed(2));
-            console.log(`Previous Voltage: ${previousVoltage}`);
-            console.log(`Current Voltage: ${voltageObj.voltage}`);
-            console.log(`Percentage Change: ${formattedChange}`);
-            percentageChanges.push(formattedChange);
-          }
-          previousVoltage = voltageObj.voltage;
+          if (firstVoltage === null) firstVoltage = voltageObj.voltage;
+          lastVoltage = voltageObj.voltage;
         } else {
           console.error("Invalid voltage object:", voltageObj);
         }
@@ -56,16 +47,38 @@ const VoltageContextProvider = ({ children }) => {
     // Calculate average voltage
     const average = stepsCount > 0 ? totalVoltage / stepsCount : 0;
 
+    // Calculate standard deviation
+    const variance =
+      voltagesArray.reduce((acc, val) => acc + Math.pow(val - average, 2), 0) /
+      stepsCount;
+    const stdDeviation = Math.sqrt(variance);
+
+    // Calculate total voltage change
+    const voltageChange =
+      firstVoltage !== null && lastVoltage !== null
+        ? lastVoltage - firstVoltage
+        : 0;
+
+    // Find peak voltage
+    const peak = Math.max(...voltagesArray);
+
+    // Calculate median voltage
+    voltagesArray.sort((a, b) => a - b);
+    const mid = Math.floor(voltagesArray.length / 2);
+    const median =
+      voltagesArray.length % 2 !== 0
+        ? voltagesArray[mid]
+        : (voltagesArray[mid - 1] + voltagesArray[mid]) / 2;
+
     // Convert to fixed decimal places and then parse it back to float
     totalVoltage = parseFloat(totalVoltage.toFixed(2));
     setTotalAccumulatedVoltage(totalVoltage);
     setTotalSteps(stepsCount);
     setAverageVoltage(parseFloat(average.toFixed(2)));
-    setVoltageRange({
-      min: minVoltage === Infinity ? null : minVoltage,
-      max: maxVoltage === -Infinity ? null : maxVoltage,
-    });
-    setVoltagePercentageChange(percentageChanges);
+    setStandardDeviation(parseFloat(stdDeviation.toFixed(2)));
+    setTotalVoltageChange(parseFloat(voltageChange.toFixed(2)));
+    setPeakVoltage(parseFloat(peak.toFixed(2)));
+    setMedianVoltage(parseFloat(median.toFixed(2)));
 
     // Set the latest record timestamp if available
     const latestVoltageData = voltageData[voltageData.length - 1];
@@ -86,8 +99,10 @@ const VoltageContextProvider = ({ children }) => {
         totalAccumulatedVoltage,
         totalSteps,
         averageVoltage,
-        voltageRange,
-        voltagePercentageChange,
+        standardDeviation,
+        totalVoltageChange,
+        peakVoltage,
+        medianVoltage,
       }}
     >
       {children}

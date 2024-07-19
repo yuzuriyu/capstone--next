@@ -19,6 +19,9 @@ const PersonalInfo = () => {
     latestRecord,
     totalSteps,
     averageVoltage,
+    peakVoltage,
+    medianVoltage,
+    standardDeviation,
     voltageRange,
     voltagePercentageChange,
   } = useContext(VoltageContext);
@@ -143,14 +146,16 @@ const PersonalInfo = () => {
                 <p className="text-xs text-center">Latest Record</p>
               </div>
               <div>
-                <p className="text-customgreen text-center mb-2"></p>
-                <p className="text-xs text-center">Voltage Range</p>
+                <p className="text-customgreen text-center mb-2">
+                  {peakVoltage}
+                </p>
+                <p className="text-xs text-center">Peak Voltage</p>
               </div>
               <div>
                 <p className="text-customgreen text-center mb-2">
-                  {voltagePercentageChange}
+                  {standardDeviation}
                 </p>
-                <p className="text-xs text-center">Voltage Percentage Change</p>
+                <p className="text-xs text-center">Standard Deviation</p>
               </div>
             </div>
 
