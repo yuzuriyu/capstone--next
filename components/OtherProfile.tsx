@@ -3,12 +3,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { BadgeType, BadgeContext } from "@/context/BadgeContext";
 import { useSession } from "next-auth/react";
-import EditProfile from "./EditProfile";
-import Voltlist from "./Voltlist";
+import OtherVoltlist from "./OtherVoltlist";
 import Image from "next/image";
-import Last6DaysChart from "./Last6DaysChart";
-import StepsChart from "./StepsChart";
+import OtherStepsChart from "./OtherStepsChart";
+import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import { AllUserContext } from "@/context/AllUserContext";
+import { VoltageContext } from "@/context/VoltageContext";
 
 const OtherProfile = () => {
   const badgeContext = useContext(BadgeContext);
@@ -24,7 +24,6 @@ const OtherProfile = () => {
   };
 
   const [isEditBioOpen, setIsEditBioOpen] = useState(false);
-
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const toggleEditProfile = () => {
@@ -57,15 +56,23 @@ const OtherProfile = () => {
     setShowAllBadge((prevStatus) => !prevStatus);
   };
 
-  console.log(badges);
-  if (!badges) {
-    return null;
-  }
+  const {
+    totalAccumulatedVoltage,
+    latestRecord,
+    totalSteps,
+    averageVoltage,
+    peakVoltage,
+    medianVoltage,
+    standardDeviation,
+    voltageRange,
+    voltagePercentageChange,
+  } = useContext(VoltageContext);
+
   return (
     <>
       <div className="relative h-[330px] w-full">
         <Image
-          src={"/images/city.jpg"}
+          src={selectedUser?.coverPhoto}
           alt=""
           className="w-full h-full object-cover"
           width={0}
@@ -113,33 +120,45 @@ const OtherProfile = () => {
             </div>
             <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
               <div>
-                <p className="text-customgreen text-center mb-2">349</p>
+                <p className="text-customgreen text-center mb-2">
+                  {totalAccumulatedVoltage}
+                </p>
                 <p className="text-xs text-center">Total Voltage</p>
               </div>
               <div>
-                <p className="text-customgreen text-center mb-2">172</p>
+                <p className="text-customgreen text-center mb-2">
+                  {totalSteps}
+                </p>
                 <p className="text-xs text-center">Total Steps</p>
               </div>
               <div>
-                <p className="text-customgreen text-center mb-2">90%</p>
-                <p className="text-xs text-center">Percentage</p>
+                <p className="text-customgreen text-center mb-2">
+                  {averageVoltage}
+                </p>
+                <p className="text-xs text-center">Average Voltage</p>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
+              <div>
+                <p className="text-customgreen text-center mb-2">
+                  {latestRecord}
+                </p>
+                <p className="text-xs text-center">Latest Record</p>
+              </div>
+              <div>
+                <p className="text-customgreen text-center mb-2">
+                  {peakVoltage}
+                </p>
+                <p className="text-xs text-center">Peak Voltage</p>
+              </div>
+              <div>
+                <p className="text-customgreen text-center mb-2">
+                  {standardDeviation}
+                </p>
+                <p className="text-xs text-center">Standard Deviation</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
-              <div>
-                <p className="text-customgreen text-center mb-2">349</p>
-                <p className="text-xs text-center">Total Voltage</p>
-              </div>
-              <div>
-                <p className="text-customgreen text-center mb-2">172</p>
-                <p className="text-xs text-center">Total Steps</p>
-              </div>
-              <div>
-                <p className="text-customgreen text-center mb-2">90%</p>
-                <p className="text-xs text-center">Percentage</p>
-              </div>
-            </div>
             <div className="bg-white py-4 px-4 rounded-lg">
               <div className="flex justify-between mb-4">
                 <p className="text-sm ">Badges</p>
@@ -153,7 +172,7 @@ const OtherProfile = () => {
 
               <div className="grid grid-cols-3 gap-1 ">
                 {badgeData?.map((badge) => (
-                  <div className="">
+                  <div key={badge.id}>
                     <Image
                       src={badge.badgeIcon}
                       alt=""
@@ -169,10 +188,15 @@ const OtherProfile = () => {
           </div>
 
           <div className="lg:flex-1 flex flex-col">
-            {activeCategory === "voltage" && <Last6DaysChart />}
-
-            {activeCategory === "voltage" && <Voltlist />}
-            {activeCategory === "steps" && <StepsChart />}
+            {activeCategory === "voltage" && (
+              <OtherLast6DaysChart selectedUser={selectedUser} />
+            )}
+            {activeCategory === "voltage" && (
+              <OtherVoltlist selectedUser={selectedUser} />
+            )}
+            {activeCategory === "steps" && (
+              <OtherStepsChart selectedUser={selectedUser} />
+            )}
           </div>
         </div>
       </div>
