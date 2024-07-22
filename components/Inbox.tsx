@@ -4,30 +4,43 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import EmailModal from "./EmailModal";
 import { useSession } from "next-auth/react";
+import { ClipLoader } from "react-spinners";
 
 const Inbox = () => {
-  const { data: session } = useSession();
-  const [inquiries, setInquiries] = useState();
-  const [selectedEmail, setSelectedEmail] = useState();
+  const { data: session, status: sessionStatus } = useSession();
+  const [inquiries, setInquiries] = useState([]);
+  const [selectedEmail, setSelectedEmail] = useState(null);
   const [isSelectedEmailOpen, setIsSelectedEmailOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState("received");
-
-  if (!session) {
-    return null;
-  }
+  const [isLoading, setIsLoading] = useState(true);
 
   const toggleEmailModal = () => {
     setIsSelectedEmailOpen((prevStatus) => !prevStatus);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch("/api/inquiries/all");
-      const data = await response.json();
-      setInquiries(data);
-    };
-    fetchData();
-  }, []);
+    if (sessionStatus !== "loading" && session) {
+      const fetchData = async () => {
+        const response = await fetch("/api/inquiries/all");
+        const data = await response.json();
+        setInquiries(data);
+        setIsLoading(false); // Set loading to false after data is fetched
+      };
+      fetchData();
+    }
+  }, [session, sessionStatus]);
+
+  if (isLoading || sessionStatus === "loading") {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ClipLoader size={50} />
+      </div>
+    );
+  }
+
+  if (!session) {
+    return null;
+  }
 
   const userSentMessages = inquiries?.filter(
     (inquiry) => inquiry.senderEmail === session.user.email
@@ -112,22 +125,6 @@ const Inbox = () => {
               </div>
             </div>
           </div>
-          {/* <div className="w-full flex rounded-lg px-4 items-center mb-8 bg-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              className="mr-2"
-              fill="#A6ABC8"
-            >
-              <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
-            </svg>
-            <input
-              placeholder="Search"
-              className="rounded-lg flex-1 py-2  focus:outline-none"
-            />
-          </div> */}
 
           <div className="grid w-full m-auto gap-4 grid-cols-1">
             {messagesToShow?.length > 0 ? (
@@ -161,7 +158,7 @@ const Inbox = () => {
                 </div>
               ))
             ) : (
-              <p>Loading...</p>
+              <p>No messages to show.</p>
             )}
           </div>
         </div>

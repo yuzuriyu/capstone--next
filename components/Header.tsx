@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 
-import ToggleMenu from "./ToggleMenu";
 import Image from "next/image";
 
 import Link from "next/link";
@@ -44,6 +43,15 @@ const Header = () => {
         </svg>
         <div>
           <ul className="flex">
+            {session?.user?.role === "admin" && (
+              <Link href={"/console"}>
+                <li className="text-white mr-8 text-sm relative group">
+                  {" "}
+                  <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
+                  Console
+                </li>
+              </Link>
+            )}
             <Link href={"/inbox"}>
               <li className="text-white mr-8 text-sm relative group">
                 {" "}
@@ -51,13 +59,15 @@ const Header = () => {
                 Inbox
               </li>
             </Link>
-            <Link href={"/achievements"}>
-              <li className="text-white mr-8 text-sm relative group">
-                {" "}
-                <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
-                Achievements
-              </li>
-            </Link>
+            {session?.user?.role !== "admin" && (
+              <Link href={"/achievements"}>
+                <li className="text-white mr-8 text-sm relative group">
+                  {" "}
+                  <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
+                  Achievements
+                </li>
+              </Link>
+            )}
             <Link href={"/guide"}>
               <li className="text-white mr-8 text-sm relative group">
                 {" "}
@@ -65,13 +75,15 @@ const Header = () => {
                 Guide
               </li>
             </Link>
-            <Link href={"/contact"}>
-              <li className="text-white mr-8 text-sm relative group">
-                {" "}
-                <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
-                Contact
-              </li>
-            </Link>
+            {session?.user?.role !== "admin" && (
+              <Link href={"/contact"}>
+                <li className="text-white mr-8 text-sm relative group">
+                  {" "}
+                  <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
+                  Contact
+                </li>
+              </Link>
+            )}
             <Link href={"/about"}>
               <li className="text-white mr-8 text-sm relative group">
                 {" "}
@@ -96,7 +108,7 @@ const Header = () => {
               <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
             </svg>
           </div>
-          <Link href={"/profile"}>
+          <Link href={"/"}>
             <Image
               src={session?.user?.profilePicture}
               alt=""

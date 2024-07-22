@@ -9,9 +9,12 @@ import Image from "next/image";
 import Last6DaysChart from "./Last6DaysChart";
 import StepsChart from "./StepsChart";
 import { VoltageContext } from "@/context/VoltageContext";
+import { ClipLoader } from "react-spinners";
+import Loading from "@/app/loading";
+
 const PersonalInfo = () => {
   const badgeContext = useContext(BadgeContext);
-  const { data: session, loading } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   const [showAllBadge, setShowAllBadge] = useState(false);
 
   const {
@@ -33,7 +36,6 @@ const PersonalInfo = () => {
   };
 
   const [isEditBioOpen, setIsEditBioOpen] = useState(false);
-
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const toggleEditProfile = () => {
@@ -45,17 +47,22 @@ const PersonalInfo = () => {
   };
 
   useEffect(() => {
-    if (!loading && (!badgeContext || !badgeContext.badges)) {
+    if (
+      sessionStatus === "authenticated" &&
+      session &&
+      (!badgeContext || !badgeContext.badges)
+    ) {
       // Fetch badges or handle initialization here
     }
-  }, [loading, badgeContext]);
+  }, [sessionStatus, session, badgeContext]);
 
-  if (loading) {
-    return null;
-  }
-
-  if (!badgeContext || !badgeContext.badges) {
-    return <div>Loading...</div>;
+  if (
+    sessionStatus === "loading" ||
+    !session?.user?.coverPhoto ||
+    !session?.user?.profilePicture ||
+    !badgeContext?.badges
+  ) {
+    return <Loading />;
   }
 
   const { badges } = badgeContext;
@@ -65,15 +72,13 @@ const PersonalInfo = () => {
   const toggleBadge = () => {
     setShowAllBadge((prevStatus) => !prevStatus);
   };
-  if (!badges) {
-    return null;
-  }
+
   return (
     <>
       <div className="relative h-[330px] w-full">
         <Image
-          src={session?.user?.coverPhoto}
-          alt=""
+          src={session.user.coverPhoto}
+          alt="Cover Photo"
           className="w-full h-full object-cover"
           width={0}
           height={0}
@@ -81,15 +86,15 @@ const PersonalInfo = () => {
         />
         <div className="absolute w-11/12 lg:w-8/12 bottom-0 left-1/2 -translate-x-1/2 flex">
           <Image
-            src={session?.user?.profilePicture}
-            alt=""
+            src={session.user.profilePicture}
+            alt="Profile Picture"
             height={160}
             width={160}
             className="align-baseline"
           />
           <div className="flex relative">
             <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
-              {session?.user?.username}
+              {session.user.username}
             </p>
           </div>
         </div>
@@ -116,7 +121,7 @@ const PersonalInfo = () => {
         <div className="w-11/12 lg:w-8/12 m-auto lg:flex-row flex-col flex gap-8">
           <div className="w-full lg:w-[40%]">
             <div className="rounded-lg py-4 px-4 bg-white mb-8">
-              <p className="text-sm">{session?.user?.bio}</p>
+              <p className="text-sm">{session.user.bio}</p>
             </div>
             <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
               <div>
@@ -172,7 +177,7 @@ const PersonalInfo = () => {
 
               <div className="grid grid-cols-3 gap-1 ">
                 {badgeData?.map((badge) => (
-                  <div className="">
+                  <div key={badge.id}>
                     <Image
                       src={badge.badgeIcon}
                       alt=""
@@ -189,7 +194,6 @@ const PersonalInfo = () => {
 
           <div className="lg:flex-1 flex flex-col">
             {activeCategory === "voltage" && <Last6DaysChart />}
-
             {activeCategory === "voltage" && <Voltlist />}
             {activeCategory === "steps" && <StepsChart />}
           </div>
