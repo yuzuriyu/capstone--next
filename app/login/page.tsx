@@ -10,20 +10,26 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+
   const handleSubmit = async () => {
+    setError(""); // Reset error state
     try {
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
+
       if (res.error) {
+        console.error("Sign in error:", res.error);
         setError("Invalid Credentials");
         return;
       }
-      router.replace("/");
+
+      router.push("/");
     } catch (error) {
-      console.log(error);
+      setError("An error occurred. Please try again.");
+      console.error("Login submission error:", error);
     }
   };
 
@@ -35,7 +41,7 @@ const Login = () => {
           alt=""
           width={100}
           height={100}
-          className=" my-8 m-auto"
+          className="my-8 m-auto"
         />
       </div>
       <div className="flex flex-col">
@@ -63,7 +69,7 @@ const Login = () => {
           />
         </div>
         <div
-          className={`flex items-center mb-4  py-2 relative bg-white rounded-lg px-4${
+          className={`flex items-center mb-4 py-2 relative bg-white rounded-lg px-4${
             error ? "border-red-400" : ""
           }`}
         >

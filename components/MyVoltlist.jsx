@@ -3,7 +3,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { VoltageContext } from "../context/VoltageContext";
 
-const Voltlist = () => {
+const MyVoltlist = () => {
   const [currentDay, setCurrentDay] = useState();
   const [selectedDay, setSelectedDay] = useState(currentDay);
   const [activeSortMethod, setActiveSortMethod] = useState("desc");
@@ -110,4 +110,4 @@ const Voltlist = () => {
   );
 };
 
-export default Voltlist;
+export default MyVoltlist;

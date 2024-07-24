@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useContext, useState, useEffect } from "react";
-import { BadgeType, BadgeContext } from "@/context/BadgeContext";
 import { useSession } from "next-auth/react";
 import OtherVoltlist from "./OtherVoltlist";
 import Image from "next/image";
@@ -11,50 +10,15 @@ import { AllUserContext } from "@/context/AllUserContext";
 import { VoltageContext } from "@/context/VoltageContext";
 
 const OtherProfile = () => {
-  const badgeContext = useContext(BadgeContext);
   const { data: session, loading } = useSession();
 
   const { selectedUser } = useContext(AllUserContext);
-  const [showAllBadge, setShowAllBadge] = useState(false);
 
   const [activeCategory, setActiveCategory] = useState("voltage");
-
-  const handleActiveCategory = (category: string) => {
-    setActiveCategory(category);
-  };
-
-  const [isEditBioOpen, setIsEditBioOpen] = useState(false);
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-
-  const toggleEditProfile = () => {
-    setIsEditProfileOpen((prevStatus) => !prevStatus);
-  };
-
-  const toggleBio = () => {
-    setIsEditBioOpen((prevStatus) => !prevStatus);
-  };
-
-  useEffect(() => {
-    if (!loading && (!badgeContext || !badgeContext.badges)) {
-      // Fetch badges or handle initialization here
-    }
-  }, [loading, badgeContext]);
 
   if (loading) {
     return null;
   }
-
-  if (!badgeContext || !badgeContext.badges) {
-    return <div>Loading...</div>;
-  }
-
-  const { badges } = badgeContext;
-  const filterBadge = badges.slice(0, 9);
-  const badgeData = showAllBadge ? badges : filterBadge;
-
-  const toggleBadge = () => {
-    setShowAllBadge((prevStatus) => !prevStatus);
-  };
 
   const {
     totalAccumulatedVoltage,
@@ -62,10 +26,7 @@ const OtherProfile = () => {
     totalSteps,
     averageVoltage,
     peakVoltage,
-    medianVoltage,
     standardDeviation,
-    voltageRange,
-    voltagePercentageChange,
   } = useContext(VoltageContext);
 
   return (
@@ -156,33 +117,6 @@ const OtherProfile = () => {
                   {standardDeviation}
                 </p>
                 <p className="text-xs text-center">Standard Deviation</p>
-              </div>
-            </div>
-
-            <div className="bg-white py-4 px-4 rounded-lg">
-              <div className="flex justify-between mb-4">
-                <p className="text-sm ">Badges</p>
-                <p
-                  className="text-sm text-customgreen cursor-pointer"
-                  onClick={toggleBadge}
-                >
-                  {showAllBadge ? "See Less" : "Show All"}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-3 gap-1 ">
-                {badgeData?.map((badge) => (
-                  <div key={badge.id}>
-                    <Image
-                      src={badge.badgeIcon}
-                      alt=""
-                      width={0}
-                      height={0}
-                      sizes="100vh"
-                      className="w-full"
-                    />
-                  </div>
-                ))}
               </div>
             </div>
           </div>

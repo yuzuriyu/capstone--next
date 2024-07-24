@@ -4,7 +4,7 @@ import { VoltageContext } from "../context/VoltageContext";
 import StepsChartInfo from "./StepsChartInfo";
 import { ClipLoader } from "react-spinners";
 
-const StepsChart = () => {
+const MyStepsChart = () => {
   const { voltageData } = useContext(VoltageContext);
   const [aggregatedData, setAggregatedData] = useState([]);
   const [isStepChartInfoOpen, setIsStepChartInfoOpen] = useState(false);
@@ -64,4 +64,4 @@ const StepsChart = () => {
   );
 };
 
-export default StepsChart;
+export default MyStepsChart;

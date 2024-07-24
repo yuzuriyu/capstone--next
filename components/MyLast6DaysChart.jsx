@@ -13,9 +13,9 @@ import {
 } from "recharts";
 import { VoltageContext } from "../context/VoltageContext";
 import VoltageChartInfo from "./VoltageChartInfo";
-import WeeklyChart from "./WeeklyChart";
+import MyWeeklyChart from "./MyWeeklyChart";
 
-const Last6DaysChart = () => {
+const MyLast6DaysChart = () => {
   const { voltageData, totalAccumulatedVoltage } = useContext(VoltageContext);
   const [aggregatedData, setAggregatedData] = useState([]);
   const [activeChart, setActiveChart] = useState("last 6 days");
@@ -49,8 +49,7 @@ const Last6DaysChart = () => {
   };
   return (
     <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">
-      <div className="flex justify-between relative mb-2">
-        <p className="font-bold">{totalAccumulatedVoltage}</p>
+      <div className="flex justify-end relative mb-2">
         <button
           className="text-sm  text-customgreen"
           onClick={() => toggleChartInfo()}
@@ -80,7 +79,7 @@ const Last6DaysChart = () => {
             </LineChart>
           </ResponsiveContainer>
         )}
-        {activeChart === "weekly" && <WeeklyChart />}
+        {activeChart === "weekly" && <MyWeeklyChart />}
         <div className="flex gap-4">
           <div>
             <input
@@ -114,4 +113,4 @@ const Last6DaysChart = () => {
   );
 };
 
-export default Last6DaysChart;
+export default MyLast6DaysChart;

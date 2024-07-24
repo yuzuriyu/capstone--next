@@ -50,10 +50,7 @@ const OtherLast6DaysChart = ({ selectedUser }) => {
 
   return (
     <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">
-      <div className="flex justify-between relative mb-2">
-        <p className="font-bold">
-          {/* You can add any total accumulated voltage info here if needed */}
-        </p>
+      <div className="flex justify-end relative mb-2">
         <button
           className="text-sm text-customgreen"
           onClick={() => toggleChartInfo()}

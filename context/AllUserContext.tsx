@@ -34,7 +34,6 @@ const AllUserContextProvider: React.FC<Props> = ({ children }) => {
     selectedUser,
     setSelectedUser,
   };
-  console.log(selectedUser);
   return (
     <AllUserContext.Provider value={value}>{children}</AllUserContext.Provider>
   );

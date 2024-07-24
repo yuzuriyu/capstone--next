@@ -1,38 +1,36 @@
+// pages/api/auth/[...nextauth].js
 import { connectToDb } from "@/lib/utils";
 import { UserModel } from "@/models/User";
-import NextAuth from "next-auth/next";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
-      credentials: {},
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
       async authorize(credentials) {
         const { email, password } = credentials;
+        console.log("Authorizing user:", email);
+
         try {
           await connectToDb();
           const user = await UserModel.findOne({ email });
 
-          if (!user || user.password !== password) {
+          if (!user) {
+            console.error("User not found:", email);
             return null;
           }
 
-          console.log("Authorized user:", {
-            id: user._id,
-            email: user.email,
-            username: user.username,
-            role: user.role,
-            bio: user.bio,
-            phoneNumber: user.phoneNumber,
-            profilePicture: user.profilePicture,
-            location: user.location,
-            birthday: user.birthday,
-            title: user.title,
-            level: user.level,
-            coverPhoto: user.coverPhoto,
-            voltages: user.voltages,
-          });
+          if (user.password !== password) {
+            console.error("Invalid password for user:", email);
+            return null;
+          }
+
+          console.log("User authorized:", email);
 
           return {
             id: user._id,
@@ -50,7 +48,7 @@ const authOptions = {
             voltages: user.voltages,
           };
         } catch (error) {
-          console.log(error);
+          console.error("Authorization error:", error);
           return null;
         }
       },
@@ -66,8 +64,6 @@ const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log("JWT callback user:", user);
-
         token.id = user.id;
         token.email = user.email;
         token.username = user.username;
@@ -81,14 +77,11 @@ const authOptions = {
         token.level = user.level;
         token.coverPhoto = user.coverPhoto;
         token.voltages = user.voltages;
+        console.log("JWT token created for user:", token.email);
       }
-
-      console.log("JWT callback token:", token);
       return token;
     },
     async session({ session, token }) {
-      console.log("Session callback token:", token);
-
       session.user.id = token.id;
       session.user.email = token.email;
       session.user.username = token.username;
@@ -102,8 +95,7 @@ const authOptions = {
       session.user.level = token.level;
       session.user.coverPhoto = token.coverPhoto;
       session.user.voltages = token.voltages;
-
-      console.log("Session callback session:", session);
+      console.log("Session created for user:", session.user.email);
       return session;
     },
   },

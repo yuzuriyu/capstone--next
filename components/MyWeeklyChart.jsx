@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { VoltageContext } from "../context/VoltageContext";
 
-const WeeklyChart = () => {
+const MyWeeklyChart = () => {
   const { voltageData } = useContext(VoltageContext);
   const [aggregatedData, setAggregatedData] = useState([]);
 
@@ -92,4 +92,4 @@ const WeeklyChart = () => {
   );
 };
 
-export default WeeklyChart;
+export default MyWeeklyChart;
