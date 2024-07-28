@@ -1,5 +1,3 @@
-import Sidebar from "@/components/Sidebar";
-import PersonalInfo from "@/components/PersonalInfo";
 import OtherProfile from "@/components/OtherProfile";
 
 const Profile = () => {

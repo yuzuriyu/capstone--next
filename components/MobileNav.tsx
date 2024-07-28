@@ -33,7 +33,7 @@ const MobileNav = () => {
       )}
       {isMobileNavOpen && (
         <div className="grid grid-cols-3 bg-white py-4 px-4 rounded-lg fixed bottom-4 right-0 lg:hidden z-50 shadow-2xl">
-          <Link href={"/dashboard"}>
+          <Link href={"/settings"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

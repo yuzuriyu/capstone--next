@@ -1,16 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-
 import Image from "next/image";
-
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import Search from "./Search";
 import DropDown from "./DropDown";
 
-const Header = () => {
-  const { data: session } = useSession();
+const Header = ({ session }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
