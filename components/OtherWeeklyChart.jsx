@@ -12,15 +12,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const OtherWeeklyChart = ({ selectedUser }) => {
+const OtherWeeklyChart = ({ user }) => {
   const [aggregatedData, setAggregatedData] = useState([]);
 
   useEffect(() => {
-    if (
-      !selectedUser ||
-      !selectedUser.voltages ||
-      selectedUser.voltages.length === 0
-    ) {
+    if (!user || !user.voltages || user.voltages.length === 0) {
       console.error("No voltage data available for selected user.");
       return;
     }
@@ -36,7 +32,7 @@ const OtherWeeklyChart = ({ selectedUser }) => {
         totalVoltage: 0,
       }));
 
-    selectedUser.voltages.forEach((voltage) => {
+    user.voltages.forEach((voltage) => {
       const voltageDate = new Date(voltage.timestamp);
       const voltageMonth = voltageDate.getMonth() + 1;
       const voltageYear = voltageDate.getFullYear();
@@ -63,7 +59,7 @@ const OtherWeeklyChart = ({ selectedUser }) => {
 
     console.log("Aggregated Data:", weeklyAggregatedData);
     setAggregatedData(weeklyAggregatedData);
-  }, [selectedUser]);
+  }, [user]);
 
   if (!aggregatedData || aggregatedData.length === 0) {
     return null;

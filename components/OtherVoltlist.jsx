@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-const OtherVoltlist = ({ selectedUser }) => {
+const OtherVoltlist = ({ user }) => {
   const [currentDay, setCurrentDay] = useState();
   const [selectedDay, setSelectedDay] = useState(currentDay);
   const [activeSortMethod, setActiveSortMethod] = useState("desc");
@@ -62,8 +62,8 @@ const OtherVoltlist = ({ selectedUser }) => {
             value={selectedDay}
             onChange={(e) => setSelectedDay(e.target.value)}
           >
-            {selectedUser.voltages &&
-              selectedUser.voltages.map((day) => (
+            {user.voltages &&
+              user.voltages.map((day) => (
                 <option key={day.day} value={day.day}>
                   {day.day}
                 </option>
@@ -97,8 +97,8 @@ const OtherVoltlist = ({ selectedUser }) => {
       </div>
 
       <div className="h-[375px] overflow-auto">
-        {selectedUser.voltages &&
-          selectedUser.voltages.map((day) => (
+        {user.voltages &&
+          user.voltages.map((day) => (
             <div key={day.day}>
               {selectedDay === day.day && renderDayData(day)}
             </div>

@@ -4,27 +4,27 @@ import { VoltageContext } from "../context/VoltageContext";
 import StepsChartInfo from "./StepsChartInfo";
 import { ClipLoader } from "react-spinners";
 
-const OtherStepsChart = ({ selectedUser }) => {
+const OtherStepsChart = ({ user }) => {
   const [aggregatedData, setAggregatedData] = useState([]);
   const [isStepChartInfoOpen, setIsStepChartInfoOpen] = useState(false);
   const [totalSteps, setTotalSteps] = useState(0); // State to hold the total steps
 
   useEffect(() => {
-    if (selectedUser && selectedUser.voltages.length > 0) {
+    if (user && user.voltages.length > 0) {
       // Calculate total steps
-      const total = selectedUser.voltages.reduce((accumulator, dayData) => {
+      const total = user.voltages.reduce((accumulator, dayData) => {
         return accumulator + dayData.voltages.length;
       }, 0);
       setTotalSteps(total);
 
       // Aggregate data for the PieChart
-      const data = selectedUser.voltages.map((dayData) => ({
+      const data = user.voltages.map((dayData) => ({
         name: dayData.day,
         value: dayData.voltages.length,
       }));
       setAggregatedData(data);
     }
-  }, [selectedUser]);
+  }, [user]);
 
   const toggleStepChartInfo = () => {
     setIsStepChartInfoOpen((prevStatus) => !prevStatus);

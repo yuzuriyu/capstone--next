@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import AllUserContextProvider, {
@@ -15,7 +14,6 @@ interface Props {
 
 const Search: React.FC<Props> = ({ toggleSearch }) => {
   const { allUsers, setSelectedUser } = useContext(AllUserContext);
-  const { data: session } = useSession();
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -35,10 +33,6 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-
-  if (!session) {
-    return null;
-  }
 
   if (!filteredUsers) {
     return null;

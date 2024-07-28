@@ -1,13 +1,14 @@
 // components/MyProfile.tsx
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MyVoltlist from "../components/MyVoltlist";
 import Image from "next/image";
 import MyLast6DaysChart from "../components/MyLast6DaysChart";
 import MyStepsChart from "../components/MyStepsChart";
 import { VoltageContext } from "@/context/VoltageContext";
 import Header from "./Header";
+import { ClipLoader } from "react-spinners";
 
 const MyProfile = ({ session }) => {
   const {
@@ -21,9 +22,14 @@ const MyProfile = ({ session }) => {
 
   const [activeCategory, setActiveCategory] = useState("voltage");
 
+  useEffect(() => {
+    if (!session) {
+      <ClipLoader />;
+    }
+  }, [session]);
+
   return (
     <>
-      {/* <Header session={session} /> */}
       <div className="relative h-[330px] w-full">
         <Image
           src={session.user.coverPhoto}

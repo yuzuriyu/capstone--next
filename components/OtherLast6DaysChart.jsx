@@ -14,18 +14,14 @@ import {
 import VoltageChartInfo from "./VoltageChartInfo";
 import OtherWeeklyChart from "./OtherWeeklyChart";
 
-const OtherLast6DaysChart = ({ selectedUser }) => {
+const OtherLast6DaysChart = ({ user }) => {
   const [aggregatedData, setAggregatedData] = useState([]);
   const [activeChart, setActiveChart] = useState("last 6 days");
   const [isChartInfoOpen, setIsChartInfoOpen] = useState(false);
 
   useEffect(() => {
-    if (
-      selectedUser &&
-      selectedUser.voltages &&
-      selectedUser.voltages.length > 0
-    ) {
-      const data = selectedUser.voltages.map((dayData) => {
+    if (user && user.voltages && user.voltages.length > 0) {
+      const data = user.voltages.map((dayData) => {
         const totalVoltage = dayData.voltages.reduce(
           (acc, curr) => acc + curr.voltage,
           0
@@ -34,7 +30,7 @@ const OtherLast6DaysChart = ({ selectedUser }) => {
       });
       setAggregatedData(data);
     }
-  }, [selectedUser]);
+  }, [user]);
 
   const handleChartChange = (e) => {
     setActiveChart(e.target.value);
@@ -80,9 +76,7 @@ const OtherLast6DaysChart = ({ selectedUser }) => {
             </LineChart>
           </ResponsiveContainer>
         )}
-        {activeChart === "weekly" && (
-          <OtherWeeklyChart selectedUser={selectedUser} />
-        )}
+        {activeChart === "weekly" && <OtherWeeklyChart user={user} />}
         <div className="flex gap-4">
           <div>
             <input
