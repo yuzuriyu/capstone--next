@@ -25,7 +25,6 @@ interface ProfileProps {
 const Profile = async ({ params }: ProfileProps) => {
   const session = await getServerSession(authOptions);
 
-  // Fetch user data based on the username from the URL params
   const user = await getUserByUsername(params.username);
 
   if (!user) {

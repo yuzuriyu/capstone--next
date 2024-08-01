@@ -1,4 +1,3 @@
-// pages/api/auth/[...nextauth].js
 import { connectToDb } from "@/lib/utils";
 import { UserModel } from "@/models/User";
 import NextAuth from "next-auth";
