@@ -10,6 +10,17 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
+  // Default voltages structure
+  const defaultVoltages = [
+    { day: "Mon", voltages: [] },
+    { day: "Tue", voltages: [] },
+    { day: "Wed", voltages: [] },
+    { day: "Thu", voltages: [] },
+    { day: "Fri", voltages: [] },
+    { day: "Sat", voltages: [] },
+    { day: "Sun", voltages: [] },
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword || !username) {
@@ -32,6 +43,7 @@ const Register = () => {
           email,
           username,
           password,
+          voltages: defaultVoltages, // Include the default voltages structure
         }),
       });
 

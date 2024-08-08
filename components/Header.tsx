@@ -39,15 +39,6 @@ const Header = ({ session }) => {
         </svg>
         <div>
           <ul className="flex">
-            {session?.user?.role === "admin" && (
-              <Link href={"/console"}>
-                <li className="text-white mr-8 text-sm relative group">
-                  {" "}
-                  <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
-                  Console
-                </li>
-              </Link>
-            )}
             <Link href={"/inbox"}>
               <li className="text-white mr-8 text-sm relative group">
                 {" "}
@@ -98,7 +89,9 @@ const Header = ({ session }) => {
           </div>
           <Link href={"/"}>
             <Image
-              src={session?.user?.profilePicture}
+              src={
+                session?.user?.profilePicture || "/images/profile--default.jpg"
+              }
               alt=""
               width={40}
               height={40}

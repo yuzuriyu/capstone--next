@@ -308,7 +308,7 @@ const Settings = ({ session }) => {
           <div className="flex flex-col gap-4 lg:flex-row">
             <Image
               src={
-                session?.user?.profilePicture || "/images/default-profile.jpg"
+                session?.user?.profilePicture || "/images/profile--default.jpg"
               }
               alt=""
               width={200}
@@ -326,7 +326,7 @@ const Settings = ({ session }) => {
           <div className="flex flex-col lg:flex-row gap-4">
             <div>
               <Image
-                src={session?.user?.coverPhoto || "/images/default-profile.jpg"}
+                src={session?.user?.coverPhoto || "/images/cover--default.jpg"}
                 alt=""
                 width={0}
                 height={0}

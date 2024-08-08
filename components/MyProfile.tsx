@@ -32,7 +32,7 @@ const MyProfile = ({ session }) => {
     <>
       <div className="relative h-[330px] w-full">
         <Image
-          src={session.user.coverPhoto}
+          src={session.user.coverPhoto || "/images/cover--default.jpg"}
           alt="Cover Photo"
           className="w-full h-full object-cover"
           width={0}
@@ -41,7 +41,7 @@ const MyProfile = ({ session }) => {
         />
         <div className="absolute w-11/12 lg:w-8/12 bottom-0 left-1/2 -translate-x-1/2 flex">
           <Image
-            src={session.user.profilePicture}
+            src={session.user.profilePicture || "/images/profile--default.jpg"}
             alt="Profile Picture"
             height={160}
             width={160}

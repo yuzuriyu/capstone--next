@@ -4,9 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { User } from "next-auth";
 import { useRouter } from "next/navigation";
-import AllUserContextProvider, {
-  AllUserContext,
-} from "@/context/AllUserContext";
+import { AllUserContext } from "@/context/AllUserContext";
 
 interface Props {
   toggleSearch: () => void;
@@ -20,13 +18,14 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (searchQuery) {
+    console.log("allUsers:", allUsers);
+    if (searchQuery && allUsers) {
       const results = allUsers.filter((user) =>
         user.username.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredUsers(results);
     } else {
-      setFilteredUsers(allUsers); // Reset to all users if search query is empty
+      setFilteredUsers([]); // Clear results if search query is empty or allUsers is undefined
     }
   }, [searchQuery, allUsers]);
 
@@ -34,11 +33,14 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
     setSearchQuery(e.target.value);
   };
 
-  if (!filteredUsers) {
-    return null;
-  }
+  const handleUserClick = (user: User) => {
+    setSelectedUser(user);
+    router.push(`/profile/${user.username}`);
+    toggleSearch(); // Close the search dropdown after navigation
+  };
+
   return (
-    <div className="absolute top-0 right-0 bg-white w-[400px] z-50 shadow-lg rounded-lg py-4 px-4">
+    <div className="absolute top-0 right-0 bg-white w-[400px] z-50 shadow-lg rounded-lg py-4 px-4 h-[220px] overflow-auto">
       <div className="flex items-center mb-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -66,40 +68,39 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
             placeholder="Search"
             className="rounded-lg flex-1 py-2 focus:outline-none"
             onChange={handleInputChange}
+            value={searchQuery}
           />
         </div>
       </div>
-      {filteredUsers.map((user) => (
-        <div
-          className="flex items-center justify-between my-2"
-          onClick={() => {
-            setSelectedUser(user);
-            router.push(`/profile/${user.username}`);
-            toggleSearch(); // Close the search dropdown
-          }}
-        >
-          <div className="flex items-center">
-            <Image
-              src={user?.profilePicture}
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-full mr-2"
-            />
-            <p>{user?.username}</p>
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="#A6ABC8"
-            className="hover:fill-customgreen cursor-pointer"
+      {searchQuery &&
+        filteredUsers.map((user) => (
+          <div
+            key={user.id}
+            className="flex items-center justify-between my-2 cursor-pointer"
+            onClick={() => handleUserClick(user)}
           >
-            <path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path>
-          </svg>
-        </div>
-      ))}
+            <div className="flex items-center">
+              <Image
+                src={user?.profilePicture || "/images/profile--default.jpg"}
+                alt={user?.username || "Profile Picture"}
+                width={40}
+                height={40}
+                className="rounded-full mr-2"
+              />
+              <p>{user?.username}</p>
+            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="#A6ABC8"
+              className="hover:fill-customgreen cursor-pointer"
+            >
+              <path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path>
+            </svg>
+          </div>
+        ))}
     </div>
   );
 };
