@@ -168,16 +168,36 @@ const Settings = ({ session }) => {
     setTimeout(() => setPictureMessage(""), 5000);
   };
   return (
-    <div className="w-11/12 lg:w-8/12 m-auto lg:my-24 flex flex-col lg:flex-row">
-      <div className="w-full lg:w-1/4 py-8 lg:py-0">
-        <p className="text-lg font-bold">Settings</p>
+    <div className="w-11/12 lg:w-8/12 m-auto lg:my-20 bg-white rounded-lg overflow-hidden">
+      <div className="relative h-[100px] w-full">
+        <Image
+          src={session.user.coverPhoto || "/images/cover--default.jpg"}
+          alt="Cover Photo"
+          className="w-full h-full object-cover"
+          width={0}
+          height={0}
+          sizes="100vw"
+        />
       </div>
-      <div className="bg-white flex-1 px-4 py-4 rounded-lg">
+      <div className=" w-11/12 flex py-4 m-auto">
+        <Image
+          src={session.user.profilePicture || "/images/profile--default.jpg"}
+          alt="Profile Picture"
+          height={100}
+          width={100}
+          className="align-baseline rounded-full"
+        />
+        <div className="ml-2 flex flex-col justify-center">
+          <p className=" font-bold ">{session.user.username}</p>
+          <p className=" text-sm text-gray-500">{session.user.email}</p>
+        </div>
+      </div>
+      <div className=" w-11/12 m-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div className="mb-4">
-          <p className="mb-4 text-sm font-bold">Username</p>
+          <p className="mb-4 text-sm jpg">Username</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg"
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -194,10 +214,10 @@ const Settings = ({ session }) => {
           )}
         </div>
         <div className="mb-4">
-          <p className="mb-4 text-sm font-bold">Email</p>
+          <p className="mb-4 text-sm jpg">Email</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full rounded-lg"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -213,57 +233,12 @@ const Settings = ({ session }) => {
             </>
           )}
         </div>
+
         <div className="mb-4">
-          <p className="mb-4 text-sm font-bold">Change Password</p>
-          <input
-            placeholder="New password"
-            className="bg-bggray px-4 py-2 w-full text-sm mb-4 rounded-lg"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <input
-            placeholder="Confirm new password"
-            className="bg-bggray px-4 py-2 text-sm w-full rounded-lg"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {isPasswordChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Password", newPassword)}
-              >
-                Save Password
-              </button>
-              <p className="text-sm mt-2">{passwordMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm font-bold">Bio</p>
-          <textarea
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-          {isBioChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Bio", bio)}
-              >
-                Save Bio
-              </button>
-              <p className="text-sm mt-2">{bioMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm font-bold">Profile Picture URL</p>
+          <p className="mb-4 text-sm jpg">Profile Picture URL</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg"
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
             value={profilePicture}
             onChange={(e) => setProfilePicture(e.target.value)}
           />
@@ -280,10 +255,10 @@ const Settings = ({ session }) => {
           )}
         </div>
         <div className="mb-4">
-          <p className="mb-4 text-sm font-bold">Cover Photo URL</p>
+          <p className="mb-4 text-sm jpg">Cover Photo URL</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg"
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
             value={coverPhoto}
             onChange={(e) => setCoverPhoto(e.target.value)}
           />
@@ -299,42 +274,51 @@ const Settings = ({ session }) => {
             </>
           )}
         </div>
-
         <div className="mb-4">
-          <p className="text-sm font-bold">Avatar</p>
-          <p className="text-sm mb-4">
-            Allowed Formats: JPEG, PNG. Max size: 3mb. Optimal
-          </p>
-          <div className="flex flex-col gap-4 lg:flex-row">
-            <Image
-              src={
-                session?.user?.profilePicture || "/images/profile--default.jpg"
-              }
-              alt=""
-              width={200}
-              height={200}
-              className="rounded-lg object-cover"
-            />
-          </div>
+          <p className="mb-4 text-sm jpg">Bio</p>
+          <textarea
+            placeholder=""
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+          {isBioChanged && (
+            <>
+              <button
+                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                onClick={() => handleUpdate("Bio", bio)}
+              >
+                Save Bio
+              </button>
+              <p className="text-sm mt-2">{bioMessage}</p>
+            </>
+          )}
         </div>
-
         <div className="mb-4">
-          <p className="text-sm font-bold">Banner</p>
-          <p className="text-sm mb-4">
-            Allowed Formats: JPEG, PNG. Max size: 3mb. Optimal
-          </p>
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div>
-              <Image
-                src={session?.user?.coverPhoto || "/images/cover--default.jpg"}
-                alt=""
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="rounded-lg h-[200px] w-[200px] object-cover"
-              />
-            </div>
-          </div>
+          <p className="mb-4 text-sm jpg">Change Password</p>
+          <input
+            placeholder="New password"
+            className="bg-bggray px-4 py-2 w-full text-sm mb-4 rounded-lg  text-gray-500"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <input
+            placeholder="Confirm new password"
+            className="bg-bggray px-4 py-2 text-sm w-full rounded-lg  text-gray-500"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          {isPasswordChanged && (
+            <>
+              <button
+                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                onClick={() => handleUpdate("Password", newPassword)}
+              >
+                Save Password
+              </button>
+              <p className="text-sm mt-2">{passwordMessage}</p>
+            </>
+          )}
         </div>
       </div>
     </div>

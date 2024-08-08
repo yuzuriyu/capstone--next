@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import EmailModal from "@/components/EmailModal";
-import { useSession } from "next-auth/react";
 import { ClipLoader } from "react-spinners";
 
 const Inbox = ({ session }) => {
@@ -66,8 +65,8 @@ const Inbox = ({ session }) => {
   return (
     <div className="w-11/12 m-auto lg:w-8/12 py-20">
       <div className="flex gap-8 flex-col lg:flex-row">
-        <div className="lg:w-1/3">
-          <div className="flex mb-4 bg-white py-4 px-4 rounded-lg">
+        <div className="lg:w-1/3 rounded-lg overflow-hidden">
+          <div className="flex bg-white pt-4 px-4">
             <div>
               <div
                 className="flex items-center pb-4 group"
@@ -121,11 +120,11 @@ const Inbox = ({ session }) => {
             </div>
           </div>
 
-          <div className="grid w-full m-auto gap-4 grid-cols-1">
+          <div className="grid w-full m-auto grid-cols-1 overflow-hidden">
             {messagesToShow?.length > 0 ? (
               messagesToShow.map((inquiry) => (
                 <div
-                  className="rounded-lg py-4 px-4 flex items-center relative bg-white"
+                  className=" py-4 px-4 flex items-center relative bg-white border-b"
                   onClick={() => {
                     setSelectedEmail(inquiry);
                     toggleEmailModal();
@@ -134,7 +133,9 @@ const Inbox = ({ session }) => {
                 >
                   <div>
                     <Image
-                      src={inquiry.profilePicture}
+                      src={
+                        inquiry.profilePicture || "/images/profile--default.jpg"
+                      }
                       alt=""
                       width={40}
                       height={40}
@@ -153,7 +154,7 @@ const Inbox = ({ session }) => {
                 </div>
               ))
             ) : (
-              <p>No messages to show.</p>
+              <p></p>
             )}
           </div>
         </div>
