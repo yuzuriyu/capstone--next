@@ -20,17 +20,14 @@ interface Props {
 const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
   const { data: session } = useSession();
 
-  if (!session) {
-    return null;
-  }
-
-  const getCurrentTimestamp = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
-
+  // Hooks are called unconditionally at the top
   const [message, setMessage] = useState<string>("");
   const [notice, setNotice] = useState<string>("");
   const [errors, setErrors] = useState<{ message: boolean }>({
     message: false,
   });
+
+  const getCurrentTimestamp = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
   const handleSubmitReply = async () => {
     if (!message.trim()) {
@@ -40,9 +37,9 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
 
     try {
       const timestamp = getCurrentTimestamp();
-      const senderName = session.user?.username || "";
-      const profilePicture = session.user?.profilePicture || "";
-      const senderEmail = session.user?.email || "";
+      const senderName = session?.user?.name || ""; // Corrected property from `username` to `name`
+      const profilePicture = session?.user?.image || ""; // Corrected property from `profilePicture` to `image`
+      const senderEmail = session?.user?.email || "";
       const recipientEmail = selectedEmail?.senderEmail || "";
       const subject = selectedEmail?.subject || "";
 
@@ -69,8 +66,14 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
       setMessage("");
     } catch (error) {
       console.error("Error submitting form:", error);
+      setNotice("Error submitting form.");
     }
   };
+
+  // Render null if session doesn't exist
+  if (!session) {
+    return null;
+  }
 
   return (
     <div className="bg-white px-4 py-4 lg:w-1/2 rounded-lg">
@@ -81,7 +84,7 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
               src={
                 selectedEmail.profilePicture || "/images/profile--default.jpg"
               }
-              alt=""
+              alt="Profile Picture"
               width={40}
               height={40}
               className="rounded-full mr-2"
@@ -94,7 +97,7 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
             <p className="font-bold text-lg mb-2">{selectedEmail.subject}</p>
             <p className="text-sm">{selectedEmail.message}</p>
             {session?.user?.role === "admin" &&
-              selectedEmail.senderEmail !== session?.user?.email && (
+              selectedEmail.senderEmail !== session.user.email && (
                 <div className="flex items-center py-2 px-4 border rounded-lg w-full justify-between absolute bottom-0">
                   <input
                     placeholder="Type Message"
@@ -118,6 +121,7 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
           </div>
         </div>
       )}
+      {notice && <p className="text-xs text-red-400">{notice}</p>}
     </div>
   );
 };

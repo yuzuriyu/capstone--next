@@ -20,8 +20,11 @@ const Login = () => {
         redirect: false,
       });
 
-      if (res.error) {
-        console.error("Sign in error:", res.error);
+      if (!res || res.error) {
+        console.error(
+          "Sign in error:",
+          res?.error || "No response from server"
+        );
         setError("Invalid Credentials");
         return;
       }
@@ -105,7 +108,7 @@ const Login = () => {
         </button>
 
         <p className="text-xs text-center">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href={"/register"}>
             <span className="text-blue-400">Sign up</span>
           </Link>

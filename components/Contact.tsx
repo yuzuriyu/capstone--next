@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -9,22 +10,18 @@ interface ContactProps {
 }
 
 const Contact: React.FC<ContactProps> = ({ session }) => {
-  if (!session) {
-    return null;
-  }
-
-  const getCurrentTimestamp = () => {
-    return format(new Date(), "yyyy-MM-dd HH:mm:ss");
-  };
-
+  // State variables are declared outside of conditionals
   const [message, setMessage] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
-
   const [notice, setNotice] = useState<string>("");
   const [errors, setErrors] = useState<{ subject: boolean; message: boolean }>({
     subject: false,
     message: false,
   });
+
+  const getCurrentTimestamp = () => {
+    return format(new Date(), "yyyy-MM-dd HH:mm:ss");
+  };
 
   const submitForm = async () => {
     try {
@@ -38,11 +35,16 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
         return;
       }
 
+      if (!session) {
+        setNotice("Session not found.");
+        return;
+      }
+
       const timestamp = getCurrentTimestamp();
-      const senderName = session.user?.username || ""; // Use session user's name
-      const profilePicture = session.user?.profilePicture || ""; // Use session user's image
+      const senderName = session.user?.name || ""; // Use session user's name
+      const profilePicture = session.user?.image || ""; // Use session user's image
       const senderEmail = session.user?.email || "";
-      const recipientEmail = "admin";
+      const recipientEmail = "admin@example.com"; // Replace with actual recipient email
 
       const fullFormData = {
         message,
@@ -58,7 +60,7 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
       // Log the full form data
       console.log("Full Form Data:", fullFormData);
 
-      await fetch("api/inquiries/new", {
+      await fetch("/api/inquiries/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,14 +72,24 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
 
       // Reset form data and errors after successful submission
       setMessage("");
+      setSubject("");
       setErrors({
         subject: false,
         message: false,
       });
     } catch (error) {
       console.error("Error submitting form:", error);
+      setNotice("Error submitting form");
     }
+
+    // Clear the notice after 5 seconds
+    setTimeout(() => setNotice(""), 5000);
   };
+
+  // Move session check inside the return statement
+  if (!session) {
+    return <p>Please log in to submit a message.</p>;
+  }
 
   return (
     <div className="">
@@ -97,7 +109,7 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
               <div className="mr-4">
                 <Image
                   src={"/icons/location--dark.png"}
-                  alt=""
+                  alt="Location icon"
                   className="w-6"
                   width={40}
                   height={40}
@@ -112,7 +124,7 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
               <div className="mr-4">
                 <Image
                   src={"/icons/phone--dark.png"}
-                  alt=""
+                  alt="Phone icon"
                   className="w-5"
                   width={40}
                   height={40}
