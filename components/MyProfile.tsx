@@ -1,4 +1,3 @@
-// components/MyProfile.tsx
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
@@ -7,10 +6,24 @@ import Image from "next/image";
 import MyLast6DaysChart from "../components/MyLast6DaysChart";
 import MyStepsChart from "../components/MyStepsChart";
 import { VoltageContext } from "@/context/VoltageContext";
-import Header from "./Header";
 import { ClipLoader } from "react-spinners";
 
-const MyProfile = ({ session }) => {
+interface User {
+  username: string;
+  bio: string;
+  profilePicture: string;
+  coverPhoto: string;
+}
+
+interface Session {
+  user: User;
+}
+
+interface MyProfileProps {
+  session: Session;
+}
+
+const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
   const {
     totalAccumulatedVoltage,
     latestRecord,

@@ -4,11 +4,11 @@ import { connectToDb } from "@/lib/utils";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next"; // Adjusted import
 
-export async function PATCH(request: Request) {
+export async function PATCH(request) {
   try {
     await connectToDb();
 
-    const { profilePicture } = await request.json();
+    const { coverPhoto } = await request.json();
     const session = await getServerSession({ req: request }); // Adjusted method
 
     if (!session) {
@@ -20,16 +20,16 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    user.profilePicture = profilePicture;
+    user.coverPhoto = coverPhoto;
     await user.save();
 
     return NextResponse.json({
-      message: "Profile picture updated successfully",
+      message: "Cover photo updated successfully",
     });
   } catch (err) {
-    console.error("Error updating profile picture:", err);
+    console.error("Error updating cover photo:", err);
     return NextResponse.json(
-      { message: "Failed to update profile picture" },
+      { message: "Failed to update cover photo" },
       { status: 500 }
     );
   }

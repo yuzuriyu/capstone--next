@@ -3,46 +3,48 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
 
+interface EmailData {
+  senderName: string;
+  senderEmail: string;
+  profilePicture?: string;
+  timeStamp: string;
+  subject: string;
+  message: string;
+}
+
 interface Props {
-  selectedEmail;
+  selectedEmail: EmailData | null;
   toggleEmailModal: () => void;
 }
+
 const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
   const { data: session } = useSession();
+
   if (!session) {
     return null;
   }
-  const getCurrentTimestamp = () => {
-    return format(new Date(), "yyyy-MM-dd HH:mm:ss");
-  };
 
-  const [message, setMessage] = useState("");
-  const [notice, setNotice] = useState("");
-  const [errors, setErrors] = useState({
+  const getCurrentTimestamp = () => format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+  const [message, setMessage] = useState<string>("");
+  const [notice, setNotice] = useState<string>("");
+  const [errors, setErrors] = useState<{ message: boolean }>({
     message: false,
   });
 
   const handleSubmitReply = async () => {
+    if (!message.trim()) {
+      setNotice("Please fill in all required fields.");
+      return;
+    }
+
     try {
-      if (!message.trim()) {
-        setNotice("Please fill in all required fields.");
-        return;
-      }
-
       const timestamp = getCurrentTimestamp();
-      const senderName = session?.user?.username; // Use session user's name
-      const profilePicture = session?.user?.profilePicture; // Use session user's image
-      const senderEmail = session?.user?.email;
-      const recipientEmail = selectedEmail?.senderEmail;
-      const subject = selectedEmail?.subject;
-
-      console.log("Sender Name:", senderName);
-      console.log("Sender Email:", senderEmail);
-      console.log("Recipient Email:", recipientEmail);
-      console.log("Subject:", subject);
-      console.log("Message:", message);
-      console.log("Timestamp:", timestamp);
-      console.log("Profile Picture:", profilePicture);
+      const senderName = session.user?.username || "";
+      const profilePicture = session.user?.profilePicture || "";
+      const senderEmail = session.user?.email || "";
+      const recipientEmail = selectedEmail?.senderEmail || "";
+      const subject = selectedEmail?.subject || "";
 
       const fullFormData = {
         message,
@@ -51,11 +53,9 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
         timeStamp: timestamp,
         recipientEmail,
         subject,
-        adminPrivilege: true, // Set adminPrivilege to true for admin replies
-        profilePicture, // Include profile picture
+        adminPrivilege: true,
+        profilePicture,
       };
-
-      console.log("Full Form Data:", fullFormData);
 
       await fetch("/api/inquiries/new", {
         method: "POST",
@@ -78,7 +78,9 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
         <div className="flex">
           <div>
             <Image
-              src={selectedEmail?.profilePicture}
+              src={
+                selectedEmail.profilePicture || "/images/profile--default.jpg"
+              }
               alt=""
               width={40}
               height={40}
@@ -86,15 +88,13 @@ const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
             />
           </div>
           <div className="flex-1 flex flex-col relative h-[550px]">
-            <p className="font-bold">{selectedEmail?.senderName}</p>
-            <p className="text-gray-500 text-xs">
-              {selectedEmail?.senderEmail}
-            </p>
-            <p className="text-xs my-6">{selectedEmail?.timeStamp}</p>
-            <p className="font-bold text-lg mb-2">{selectedEmail?.subject}</p>
-            <p className="text-sm">{selectedEmail?.message}</p>
+            <p className="font-bold">{selectedEmail.senderName}</p>
+            <p className="text-gray-500 text-xs">{selectedEmail.senderEmail}</p>
+            <p className="text-xs my-6">{selectedEmail.timeStamp}</p>
+            <p className="font-bold text-lg mb-2">{selectedEmail.subject}</p>
+            <p className="text-sm">{selectedEmail.message}</p>
             {session?.user?.role === "admin" &&
-              selectedEmail?.senderEmail !== session?.user?.email && (
+              selectedEmail.senderEmail !== session?.user?.email && (
                 <div className="flex items-center py-2 px-4 border rounded-lg w-full justify-between absolute bottom-0">
                   <input
                     placeholder="Type Message"

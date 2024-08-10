@@ -1,14 +1,14 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import Image from "next/image";
 
 const Register = () => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   // Default voltages structure
   const defaultVoltages = [
@@ -21,8 +21,9 @@ const Register = () => {
     { day: "Sun", voltages: [] },
   ];
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
     if (!email || !password || !confirmPassword || !username) {
       setError("All fields are necessary");
       return;
@@ -77,7 +78,7 @@ const Register = () => {
       </div>
       <div className="flex flex-col">
         <div
-          className={`flex items-center mb-4  py-2  bg-white px-4 rounded-lg${
+          className={`flex items-center mb-4 py-2 bg-white px-4 rounded-lg ${
             error ? "border-red-400" : ""
           }`}
         >
@@ -100,7 +101,7 @@ const Register = () => {
           />
         </div>
         <div
-          className={`flex items-center mb-4  py-2 bg-white px-4 rounded-lg ${
+          className={`flex items-center mb-4 py-2 bg-white px-4 rounded-lg ${
             error ? "border-red-400" : ""
           }`}
         >
@@ -123,7 +124,7 @@ const Register = () => {
           />
         </div>
         <div
-          className={`flex items-center mb-4  py-2 relative  bg-white px-4 rounded-lg${
+          className={`flex items-center mb-4 py-2 relative bg-white px-4 rounded-lg ${
             error ? "border-red-400" : ""
           }`}
         >
@@ -136,7 +137,7 @@ const Register = () => {
             fill="#A6ABC8"
           >
             <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm4 10.723V20h-2v-2.277a1.993 1.993 0 0 1 .567-3.677A2.001 2.001 0 0 1 14 16a1.99 1.99 0 0 1-1 1.723z"></path>
-          </svg>{" "}
+          </svg>
           <input
             type="password"
             placeholder="Password"
@@ -146,7 +147,7 @@ const Register = () => {
           />
         </div>
         <div
-          className={`flex items-center mb-4  py-2 relative bg-white px-4 rounded-lg ${
+          className={`flex items-center mb-4 py-2 relative bg-white px-4 rounded-lg ${
             error ? "border-red-400" : ""
           }`}
         >
@@ -159,7 +160,7 @@ const Register = () => {
             fill="#A6ABC8"
           >
             <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm4 10.723V20h-2v-2.277a1.993 1.993 0 0 1 .567-3.677A2.001 2.001 0 0 1 14 16a1.99 1.99 0 0 1-1 1.723z"></path>
-          </svg>{" "}
+          </svg>
           <input
             type="password"
             placeholder="Confirm Password"
@@ -172,7 +173,7 @@ const Register = () => {
           <p className="text-red-400 text-xs text-right mb-4">{error}</p>
         )}
         <button
-          className="bg-customblue text-white flex-1 py-2 mt-10 rounded-full mb-4"
+          className="bg-customgreen text-white flex-1 py-2 mt-10 rounded-full mb-4"
           onClick={handleSubmit}
         >
           Register

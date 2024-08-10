@@ -4,7 +4,7 @@ import { connectToDb } from "@/lib/utils";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next"; // Adjusted import
 
-export async function PATCH(request: Request) {
+export async function PATCH(request) {
   try {
     await connectToDb();
 

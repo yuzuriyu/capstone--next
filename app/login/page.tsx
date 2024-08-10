@@ -98,7 +98,7 @@ const Login = () => {
         </div>
 
         <button
-          className="bg-customblue text-white flex-1 py-2 mt-10 rounded-full mb-4"
+          className="bg-customgreen text-white flex-1 py-2 mt-10 rounded-full mb-4"
           onClick={handleSubmit}
         >
           Sign in

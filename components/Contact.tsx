@@ -2,8 +2,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { format } from "date-fns";
+import { Session } from "next-auth"; // Import Session type from next-auth
 
-const Contact = ({ session }) => {
+interface ContactProps {
+  session: Session | null; // Define the session prop type
+}
+
+const Contact: React.FC<ContactProps> = ({ session }) => {
   if (!session) {
     return null;
   }
@@ -12,11 +17,11 @@ const Contact = ({ session }) => {
     return format(new Date(), "yyyy-MM-dd HH:mm:ss");
   };
 
-  const [message, setMessage] = useState("");
-  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState<string>("");
+  const [subject, setSubject] = useState<string>("");
 
-  const [notice, setNotice] = useState("");
-  const [errors, setErrors] = useState({
+  const [notice, setNotice] = useState<string>("");
+  const [errors, setErrors] = useState<{ subject: boolean; message: boolean }>({
     subject: false,
     message: false,
   });
@@ -34,21 +39,10 @@ const Contact = ({ session }) => {
       }
 
       const timestamp = getCurrentTimestamp();
-      const senderName = session?.user?.username; // Use session user's name
-      const profilePicture = session?.user?.profilePicture; // Use session user's image
-      const senderEmail = session?.user?.email;
+      const senderName = session.user?.username || ""; // Use session user's name
+      const profilePicture = session.user?.profilePicture || ""; // Use session user's image
+      const senderEmail = session.user?.email || "";
       const recipientEmail = "admin";
-
-      console.log("Sender Name:", senderName);
-      console.log("Sender Email:", senderEmail);
-      console.log("Recipient Email:", recipientEmail);
-      console.log("Subject:", subject);
-      console.log("Message:", message);
-      console.log("Timestamp:", timestamp);
-      console.log("Profile Picture:", profilePicture);
-
-      console.log("Timestamp:", timestamp);
-      console.log("Profile Picture:", profilePicture);
 
       const fullFormData = {
         message,
@@ -87,17 +81,17 @@ const Contact = ({ session }) => {
 
   return (
     <div className="">
-      <div className="w-11/12 lg:w-8/12 bg-white m-auto  lg:my-20 rounded-lg px-4 my-4">
+      <div className="w-11/12 lg:w-8/12 bg-white m-auto lg:my-20 rounded-lg px-4 my-4">
         <div className="lg:w-1/2 m-auto py-10">
-          <h1 className="text-lg font-bold mb-4 text-center ">
+          <h1 className="text-lg font-bold mb-4 text-center">
             Get In Touch With Us
           </h1>
-          <p className="text-sm text-gray-500 text-center ">
+          <p className="text-sm text-gray-500 text-center">
             For More Information About Our Project. Please Feel Free To Drop an
             Email. Our Admin Will Be There To Help You Out. Do Not Hesitate!
           </p>
         </div>
-        <div className="flex flex-col md:flex-row  w-11/12 m-auto">
+        <div className="flex flex-col md:flex-row w-11/12 m-auto">
           <div className="grid grid-cols-1 gap-8 md:w-1/2 mb-8">
             <div className="flex">
               <div className="mr-4">
@@ -111,7 +105,7 @@ const Contact = ({ session }) => {
               </div>
               <div>
                 <p className="font-bold text-sm">Address</p>
-                <p className="text-sm ">Camiling, Tarlac, Philippines</p>
+                <p className="text-sm">Camiling, Tarlac, Philippines</p>
               </div>
             </div>
             <div className="flex">
@@ -126,13 +120,13 @@ const Contact = ({ session }) => {
               </div>
               <div>
                 <p className="font-bold text-sm">Email</p>
-                <p className="text-sm ">carl@gmail.com</p>
+                <p className="text-sm">carl@gmail.com</p>
               </div>
             </div>
           </div>
 
           <div className="w-full flex flex-col md:w-1/2">
-            <p className="text-sm mb-2 ">Subject</p>
+            <p className="text-sm mb-2">Subject</p>
             <input
               type="text"
               placeholder="This is optional"
@@ -140,18 +134,18 @@ const Contact = ({ session }) => {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
             />
-            <p className="text-sm mb-2 ">Message</p>
+            <p className="text-sm mb-2">Message</p>
             <textarea
               placeholder="Hi! I'd like to ask about"
               className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
                 errors.message ? "border-red-500" : ""
               }`}
-              value={message} // Change this from 'subject' to 'message'
+              value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
 
             <button
-              className="bg-orange-400 text-white px-7 py-3 mt-4 rounded-lg w-[200px] mr-4 mb-4"
+              className="bg-customgreen text-white px-7 py-3 mt-4 rounded-lg w-[200px] mr-4 mb-4"
               onClick={submitForm}
             >
               Submit

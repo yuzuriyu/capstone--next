@@ -1,14 +1,22 @@
 import { connectToDb } from "@/lib/utils";
 import { UserModel } from "@/models/User";
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function PATCH(request, { params }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { email: string } }
+) {
   try {
     await connectToDb();
 
     // Ensure email is properly decoded
     const email = decodeURIComponent(params.email.trim());
-    const { day, voltages } = await request.json();
+    const {
+      day,
+      voltages,
+    }: { day: string; voltages: Array<{ timestamp?: Date }> } =
+      await request.json();
 
     console.log("Received parameters:", { email, day, voltages });
 
@@ -48,7 +56,7 @@ export async function PATCH(request, { params }) {
 
     console.log("User found:", user);
 
-    const dayEntry = user.voltages.find((v) => v.day === day);
+    const dayEntry = user.voltages.find((v: { day: string }) => v.day === day);
 
     if (!dayEntry) {
       console.log(`Day ${day} not found, creating new entry`);

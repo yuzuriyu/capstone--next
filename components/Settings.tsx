@@ -3,20 +3,31 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
-const Settings = ({ session }) => {
-  // Initial states from session
+interface User {
+  username: string;
+  email: string;
+  bio?: string;
+  profilePicture?: string;
+  coverPhoto?: string;
+}
+
+interface Session {
+  user: User;
+}
+
+interface SettingsProps {
+  session: Session;
+}
+
+const Settings: React.FC<SettingsProps> = ({ session }) => {
   const [username, setUsername] = useState(session?.user?.username || "");
   const [email, setEmail] = useState(session?.user?.email || "");
   const [bio, setBio] = useState(session?.user?.bio || "");
   const [profilePicture, setProfilePicture] = useState(
     session?.user?.profilePicture || ""
   );
-
   const [coverPhoto, setCoverPhoto] = useState(session?.user?.coverPhoto || "");
 
-  useEffect(() => {
-    setCoverPhoto(session?.user?.coverPhoto || "");
-  }, [session]);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -29,11 +40,12 @@ const Settings = ({ session }) => {
   const [coverMessage, setCoverMessage] = useState("");
 
   useEffect(() => {
-    console.log("Session data:", session); // Check session data
+    console.log("Session data:", session);
     setUsername(session?.user?.username || "");
     setEmail(session?.user?.email || "");
     setBio(session?.user?.bio || "");
     setProfilePicture(session?.user?.profilePicture || "");
+    setCoverPhoto(session?.user?.coverPhoto || "");
   }, [session]);
 
   if (!session) {
@@ -45,24 +57,21 @@ const Settings = ({ session }) => {
   const isBioChanged = bio !== session?.user?.bio;
   const isProfilePictureChanged =
     profilePicture !== session?.user?.profilePicture;
-
   const isCoverPhotoChanged = coverPhoto !== session?.user?.coverPhoto;
-
   const isPasswordChanged =
     newPassword !== "" && newPassword === confirmPassword;
 
-  const handleUpdate = async (field, value) => {
+  const handleUpdate = async (field: string, value: string) => {
     try {
       const res = await fetch(`/api/settings/update${field}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ [field.toLowerCase()]: value }), // Use field directly
+        body: JSON.stringify({ [field.toLowerCase()]: value }),
       });
 
       if (res.status === 204) {
-        // No Content
         if (field === "Username")
           setUsernameMessage("Username updated successfully");
         if (field === "Email") setEmailMessage("Email updated successfully");
@@ -70,7 +79,6 @@ const Settings = ({ session }) => {
           setPasswordMessage("Password updated successfully");
         if (field === "Bio") setBioMessage("Bio updated successfully");
         if (field === "profilePicture")
-          // Corrected field name
           setPictureMessage("Profile picture updated successfully");
       } else {
         const data = await res.json();
@@ -81,9 +89,7 @@ const Settings = ({ session }) => {
           if (field === "Email") setEmailMessage(data.message);
           if (field === "Password") setPasswordMessage(data.message);
           if (field === "Bio") setBioMessage(data.message);
-          if (field === "profilePicture")
-            // Corrected field name
-            setPictureMessage(data.message);
+          if (field === "profilePicture") setPictureMessage(data.message);
         } else {
           if (field === "Username")
             setUsernameMessage(`Error: ${data.message}`);
@@ -92,7 +98,6 @@ const Settings = ({ session }) => {
             setPasswordMessage(`Error: ${data.message}`);
           if (field === "Bio") setBioMessage(`Error: ${data.message}`);
           if (field === "profilePicture")
-            // Corrected field name
             setPictureMessage(`Error: ${data.message}`);
         }
       }
@@ -103,7 +108,6 @@ const Settings = ({ session }) => {
       if (field === "Password") setPasswordMessage("Error updating password");
       if (field === "Bio") setBioMessage("Error updating bio");
       if (field === "profilePicture")
-        // Corrected field name
         setPictureMessage("Error updating profile picture");
     }
 
@@ -112,9 +116,7 @@ const Settings = ({ session }) => {
       if (field === "Email") setEmailMessage("");
       if (field === "Password") setPasswordMessage("");
       if (field === "Bio") setBioMessage("");
-      if (field === "profilePicture")
-        // Corrected field name
-        setPictureMessage("");
+      if (field === "profilePicture") setPictureMessage("");
     }, 5000);
   };
 
@@ -161,12 +163,13 @@ const Settings = ({ session }) => {
         setCoverMessage(`Error: ${data.message}`);
       }
     } catch (error) {
-      setCoverMessage("Error updating profile picture");
-      console.error("Error updating profile picture:", error);
+      setCoverMessage("Error updating cover photo");
+      console.error("Error updating cover photo:", error);
     }
 
-    setTimeout(() => setPictureMessage(""), 5000);
+    setTimeout(() => setCoverMessage(""), 5000);
   };
+
   return (
     <div className="w-11/12 lg:w-8/12 m-auto lg:my-20 bg-white rounded-lg overflow-hidden">
       <div className="relative h-[100px] w-full">
@@ -233,12 +236,59 @@ const Settings = ({ session }) => {
             </>
           )}
         </div>
-
+        <div className="mb-4">
+          <p className="mb-4 text-sm jpg">Password</p>
+          <input
+            placeholder="New Password"
+            type="password"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <input
+            placeholder="Confirm Password"
+            type="password"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mt-2"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          {isPasswordChanged && (
+            <>
+              <button
+                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                onClick={() => handleUpdate("Password", newPassword)}
+              >
+                Save Password
+              </button>
+              <p className="text-sm mt-2">{passwordMessage}</p>
+            </>
+          )}
+        </div>
+        <div className="mb-4">
+          <p className="mb-4 text-sm jpg">Bio</p>
+          <textarea
+            placeholder="Bio"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+          {isBioChanged && (
+            <>
+              <button
+                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                onClick={() => handleUpdate("Bio", bio)}
+              >
+                Save Bio
+              </button>
+              <p className="text-sm mt-2">{bioMessage}</p>
+            </>
+          )}
+        </div>
         <div className="mb-4">
           <p className="mb-4 text-sm jpg">Profile Picture URL</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
             value={profilePicture}
             onChange={(e) => setProfilePicture(e.target.value)}
           />
@@ -258,7 +308,7 @@ const Settings = ({ session }) => {
           <p className="mb-4 text-sm jpg">Cover Photo URL</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
             value={coverPhoto}
             onChange={(e) => setCoverPhoto(e.target.value)}
           />
@@ -268,55 +318,9 @@ const Settings = ({ session }) => {
                 className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
                 onClick={handleUpdateCoverPhoto}
               >
-                Save Profile Picture
+                Save Cover Photo
               </button>
               <p className="text-sm mt-2">{coverMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Bio</p>
-          <textarea
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-          {isBioChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Bio", bio)}
-              >
-                Save Bio
-              </button>
-              <p className="text-sm mt-2">{bioMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Change Password</p>
-          <input
-            placeholder="New password"
-            className="bg-bggray px-4 py-2 w-full text-sm mb-4 rounded-lg  text-gray-500"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <input
-            placeholder="Confirm new password"
-            className="bg-bggray px-4 py-2 text-sm w-full rounded-lg  text-gray-500"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {isPasswordChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Password", newPassword)}
-              >
-                Save Password
-              </button>
-              <p className="text-sm mt-2">{passwordMessage}</p>
             </>
           )}
         </div>

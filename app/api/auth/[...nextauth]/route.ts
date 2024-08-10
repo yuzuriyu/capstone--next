@@ -1,9 +1,9 @@
+import NextAuth, { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDb } from "@/lib/utils";
 import { UserModel } from "@/models/User";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -12,8 +12,11 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("No credentials provided");
+        }
+
         const { email, password } = credentials;
-        console.log("Authorizing user:", email);
 
         try {
           await connectToDb();
@@ -29,22 +32,19 @@ export const authOptions = {
             return null;
           }
 
-          console.log("User authorized:", email);
-
           return {
-            id: user._id,
+            id: user._id.toString(),
             email: user.email,
-            username: user.username,
-            role: user.role,
-            bio: user.bio,
-            phoneNumber: user.phoneNumber,
-            profilePicture: user.profilePicture,
-            location: user.location,
-            birthday: user.birthday,
-            title: user.title,
-            level: user.level,
-            coverPhoto: user.coverPhoto,
-            voltages: user.voltages,
+            username: user.username || "",
+            role: user.role || "",
+            bio: user.bio || "",
+            phoneNumber: user.phoneNumber || "",
+            profilePicture: user.profilePicture || "",
+            location: user.location || "",
+            birthday: user.birthday || "",
+            title: user.title || "",
+            coverPhoto: user.coverPhoto || "",
+            voltages: user.voltages || [],
           };
         } catch (error) {
           console.error("Authorization error:", error);
@@ -73,28 +73,26 @@ export const authOptions = {
         token.location = user.location;
         token.birthday = user.birthday;
         token.title = user.title;
-        token.level = user.level;
         token.coverPhoto = user.coverPhoto;
         token.voltages = user.voltages;
-        console.log("JWT token created for user:", token.email);
       }
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.email = token.email;
-      session.user.username = token.username;
-      session.user.role = token.role;
-      session.user.bio = token.bio;
-      session.user.phoneNumber = token.phoneNumber;
-      session.user.profilePicture = token.profilePicture;
-      session.user.location = token.location;
-      session.user.birthday = token.birthday;
-      session.user.title = token.title;
-      session.user.level = token.level;
-      session.user.coverPhoto = token.coverPhoto;
-      session.user.voltages = token.voltages;
-      console.log("Session created for user:", session.user.email);
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        session.user.username = token.username as string;
+        session.user.role = token.role as string;
+        session.user.bio = token.bio as string;
+        session.user.phoneNumber = token.phoneNumber as string;
+        session.user.profilePicture = token.profilePicture as string;
+        session.user.location = token.location as string;
+        session.user.birthday = token.birthday as string;
+        session.user.title = token.title as string;
+        session.user.coverPhoto = token.coverPhoto as string;
+        session.user.voltages = token.voltages as any[];
+      }
       return session;
     },
   },

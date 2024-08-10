@@ -3,12 +3,16 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Session } from "next-auth";
 import Search from "./Search";
 import DropDown from "./DropDown";
 
-const Header = ({ session }) => {
-  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+interface HeaderProps {
+  session: Session | null;
+}
 
+const Header: React.FC<HeaderProps> = ({ session }) => {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const toggleDropDown = () => {
@@ -20,7 +24,7 @@ const Header = ({ session }) => {
   };
 
   if (!session) {
-    return null;
+    return null; // No session available, render nothing
   }
 
   return (

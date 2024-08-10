@@ -1,13 +1,24 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import OtherVoltlist from "./OtherVoltlist";
 import Image from "next/image";
 import OtherStepsChart from "./OtherStepsChart";
 import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import { VoltageContext } from "@/context/VoltageContext";
 
-const OtherProfile = ({ user, session }) => {
+interface User {
+  username: string;
+  bio: string;
+  coverPhoto: string;
+  profilePicture: string;
+}
+
+interface OtherProfileProps {
+  user: User;
+}
+
+const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
   const {
     totalAccumulatedVoltage,
     latestRecord,

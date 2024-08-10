@@ -6,13 +6,28 @@ import { User } from "next-auth";
 import { useRouter } from "next/navigation";
 import { AllUserContext } from "@/context/AllUserContext";
 
+// Define the type for your AllUserContext
+interface AllUserContextType {
+  allUsers: CustomUser[]; // CustomUser to be defined below
+  setSelectedUser: (user: CustomUser) => void;
+}
+
+// Extend the User interface to include your custom fields
+interface CustomUser extends User {
+  id: string;
+  username: string;
+  profilePicture?: string;
+}
+
 interface Props {
   toggleSearch: () => void;
 }
 
 const Search: React.FC<Props> = ({ toggleSearch }) => {
-  const { allUsers, setSelectedUser } = useContext(AllUserContext);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const { allUsers, setSelectedUser } = useContext(
+    AllUserContext
+  ) as AllUserContextType;
+  const [filteredUsers, setFilteredUsers] = useState<CustomUser[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const router = useRouter();
@@ -33,7 +48,7 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleUserClick = (user: User) => {
+  const handleUserClick = (user: CustomUser) => {
     setSelectedUser(user);
     router.push(`/profile/${user.username}`);
     toggleSearch(); // Close the search dropdown after navigation
