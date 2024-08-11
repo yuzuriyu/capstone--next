@@ -50,7 +50,6 @@ const config: Config = {
         customgreen: "#4ABD4E",
         matteblack: "#28282B",
         reactblue: "#61dafb",
-        matteblack: "#1f1f1f",
         textgray: "#273240",
         icongray: "#A6ABC8",
         bggray: "#edf0f5",
