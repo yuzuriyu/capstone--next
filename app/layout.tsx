@@ -8,7 +8,7 @@ import BadgeContextProvider from "@/context/BadgeContext";
 import AllUserContextProvider from "@/context/AllUserContext";
 import MobileNav from "@/components/MobileNav";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import authOptions from "@/lib/config/authOptions";
 
 const inter = Inter({ subsets: ["latin"] });
 
