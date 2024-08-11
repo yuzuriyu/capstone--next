@@ -15,7 +15,7 @@ export async function PATCH(
     const {
       day,
       voltages,
-    }: { day: string; voltages: Array<{ timestamp?: Date }> } =
+    }: { day: string; voltages: Array<{ voltage: number; timestamp?: Date }> } =
       await request.json();
 
     console.log("Received parameters:", { email, day, voltages });
@@ -60,15 +60,21 @@ export async function PATCH(
 
     if (!dayEntry) {
       console.log(`Day ${day} not found, creating new entry`);
-      user.voltages.push({ day, voltages });
+      user.voltages.push({
+        day,
+        voltages: voltages.map((v) => ({
+          voltage: v.voltage || 0, // Default to 0 if voltage is missing
+          timestamp: v.timestamp || new Date(),
+        })),
+      });
     } else {
       console.log(`Updating existing entry for day ${day}`);
       voltages.forEach((voltage) => {
-        if (!voltage.timestamp) {
-          voltage.timestamp = new Date();
-        }
+        dayEntry.voltages.push({
+          voltage: voltage.voltage || 0, // Default to 0 if voltage is missing
+          timestamp: voltage.timestamp || new Date(),
+        });
       });
-      dayEntry.voltages.push(...voltages);
     }
 
     await user.save();
