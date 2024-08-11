@@ -1,9 +1,8 @@
-// lib/configs/authOptions.ts
-
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDb } from "@/lib/utils";
 import { UserModel } from "@/models/User";
+import { ObjectId } from "mongoose"; // Import ObjectId
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -35,16 +34,14 @@ const authOptions: NextAuthOptions = {
           }
 
           return {
-            id: user._id.toString(),
+            id: (user._id as ObjectId).toString(), // Cast to ObjectId and then to string
             email: user.email,
             username: user.username || "",
             role: user.role || "",
             bio: user.bio || "",
             phoneNumber: user.phoneNumber || "",
             profilePicture: user.profilePicture || "",
-            location: user.location || "",
-            birthday: user.birthday || "",
-            title: user.title || "",
+
             coverPhoto: user.coverPhoto || "",
             voltages: user.voltages || [],
           };
@@ -72,9 +69,7 @@ const authOptions: NextAuthOptions = {
         token.bio = user.bio;
         token.phoneNumber = user.phoneNumber;
         token.profilePicture = user.profilePicture;
-        token.location = user.location;
-        token.birthday = user.birthday;
-        token.title = user.title;
+
         token.coverPhoto = user.coverPhoto;
         token.voltages = user.voltages;
       }
@@ -89,9 +84,7 @@ const authOptions: NextAuthOptions = {
         session.user.bio = token.bio as string;
         session.user.phoneNumber = token.phoneNumber as string;
         session.user.profilePicture = token.profilePicture as string;
-        session.user.location = token.location as string;
-        session.user.birthday = token.birthday as string;
-        session.user.title = token.title as string;
+
         session.user.coverPhoto = token.coverPhoto as string;
         session.user.voltages = token.voltages as any[];
       }
