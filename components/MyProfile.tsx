@@ -9,10 +9,10 @@ import { VoltageContext } from "@/context/VoltageContext";
 import { ClipLoader } from "react-spinners";
 
 interface User {
-  username: string;
-  bio: string;
-  profilePicture: string;
-  coverPhoto: string;
+  username?: string;
+  bio?: string; // Allow bio to be undefined
+  profilePicture?: string;
+  coverPhoto?: string;
 }
 
 interface Session {
@@ -89,7 +89,9 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
         <div className="w-11/12 lg:w-8/12 m-auto lg:flex-row flex-col flex gap-8">
           <div className="w-full lg:w-[40%]">
             <div className="rounded-lg py-4 px-4 bg-white mb-8">
-              <p className="text-sm">{session.user.bio}</p>
+              <p className="text-sm">
+                {session.user.bio || "No bio available"}
+              </p>
             </div>
             <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
               <div>
