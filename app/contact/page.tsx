@@ -1,6 +1,6 @@
 import React from "react";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import authOptions from "@/lib/config/authOptions";
 import Contact from "@/components/Contact";
 import Header from "@/components/Header";
 

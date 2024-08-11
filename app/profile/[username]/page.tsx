@@ -1,6 +1,6 @@
 import OtherProfile from "@/components/OtherProfile";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
 
 // Helper function to fetch user data
