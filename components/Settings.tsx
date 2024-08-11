@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface User {
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
   bio?: string;
   profilePicture?: string;
   coverPhoto?: string;
@@ -16,7 +16,7 @@ interface Session {
 }
 
 interface SettingsProps {
-  session: Session;
+  session: Session | null;
 }
 
 const Settings: React.FC<SettingsProps> = ({ session }) => {
