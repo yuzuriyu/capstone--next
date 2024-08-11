@@ -1,6 +1,32 @@
-const mongoose = require("mongoose");
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const voltageSchema = new mongoose.Schema({
+// Define the Voltage interface
+interface Voltage {
+  voltage: number;
+  timestamp: Date;
+}
+
+// Define the Day interface
+interface Day {
+  day: string;
+  voltages: Voltage[];
+}
+
+// Define the User interface extending Document (for Mongoose)
+interface User extends Document {
+  email: string;
+  password: string;
+  username: string;
+  role: "user" | "admin";
+  bio?: string;
+  phoneNumber?: string;
+  profilePicture?: string;
+  coverPhoto?: string;
+  voltages: Day[];
+}
+
+// Define the voltageSchema
+const voltageSchema = new Schema<Voltage>({
   voltage: {
     type: Number,
     required: true,
@@ -8,23 +34,24 @@ const voltageSchema = new mongoose.Schema({
   timestamp: {
     type: Date,
     required: true,
-    default: Date.now, // Automatically set the timestamp to the current date and time
+    default: Date.now,
   },
 });
 
-const daySchema = new mongoose.Schema({
+// Define the daySchema
+const daySchema = new Schema<Day>({
   day: {
     type: String,
     required: true,
   },
   voltages: {
     type: [voltageSchema],
-    default: [], // Default empty array for voltages
+    default: [],
   },
 });
 
 // Function to generate the default voltages array for each day of the week
-function getDefaultVoltages() {
+function getDefaultVoltages(): Day[] {
   return [
     { day: "Mon", voltages: [] },
     { day: "Tue", voltages: [] },
@@ -36,7 +63,8 @@ function getDefaultVoltages() {
   ];
 }
 
-const userSchema = new mongoose.Schema({
+// Define the userSchema
+const userSchema = new Schema<User>({
   email: {
     type: String,
     required: true,
@@ -70,17 +98,18 @@ const userSchema = new mongoose.Schema({
   },
   voltages: {
     type: [daySchema],
-    default: getDefaultVoltages, // Set the default value using the function
+    default: getDefaultVoltages,
   },
 });
 
 // Middleware to set default voltages before saving a new user
-userSchema.pre("save", function (next) {
+userSchema.pre<User>("save", function (next: () => void) {
   if (this.isNew) {
     this.voltages = getDefaultVoltages();
   }
   next();
 });
 
-export const UserModel =
-  mongoose.models.users || mongoose.model("users", userSchema);
+// Export the UserModel
+export const UserModel: Model<User> =
+  mongoose.models.users || mongoose.model<User>("users", userSchema);
