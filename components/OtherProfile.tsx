@@ -8,10 +8,10 @@ import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import { VoltageContext } from "@/context/VoltageContext";
 
 interface User {
-  username: string;
-  bio: string;
-  coverPhoto: string;
-  profilePicture: string;
+  username: string; // If this is always present
+  bio?: string;
+  coverPhoto?: string;
+  profilePicture?: string;
 }
 
 interface OtherProfileProps {
@@ -27,14 +27,15 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
     peakVoltage,
     standardDeviation,
   } = useContext(VoltageContext);
+
   const [activeCategory, setActiveCategory] = useState("voltage");
 
   return (
     <>
       <div className="relative h-[330px] w-full">
         <Image
-          src={user?.coverPhoto || "/images/cover--default.jpg"}
-          alt=""
+          src={user.coverPhoto || "/images/cover--default.jpg"}
+          alt="User's cover photo"
           className="w-full h-full object-cover"
           width={0}
           height={0}
@@ -42,15 +43,15 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
         />
         <div className="absolute w-11/12 lg:w-8/12 bottom-0 left-1/2 -translate-x-1/2 flex">
           <Image
-            src={user?.profilePicture || "/images/profile--default.jpg"}
-            alt=""
+            src={user.profilePicture || "/images/profile--default.jpg"}
+            alt="User's profile picture"
             height={160}
             width={160}
             className="align-baseline"
           />
           <div className="flex relative">
             <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
-              {user?.username}
+              {user.username}
             </p>
           </div>
         </div>
@@ -77,7 +78,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
         <div className="w-11/12 lg:w-8/12 m-auto lg:flex-row flex-col flex gap-8">
           <div className="w-full lg:w-[40%]">
             <div className="rounded-lg py-4 px-4 bg-white mb-8">
-              <p className="text-sm">{user?.bio}</p>
+              <p className="text-sm">{user.bio}</p>
             </div>
             <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
               <div>

@@ -34,7 +34,7 @@ const Profile = async ({ params }: ProfileProps) => {
   return (
     <>
       <Header session={session} />
-      <OtherProfile user={user} session={session} />
+      <OtherProfile user={user} />
     </>
   );
 };
