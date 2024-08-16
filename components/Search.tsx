@@ -49,9 +49,10 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
   };
 
   const handleUserClick = (user: CustomUser) => {
+    console.log("Selected user:", user); // Log the selected user object
     setSelectedUser(user);
     router.push(`/profile/${user.username}`);
-    toggleSearch(); // Close the search dropdown after navigation
+    toggleSearch();
   };
 
   return (
