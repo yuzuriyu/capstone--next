@@ -5,20 +5,15 @@ import Header from "@/components/Header";
 
 // Helper function to fetch user data
 async function getUserByUsername(username: string) {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/${username}`,
-      { cache: "no-store" }
-    );
-    if (!res.ok) {
-      return null;
-    }
-    const user = await res.json();
-    return user;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/users/${username}`,
+    { cache: "no-store" }
+  );
+  if (!res.ok) {
     return null;
   }
+  const user = await res.json();
+  return user;
 }
 
 interface ProfileProps {
@@ -31,15 +26,6 @@ const Profile = async ({ params }: ProfileProps) => {
   const session = await getServerSession(authOptions);
 
   const user = await getUserByUsername(params.username);
-
-  if (!user) {
-    return (
-      <>
-        <Header session={session} />
-        <div>User not found</div>
-      </>
-    );
-  }
 
   return (
     <>
