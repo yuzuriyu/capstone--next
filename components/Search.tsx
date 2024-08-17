@@ -24,9 +24,7 @@ interface Props {
 }
 
 const Search: React.FC<Props> = ({ toggleSearch }) => {
-  const { allUsers, setSelectedUser } = useContext(
-    AllUserContext
-  ) as AllUserContextType;
+  const { allUsers } = useContext(AllUserContext) as AllUserContextType;
   const [filteredUsers, setFilteredUsers] = useState<CustomUser[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -50,7 +48,6 @@ const Search: React.FC<Props> = ({ toggleSearch }) => {
 
   const handleUserClick = (user: CustomUser) => {
     console.log("Selected user:", user); // Log the selected user object
-    setSelectedUser(user);
     router.push(`/profile/${user.username}`);
     toggleSearch();
   };

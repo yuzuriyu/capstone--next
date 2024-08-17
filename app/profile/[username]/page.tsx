@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
 
-// Separate function to handle user fetching
 async function fetchUserData(username: string) {
   try {
     const res = await fetch(
@@ -29,10 +28,8 @@ interface ProfileProps {
 const Profile = async ({ params }: ProfileProps) => {
   const session = await getServerSession(authOptions);
 
-  // Extract the username from params
   const { username } = params;
 
-  // Fetch the user data after extracting the username
   const user = await fetchUserData(username);
 
   if (!user) {
