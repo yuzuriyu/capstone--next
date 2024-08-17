@@ -105,7 +105,7 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
     <div className="w-11/12 m-auto lg:w-8/12 py-20">
       <div className="flex gap-8 flex-col lg:flex-row">
         <div className="lg:w-1/3 rounded-lg overflow-hidden">
-          <div className="flex bg-white pt-4 px-4">
+          <div className=" bg-white py-4 px-4">
             <div>
               <div
                 className="flex items-center pb-4 group"
@@ -116,7 +116,7 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
-                  className="mr-4 group-hover:fill-customgreen cursor-pointer"
+                  className="mr-2 group-hover:fill-customgreen cursor-pointer"
                   fill={activeCategory === "received" ? "#4ABD4E" : "#A6ABC8"}
                 >
                   <path d="M20 3H4c-1.103 0-2 .897-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5c0-1.103-.897-2-2-2zm-1 9h-3.142c-.446 1.722-1.997 3-3.858 3s-3.412-1.278-3.858-3H4V5h16v7h-1z"></path>
@@ -136,14 +136,18 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
                 onClick={() => setActiveCategory("sent")}
               >
                 <svg
+                  className={`group-hover:text-customgreen mr-2 ${
+                    activeCategory === "sent"
+                      ? "text-customgreen"
+                      : "text-icongray"
+                  }`}
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
-                  className="mr-4 group-hover:fill-customgreen cursor-pointer"
                   fill={activeCategory === "sent" ? "#4ABD4E" : "#A6ABC8"}
                 >
-                  <path d="M18 3H6a3.996 3.996 0 0 0-3.858 3H2v2h.142A3.996 3.996 0 0 0 6 10h12a3.996 3.996 0 0 0 3.858-2H22V6h-.142A3.996 3.996 0 0 0 18 3zM6 8c-1.103 0-2-.897-2-2s.897-2 2-2h12c1.103 0 2 .897 2 2s-.897 2-2 2H6zm12 6H6a3.996 3.996 0 0 0-3.858 3H2v2h.142A3.996 3.996 0 0 0 6 21h12a3.996 3.996 0 0 0 3.858-2H22v-2h-.142A3.996 3.996 0 0 0 18 14zm0 6H6c-1.103 0-2-.897-2-2s.897-2 2-2h12c1.103 0 2 .897 2 2s-.897 2-2 2z"></path>
+                  <path d="m21.426 11.095-17-8A1 1 0 0 0 3.03 4.242l1.212 4.849L12 12l-7.758 2.909-1.212 4.849a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81z"></path>
                 </svg>
                 <p
                   className={`group-hover:text-customgreen ${
@@ -159,22 +163,22 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
           </div>
         </div>
 
-        <div className="lg:w-2/3">
+        <div className="lg:w-2/3 rounded-lg">
           {isLoading ? (
             <div className="flex justify-center items-center min-h-screen">
               <ClipLoader size={50} />
             </div>
           ) : (
-            <div>
+            <div className="rounded-lg overflow-hidden">
               {messagesToShow.length === 0 ? (
-                <div className="bg-white p-4 rounded-lg">
+                <div className="bg-white p-4 rounded-lg ">
                   <p>No messages to show</p>
                 </div>
               ) : (
                 messagesToShow.map((inquiry) => (
                   <div
                     key={inquiry._id}
-                    className="bg-white p-4 mb-4 rounded-lg cursor-pointer"
+                    className="bg-white p-4 border-b cursor-pointer "
                     onClick={() => handleEmailClick(inquiry)}
                   >
                     <div className="flex justify-between items-center">
@@ -201,7 +205,7 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
                       </div>
                     </div>
                     <div className="mt-4">
-                      <p className="font-bold text-lg">{inquiry.subject}</p>
+                      <p className="font-bold ">{inquiry.subject}</p>
                       <p className="text-sm">{inquiry.message}</p>
                     </div>
                   </div>

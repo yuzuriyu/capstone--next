@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
+import MobileNav from "@/components/MobileNav";
 
 const Guide = async () => {
   const session = await getServerSession(authOptions);
@@ -127,6 +128,7 @@ const Guide = async () => {
           </p>
         </div>
       </div>
+      <MobileNav />
     </>
   );
 };

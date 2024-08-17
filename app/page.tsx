@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import MyProfile from "@/components/MyProfile";
 import Header from "@/components/Header";
+import MobileNav from "@/components/MobileNav";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -18,6 +19,7 @@ export default async function ProfilePage() {
     <>
       <Header session={session} />
       <MyProfile session={session} />
+      <MobileNav />
     </>
   );
 }

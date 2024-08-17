@@ -2,6 +2,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
+import MobileNav from "@/components/MobileNav";
 
 export default async function About() {
   const session = await getServerSession(authOptions);
@@ -75,6 +76,7 @@ export default async function About() {
           </p>
         </div>
       </div>
+      <MobileNav />
     </>
   );
 }

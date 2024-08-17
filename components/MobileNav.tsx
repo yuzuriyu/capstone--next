@@ -48,14 +48,13 @@ const MobileNav = () => {
       )}
       {isMobileNavOpen && (
         <div className="grid grid-cols-3 bg-white py-4 px-4 rounded-lg fixed bottom-4 right-0 lg:hidden z-50 shadow-2xl gap-3">
-          {/* Search */}
           <div onClick={toggleSearch}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
               viewBox="0 0 24 24"
-              className="cursor-pointer hover:fill-customblue m-auto"
+              className="cursor-pointer hover:fill-customgreen m-auto"
               fill={`${activePage === "Search" ? "#4ABD4E" : "#A6ABC8"}`}
             >
               <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
@@ -63,7 +62,6 @@ const MobileNav = () => {
             <p className="text-xs text-gray-400 text-center mt-2">Search</p>
           </div>
 
-          {/* Other Links */}
           <Link href="/inbox">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -139,6 +137,21 @@ const MobileNav = () => {
             </svg>
             <p className="text-xs text-gray-400 text-center mt-2">Settings</p>
           </Link>
+          <Link href="/about" className="mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              className="m-auto group-hover:fill-customblue"
+              onClick={() => handleActivePage("About")}
+              fill={`${activePage === "About" ? "#4ABD4E" : "#A6ABC8"}`}
+              viewBox="0 0 24 24"
+            >
+              <path d="M9.5 12c2.206 0 4-1.794 4-4s-1.794-4-4-4-4 1.794-4 4 1.794 4 4 4zm1.5 1H8c-3.309 0-6 2.691-6 6v1h15v-1c0-3.309-2.691-6-6-6z"></path>
+              <path d="M16.604 11.048a5.67 5.67 0 0 0 .751-3.44c-.179-1.784-1.175-3.361-2.803-4.44l-1.105 1.666c1.119.742 1.8 1.799 1.918 2.974a3.693 3.693 0 0 1-1.072 2.986l-1.192 1.192 1.618.475C18.951 13.701 19 17.957 19 18h2c0-1.789-.956-5.285-4.396-6.952z"></path>
+            </svg>
+            <p className="text-xs text-gray-400 text-center mt-2">About</p>
+          </Link>
 
           <button onClick={() => signOut()}>
             <svg
@@ -154,6 +167,19 @@ const MobileNav = () => {
             </svg>
             <p className="text-xs text-gray-400 text-center mt-2">Logout</p>
           </button>
+          <div onClick={toggleMobileNav}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              className="m-auto"
+              fill="#A6ABC8"
+            >
+              <path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"></path>
+            </svg>
+            <p className="text-xs text-gray-400 text-center mt-2">Close</p>
+          </div>
         </div>
       )}
     </>

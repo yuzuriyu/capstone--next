@@ -6,6 +6,7 @@ import Image from "next/image";
 import OtherStepsChart from "./OtherStepsChart";
 import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import { VoltageContext } from "@/context/VoltageContext";
+import MobileNav from "./MobileNav";
 
 interface User {
   username: string; // If this is always present
@@ -131,6 +132,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
           </div>
         </div>
       </div>
+      <MobileNav />
     </>
   );
 };

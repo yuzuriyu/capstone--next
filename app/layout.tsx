@@ -6,7 +6,6 @@ import SessionProvider from "@/context/SessionContext";
 import VoltageContextProvider from "@/context/VoltageContext";
 import BadgeContextProvider from "@/context/BadgeContext";
 import AllUserContextProvider from "@/context/AllUserContext";
-import MobileNav from "@/components/MobileNav";
 import { getServerSession } from "next-auth";
 import authOptions from "@/lib/config/authOptions";
 
@@ -30,10 +29,7 @@ export default async function RootLayout({
           <AllUserContextProvider>
             <BadgeContextProvider>
               <PageContextProvider>
-                <VoltageContextProvider>
-                  {children}
-                  <MobileNav />
-                </VoltageContextProvider>
+                <VoltageContextProvider>{children}</VoltageContextProvider>
               </PageContextProvider>
             </BadgeContextProvider>
           </AllUserContextProvider>
