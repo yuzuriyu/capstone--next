@@ -29,13 +29,14 @@ const Profile = async ({ params }: ProfileProps) => {
   const session = await getServerSession(authOptions);
 
   const { username } = params;
+  console.log("Fetching data for username:", username);
 
   const user = await fetchUserData(username);
 
   if (!user) {
     return <div>User not found</div>;
   }
-
+  console.log("User found:", user);
   return (
     <>
       <Header session={session} />
