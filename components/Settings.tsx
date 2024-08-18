@@ -28,6 +28,7 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
   );
   const [coverPhoto, setCoverPhoto] = useState(session?.user?.coverPhoto || "");
 
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -40,7 +41,6 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
   const [coverMessage, setCoverMessage] = useState("");
 
   useEffect(() => {
-    console.log("Session data:", session);
     setUsername(session?.user?.username || "");
     setEmail(session?.user?.email || "");
     setBio(session?.user?.bio || "");
@@ -59,7 +59,7 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
     profilePicture !== session?.user?.profilePicture;
   const isCoverPhotoChanged = coverPhoto !== session?.user?.coverPhoto;
   const isPasswordChanged =
-    newPassword !== "" && newPassword === confirmPassword;
+    currentPassword && newPassword && confirmPassword === newPassword;
 
   const handleUpdate = async (field: string, value: string) => {
     try {
@@ -71,35 +71,20 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
         body: JSON.stringify({ [field.toLowerCase()]: value }),
       });
 
-      if (res.status === 204) {
-        if (field === "Username")
-          setUsernameMessage("Username updated successfully");
-        if (field === "Email") setEmailMessage("Email updated successfully");
-        if (field === "Password")
-          setPasswordMessage("Password updated successfully");
-        if (field === "Bio") setBioMessage("Bio updated successfully");
-        if (field === "profilePicture")
-          setPictureMessage("Profile picture updated successfully");
+      const data = await res.json();
+      if (res.ok) {
+        if (field === "Username") setUsernameMessage(data.message);
+        if (field === "Email") setEmailMessage(data.message);
+        if (field === "Password") setPasswordMessage(data.message);
+        if (field === "Bio") setBioMessage(data.message);
+        if (field === "profilePicture") setPictureMessage(data.message);
       } else {
-        const data = await res.json();
-        console.log("Response data:", data);
-
-        if (res.ok) {
-          if (field === "Username") setUsernameMessage(data.message);
-          if (field === "Email") setEmailMessage(data.message);
-          if (field === "Password") setPasswordMessage(data.message);
-          if (field === "Bio") setBioMessage(data.message);
-          if (field === "profilePicture") setPictureMessage(data.message);
-        } else {
-          if (field === "Username")
-            setUsernameMessage(`Error: ${data.message}`);
-          if (field === "Email") setEmailMessage(`Error: ${data.message}`);
-          if (field === "Password")
-            setPasswordMessage(`Error: ${data.message}`);
-          if (field === "Bio") setBioMessage(`Error: ${data.message}`);
-          if (field === "profilePicture")
-            setPictureMessage(`Error: ${data.message}`);
-        }
+        if (field === "Username") setUsernameMessage(`Error: ${data.message}`);
+        if (field === "Email") setEmailMessage(`Error: ${data.message}`);
+        if (field === "Password") setPasswordMessage(`Error: ${data.message}`);
+        if (field === "Bio") setBioMessage(`Error: ${data.message}`);
+        if (field === "profilePicture")
+          setPictureMessage(`Error: ${data.message}`);
       }
     } catch (error) {
       console.error("Error updating field:", error);
@@ -130,11 +115,10 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
         body: JSON.stringify({ profilePicture }),
       });
 
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
         setPictureMessage(data.message);
       } else {
-        const data = await res.json();
         setPictureMessage(`Error: ${data.message}`);
       }
     } catch (error) {
@@ -155,11 +139,10 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
         body: JSON.stringify({ coverPhoto }),
       });
 
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
         setCoverMessage(data.message);
       } else {
-        const data = await res.json();
         setCoverMessage(`Error: ${data.message}`);
       }
     } catch (error) {
@@ -168,6 +151,34 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
     }
 
     setTimeout(() => setCoverMessage(""), 5000);
+  };
+
+  const handleUpdatePassword = async () => {
+    try {
+      const res = await fetch("/api/settings/updatePassword", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+          confirmPassword,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setPasswordMessage(data.message);
+      } else {
+        setPasswordMessage(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      setPasswordMessage("Error updating password");
+      console.error("Error updating password:", error);
+    }
+
+    setTimeout(() => setPasswordMessage(""), 5000);
   };
 
   return (
@@ -236,39 +247,12 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
             </>
           )}
         </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Password</p>
-          <input
-            placeholder="New Password"
-            type="password"
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <input
-            placeholder="Confirm Password"
-            type="password"
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mt-2"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {isPasswordChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Password", newPassword)}
-              >
-                Save Password
-              </button>
-              <p className="text-sm mt-2">{passwordMessage}</p>
-            </>
-          )}
-        </div>
+
         <div className="mb-4">
           <p className="mb-4 text-sm jpg">Bio</p>
           <textarea
-            placeholder="Bio"
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+            placeholder=""
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
           />
@@ -288,7 +272,7 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
           <p className="mb-4 text-sm jpg">Profile Picture URL</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
             value={profilePicture}
             onChange={(e) => setProfilePicture(e.target.value)}
           />
@@ -298,7 +282,7 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
                 className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
                 onClick={handleUpdateProfilePicture}
               >
-                Save Profile Picture
+                Save Picture
               </button>
               <p className="text-sm mt-2">{pictureMessage}</p>
             </>
@@ -308,7 +292,7 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
           <p className="mb-4 text-sm jpg">Cover Photo URL</p>
           <input
             placeholder=""
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
             value={coverPhoto}
             onChange={(e) => setCoverPhoto(e.target.value)}
           />
@@ -321,6 +305,41 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
                 Save Cover Photo
               </button>
               <p className="text-sm mt-2">{coverMessage}</p>
+            </>
+          )}
+        </div>
+        <div className="mb-4">
+          <p className="mb-4 text-sm jpg">Change Password</p>
+          <input
+            placeholder="Current Password"
+            type="password"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mb-2"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <input
+            placeholder="New Password"
+            type="password"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mb-2"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <input
+            placeholder="Confirm Password"
+            type="password"
+            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          {isPasswordChanged && (
+            <>
+              <button
+                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                onClick={handleUpdatePassword}
+              >
+                Save Password
+              </button>
+              <p className="text-sm mt-2">{passwordMessage}</p>
             </>
           )}
         </div>
