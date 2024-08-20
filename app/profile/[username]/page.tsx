@@ -3,7 +3,7 @@ import OtherProfile from "@/components/OtherProfile";
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
-import { OtherVoltageContextProvider } from "@/context/OtherVoltageContext";
+import OtherVoltageContextProvider from "@/context/OtherVoltageContext";
 
 async function fetchUserData(username: string) {
   try {
