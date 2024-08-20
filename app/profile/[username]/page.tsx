@@ -1,7 +1,9 @@
+import React from "react";
 import OtherProfile from "@/components/OtherProfile";
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
+import { OtherVoltageContextProvider } from "@/context/OtherVoltageContext";
 
 async function fetchUserData(username: string) {
   try {
@@ -40,7 +42,9 @@ const Profile = async ({ params }: ProfileProps) => {
   return (
     <>
       <Header session={session} />
-      <OtherProfile user={user} />
+      <OtherVoltageContextProvider user={user}>
+        <OtherProfile user={user} />
+      </OtherVoltageContextProvider>
     </>
   );
 };

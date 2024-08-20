@@ -5,8 +5,8 @@ import OtherVoltlist from "./OtherVoltlist";
 import Image from "next/image";
 import OtherStepsChart from "./OtherStepsChart";
 import OtherLast6DaysChart from "./OtherLast6DaysChart";
-import { VoltageContext } from "@/context/VoltageContext";
 import MobileNav from "./MobileNav";
+import { OtherVoltageContext } from "@/context/OtherVoltageContext";
 
 interface User {
   username: string; // If this is always present
@@ -27,7 +27,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
     averageVoltage,
     peakVoltage,
     standardDeviation,
-  } = useContext(VoltageContext);
+  } = useContext(OtherVoltageContext);
 
   const [activeCategory, setActiveCategory] = useState("voltage");
 
