@@ -1,9 +1,10 @@
 import React from "react";
-import OtherProfile from "@/components/OtherProfile";
+import { OtherVoltageContextProvider } from "@/context/OtherVoltageContext";
+
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
-import { OtherVoltageContextProvider } from "@/context/OtherVoltageContext";
+import OtherProfile from "@/components/OtherProfile";
 
 async function fetchUserData(username: string) {
   try {

@@ -7,6 +7,7 @@ import OtherStepsChart from "./OtherStepsChart";
 import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import MobileNav from "./MobileNav";
 import { OtherVoltageContext } from "@/context/OtherVoltageContext";
+
 interface User {
   username: string; // If this is always present
   bio?: string;
