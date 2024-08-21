@@ -3,6 +3,7 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 // Define the Voltage interface
 interface Voltage {
   voltage: number;
+  psi: number;
   timestamp: Date;
 }
 
@@ -30,6 +31,11 @@ const voltageSchema = new Schema<Voltage>({
   voltage: {
     type: Number,
     required: true,
+  },
+  psi: {
+    type: Number,
+    required: true,
+    default: 0, // Set a default value for psi
   },
   timestamp: {
     type: Date,

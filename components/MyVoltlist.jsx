@@ -34,6 +34,11 @@ const MyVoltlist = () => {
 
     return sortedVoltages.map((voltageObj, index) => {
       const voltage = parseFloat(voltageObj.voltage.toFixed(2));
+      const psi =
+        voltageObj.psi !== undefined
+          ? parseFloat(voltageObj.psi.toFixed(2))
+          : "N/A"; // Handle undefined psi
+      const timestamp = new Date(voltageObj.timestamp).toLocaleString();
 
       return (
         <div
@@ -42,12 +47,17 @@ const MyVoltlist = () => {
             index === 0 ? "" : ""
           }`}
         >
-          <p className={`text-sm ${index === 0 ? "text-customgreen" : ""}`}>
-            {voltage} volts
-          </p>
+          <div className="flex flex-col">
+            <p className={`text-sm ${index === 0 ? "text-customgreen" : ""}`}>
+              {voltage} volts
+            </p>
+            <p className={`text-sm ${index === 0 ? "text-customgreen" : ""}`}>
+              {psi !== "N/A" ? `${psi} PSI` : "PSI not available"}
+            </p>
+          </div>
           <div className="flex gap-2">
             <p className={`text-xs ${index === 0 ? "text-customgreen" : ""}`}>
-              {voltageObj.timestamp}
+              {timestamp}
             </p>
           </div>
         </div>

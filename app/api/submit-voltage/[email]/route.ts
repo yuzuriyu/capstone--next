@@ -10,22 +10,21 @@ export async function PATCH(
   try {
     await connectToDb();
 
-    // Ensure email is properly decoded
     const email = decodeURIComponent(params.email.trim());
     const {
       day,
       voltages,
-    }: { day: string; voltages: Array<{ voltage: number; timestamp?: Date }> } =
-      await request.json();
+    }: {
+      day: string;
+      voltages: Array<{ voltage: number; psi: number; timestamp?: Date }>;
+    } = await request.json();
 
     console.log("Received parameters:", { email, day, voltages });
 
     if (!email) {
       console.error("Email parameter is missing in the request");
       return NextResponse.json(
-        {
-          message: "Email parameter is missing in the request",
-        },
+        { message: "Email parameter is missing in the request" },
         { status: 400 }
       );
     }
@@ -33,23 +32,29 @@ export async function PATCH(
     if (!voltages || !Array.isArray(voltages) || voltages.length === 0) {
       console.error("Invalid voltage data");
       return NextResponse.json(
-        {
-          message: "Invalid voltage data",
-        },
+        { message: "Invalid voltage data" },
         { status: 400 }
       );
     }
 
-    // Log before database query
+    // Validate that psi is provided for each voltage entry
+    for (const voltage of voltages) {
+      if (voltage.psi === undefined) {
+        console.error("psi is required for all voltage entries");
+        return NextResponse.json(
+          { message: "psi is required for all voltage entries" },
+          { status: 400 }
+        );
+      }
+    }
+
     console.log(`Searching for user with email: ${email}`);
     const user = await UserModel.findOne({ email });
 
     if (!user) {
       console.error(`User with email ${email} not found`);
       return NextResponse.json(
-        {
-          message: `User with email ${email} not found`,
-        },
+        { message: `User with email ${email} not found` },
         { status: 404 }
       );
     }
@@ -63,16 +68,18 @@ export async function PATCH(
       user.voltages.push({
         day,
         voltages: voltages.map((v) => ({
-          voltage: v.voltage || 0, // Default to 0 if voltage is missing
+          voltage: v.voltage,
           timestamp: v.timestamp || new Date(),
+          psi: v.psi, // psi is guaranteed to be present
         })),
       });
     } else {
       console.log(`Updating existing entry for day ${day}`);
       voltages.forEach((voltage) => {
         dayEntry.voltages.push({
-          voltage: voltage.voltage || 0, // Default to 0 if voltage is missing
+          voltage: voltage.voltage,
           timestamp: voltage.timestamp || new Date(),
+          psi: voltage.psi, // psi is guaranteed to be present
         });
       });
     }
@@ -81,17 +88,13 @@ export async function PATCH(
 
     console.log("Voltage data updated successfully");
     return NextResponse.json(
-      {
-        message: "Voltage data updated successfully",
-      },
+      { message: "Voltage data updated successfully" },
       { status: 200 }
     );
   } catch (err) {
     console.error("Error updating voltage data:", err);
     return NextResponse.json(
-      {
-        message: "Failed to update data",
-      },
+      { message: "Failed to update data" },
       { status: 500 }
     );
   }
