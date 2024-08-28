@@ -67,11 +67,11 @@ export default async function ProfilePage({ params }: ProfileProps) {
   }
 
   // Ensure voltage data exists in the database
-  const userVoltageData = await findOrCreateVoltageData(email);
+  // const userVoltageData = await findOrCreateVoltageData(email);
 
-  if (!userVoltageData) {
-    return <div>Could not find or create voltage data</div>;
-  }
+  // if (!userVoltageData) {
+  //   return <div>Could not find or create voltage data</div>;
+  // }
 
   // Fetch the voltage data from the API
   const readings = await fetchUserVoltage(email);
