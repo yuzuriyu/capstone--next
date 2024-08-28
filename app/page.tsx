@@ -27,7 +27,7 @@ async function findOrCreateVoltageData(email: string) {
   }
 }
 
-async function fetchUserVoltage(email: string) {
+export async function fetchUserVoltage(email: string) {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/voltage/${email}`,

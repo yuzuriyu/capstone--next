@@ -28,9 +28,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <AllUserContextProvider>
             <BadgeContextProvider>
-              <PageContextProvider>
-                <VoltageContextProvider>{children}</VoltageContextProvider>
-              </PageContextProvider>
+              <PageContextProvider>{children}</PageContextProvider>
             </BadgeContextProvider>
           </AllUserContextProvider>
         </SessionProvider>
