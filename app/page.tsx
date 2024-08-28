@@ -6,26 +6,26 @@ import MobileNav from "@/components/MobileNav";
 import VoltageContextProvider from "@/context/VoltageContext";
 import { VoltageModel } from "@/models/Voltage";
 
-async function findOrCreateVoltageData(email: string) {
-  try {
-    // Check if a document with the given email exists
-    let userVoltageData = await VoltageModel.findOne({ email });
+// async function findOrCreateVoltageData(email: string) {
+//   try {
+//     // Check if a document with the given email exists
+//     let userVoltageData = await VoltageModel.findOne({ email });
 
-    // If not found, create a new document with the specified structure
-    if (!userVoltageData) {
-      userVoltageData = new VoltageModel({
-        email,
-        voltages: [],
-      });
-      await userVoltageData.save();
-    }
+//     // If not found, create a new document with the specified structure
+//     if (!userVoltageData) {
+//       userVoltageData = new VoltageModel({
+//         email,
+//         voltages: [],
+//       });
+//       await userVoltageData.save();
+//     }
 
-    return userVoltageData;
-  } catch (error) {
-    console.error("Error finding or creating voltage data:", error);
-    return null;
-  }
-}
+//     return userVoltageData;
+//   } catch (error) {
+//     console.error("Error finding or creating voltage data:", error);
+//     return null;
+//   }
+// }
 
 async function fetchUserVoltage(email: string) {
   try {
