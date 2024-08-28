@@ -37,7 +37,7 @@ const OtherDailyStepBar = ({ userVoltage }) => {
   return (
     <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">
       <div className="flex flex-col items-center">
-        <h2 className="text-center text-sm mb-2">Today's Step Count</h2>
+        <h2 className="text-center text-sm mb-2">Today&apos;s Step Count</h2>
         <p className="text-4xl font-bold text-customgreen">{totalSteps}</p>
         <div className="w-full mt-4 bg-gray-200 rounded-full h-4">
           <div
