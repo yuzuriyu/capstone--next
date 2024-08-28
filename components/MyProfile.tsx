@@ -3,10 +3,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import MyVoltlist from "../components/MyVoltlist";
 import Image from "next/image";
-import MyLast6DaysChart from "../components/MyLast6DaysChart";
+import MyDailyStepChart from "../components/MyDailyStepChart";
 import MyStepsChart from "../components/MyStepsChart";
 import { VoltageContext } from "@/context/VoltageContext";
 import { ClipLoader } from "react-spinners";
+import MyDailyChart from "./MyDailyChart";
 
 interface User {
   username?: string;
@@ -136,8 +137,11 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
           </div>
 
           <div className="lg:flex-1 flex flex-col">
-            {activeCategory === "voltage" && <MyLast6DaysChart />}
+            {activeCategory === "voltage" && <MyDailyChart />}
+
             {activeCategory === "voltage" && <MyVoltlist />}
+            {activeCategory === "steps" && <MyDailyStepChart />}
+
             {activeCategory === "steps" && <MyStepsChart />}
           </div>
         </div>

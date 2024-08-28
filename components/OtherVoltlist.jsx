@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-const OtherVoltlist = ({ user }) => {
+const OtherVoltlist = ({ userVoltage }) => {
   const [currentDay, setCurrentDay] = useState();
   const [selectedDay, setSelectedDay] = useState(currentDay);
   const [activeSortMethod, setActiveSortMethod] = useState("desc");
@@ -32,6 +32,11 @@ const OtherVoltlist = ({ user }) => {
 
     return sortedVoltages.map((voltageObj, index) => {
       const voltage = parseFloat(voltageObj.voltage.toFixed(2));
+      const psi =
+        voltageObj.psi !== undefined
+          ? parseFloat(voltageObj.psi.toFixed(2))
+          : "N/A"; // Handle undefined psi
+      const timestamp = new Date(voltageObj.timestamp).toLocaleString();
 
       return (
         <div
@@ -40,12 +45,17 @@ const OtherVoltlist = ({ user }) => {
             index === 0 ? "" : ""
           }`}
         >
-          <p className={`text-sm ${index === 0 ? "text-customgreen" : ""}`}>
-            {voltage} volts
-          </p>
+          <div className="flex flex-col">
+            <p className={`text-sm ${index === 0 ? "text-customgreen" : ""}`}>
+              {voltage} volts
+            </p>
+            <p className={`text-sm ${index === 0 ? "text-customgreen" : ""}`}>
+              {psi !== "N/A" ? `${psi} PSI` : "PSI not available"}
+            </p>
+          </div>
           <div className="flex gap-2">
             <p className={`text-xs ${index === 0 ? "text-customgreen" : ""}`}>
-              {voltageObj.timestamp}
+              {timestamp}
             </p>
           </div>
         </div>
@@ -62,8 +72,8 @@ const OtherVoltlist = ({ user }) => {
             value={selectedDay}
             onChange={(e) => setSelectedDay(e.target.value)}
           >
-            {user.voltages &&
-              user.voltages.map((day) => (
+            {userVoltage.voltages &&
+              userVoltage.voltages.map((day) => (
                 <option key={day.day} value={day.day}>
                   {day.day}
                 </option>
@@ -97,8 +107,8 @@ const OtherVoltlist = ({ user }) => {
       </div>
 
       <div className="h-[375px] overflow-auto">
-        {user.voltages &&
-          user.voltages.map((day) => (
+        {userVoltage.voltages &&
+          userVoltage.voltages.map((day) => (
             <div key={day.day}>
               {selectedDay === day.day && renderDayData(day)}
             </div>

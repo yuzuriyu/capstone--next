@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,12 +12,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const OtherWeeklyChart = ({ user }) => {
+const OtherWeeklyChart = ({ userVoltage }) => {
   const [aggregatedData, setAggregatedData] = useState([]);
 
   useEffect(() => {
-    if (!user || !user.voltages || user.voltages.length === 0) {
-      console.error("No voltage data available for selected user.");
+    if (!userVoltage || userVoltage.voltages.length === 0) {
+      console.error("No voltage data available.");
       return;
     }
 
@@ -32,34 +32,29 @@ const OtherWeeklyChart = ({ user }) => {
         totalVoltage: 0,
       }));
 
-    user.voltages.forEach((voltage) => {
-      const voltageDate = new Date(voltage.timestamp);
-      const voltageMonth = voltageDate.getMonth() + 1;
-      const voltageYear = voltageDate.getFullYear();
+    userVoltage.voltages.forEach((dayData) => {
+      dayData.voltages.forEach((voltage) => {
+        const voltageDate = new Date(voltage.timestamp);
+        const voltageMonth = voltageDate.getMonth() + 1;
+        const voltageYear = voltageDate.getFullYear();
 
-      if (voltageMonth === currentMonth && voltageYear === currentYear) {
-        let weekInMonth = Math.ceil(voltageDate.getDate() / 7);
-        weekInMonth = Math.min(weekInMonth, weeklyAggregatedData.length); // Ensure weekInMonth is within bounds
-        console.log("Voltage:", voltage.voltage);
-        console.log(
-          "Before increment:",
-          weeklyAggregatedData[weekInMonth - 1]?.totalVoltage
-        );
-        if (weeklyAggregatedData[weekInMonth - 1]) {
-          weeklyAggregatedData[weekInMonth - 1].totalVoltage += voltage.voltage;
-        } else {
-          console.error("Week not found:", weekInMonth);
+        if (voltageMonth === currentMonth && voltageYear === currentYear) {
+          let weekInMonth = Math.ceil(voltageDate.getDate() / 7);
+          weekInMonth = Math.min(weekInMonth, weeklyAggregatedData.length); // Ensure weekInMonth is within bounds
+
+          if (weeklyAggregatedData[weekInMonth - 1]) {
+            weeklyAggregatedData[weekInMonth - 1].totalVoltage +=
+              voltage.voltage;
+          } else {
+            console.error("Week not found:", weekInMonth);
+          }
         }
-        console.log(
-          "After increment:",
-          weeklyAggregatedData[weekInMonth - 1]?.totalVoltage
-        );
-      }
+      });
     });
 
     console.log("Aggregated Data:", weeklyAggregatedData);
     setAggregatedData(weeklyAggregatedData);
-  }, [user]);
+  }, [userVoltage]);
 
   if (!aggregatedData || aggregatedData.length === 0) {
     return null;
@@ -67,7 +62,7 @@ const OtherWeeklyChart = ({ user }) => {
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart
+      <AreaChart
         data={aggregatedData}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -76,13 +71,14 @@ const OtherWeeklyChart = ({ user }) => {
         <YAxis fontSize={12} />
         <Tooltip fontSize={12} />
         <Legend fontSize={12} />
-        <Line
+        <Area
           type="monotone"
           dataKey="totalVoltage"
-          stroke="#17a5ce"
-          strokeWidth={2}
+          stroke="#B0BEC5"
+          fill="#B0BEC5"
+          fillOpacity={0.3}
         />
-      </LineChart>
+      </AreaChart>
     </ResponsiveContainer>
   );
 };

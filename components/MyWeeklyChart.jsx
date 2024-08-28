@@ -2,8 +2,8 @@
 
 import React, { useContext, useState, useEffect } from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -43,26 +43,16 @@ const MyWeeklyChart = () => {
         if (voltageMonth === currentMonth && voltageYear === currentYear) {
           let weekInMonth = Math.ceil(voltageDate.getDate() / 7);
           weekInMonth = Math.min(weekInMonth, weeklyAggregatedData.length); // Ensure weekInMonth is within bounds
-          console.log("Voltage:", voltage.voltage);
-          console.log(
-            "Before increment:",
-            weeklyAggregatedData[weekInMonth - 1]?.totalVoltage
-          );
           if (weeklyAggregatedData[weekInMonth - 1]) {
             weeklyAggregatedData[weekInMonth - 1].totalVoltage +=
               voltage.voltage;
           } else {
             console.error("Week not found:", weekInMonth);
           }
-          console.log(
-            "After increment:",
-            weeklyAggregatedData[weekInMonth - 1]?.totalVoltage
-          );
         }
       });
     });
 
-    console.log("Aggregated Data:", weeklyAggregatedData);
     setAggregatedData(weeklyAggregatedData);
   }, [voltageData]);
 
@@ -72,7 +62,7 @@ const MyWeeklyChart = () => {
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart
+      <AreaChart
         data={aggregatedData}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
       >
@@ -81,13 +71,14 @@ const MyWeeklyChart = () => {
         <YAxis fontSize={12} />
         <Tooltip fontSize={12} />
         <Legend fontSize={12} />
-        <Line
+        <Area
           type="monotone"
           dataKey="totalVoltage"
-          stroke="#17a5ce"
-          strokeWidth={2}
+          stroke="#B0BEC5"
+          fill="#B0BEC5"
+          fillOpacity={0.4}
         />
-      </LineChart>
+      </AreaChart>
     </ResponsiveContainer>
   );
 };

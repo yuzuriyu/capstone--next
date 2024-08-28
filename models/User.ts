@@ -1,19 +1,39 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
-// Define the Voltage interface
-interface Voltage {
-  voltage: number;
-  psi: number;
-  timestamp: Date;
+// Define the Badge interface
+interface Badge {
+  badgeId: string;
+  name: string;
+  description: string;
+  imgUrl: string;
+  completed: boolean;
 }
 
-// Define the Day interface
-interface Day {
-  day: string;
-  voltages: Voltage[];
-}
+// Define the badgeSchema
+const badgeSchema = new Schema<Badge>({
+  badgeId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  imgUrl: {
+    type: String,
+    required: true,
+  },
+  completed: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+});
 
-// Define the User interface extending Document (for Mongoose)
 interface User extends Document {
   email: string;
   password: string;
@@ -23,53 +43,9 @@ interface User extends Document {
   phoneNumber?: string;
   profilePicture?: string;
   coverPhoto?: string;
-  voltages: Day[];
+  badges: Badge[];
 }
 
-// Define the voltageSchema
-const voltageSchema = new Schema<Voltage>({
-  voltage: {
-    type: Number,
-    required: true,
-  },
-  psi: {
-    type: Number,
-    required: true,
-    default: 0, // Set a default value for psi
-  },
-  timestamp: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-});
-
-// Define the daySchema
-const daySchema = new Schema<Day>({
-  day: {
-    type: String,
-    required: true,
-  },
-  voltages: {
-    type: [voltageSchema],
-    default: [],
-  },
-});
-
-// Function to generate the default voltages array for each day of the week
-function getDefaultVoltages(): Day[] {
-  return [
-    { day: "Mon", voltages: [] },
-    { day: "Tue", voltages: [] },
-    { day: "Wed", voltages: [] },
-    { day: "Thu", voltages: [] },
-    { day: "Fri", voltages: [] },
-    { day: "Sat", voltages: [] },
-    { day: "Sun", voltages: [] },
-  ];
-}
-
-// Define the userSchema
 const userSchema = new Schema<User>({
   email: {
     type: String,
@@ -102,18 +78,10 @@ const userSchema = new Schema<User>({
   coverPhoto: {
     type: String,
   },
-  voltages: {
-    type: [daySchema],
-    default: getDefaultVoltages,
+  badges: {
+    type: [badgeSchema], // Add the badgeSchema to the badges field
+    default: [],
   },
-});
-
-// Middleware to set default voltages before saving a new user
-userSchema.pre<User>("save", function (next: () => void) {
-  if (this.isNew) {
-    this.voltages = getDefaultVoltages();
-  }
-  next();
 });
 
 // Export the UserModel

@@ -41,9 +41,8 @@ const authOptions: NextAuthOptions = {
             bio: user.bio || "",
             phoneNumber: user.phoneNumber || "",
             profilePicture: user.profilePicture || "",
-
             coverPhoto: user.coverPhoto || "",
-            voltages: user.voltages || [],
+            badges: user.badges || [],
           };
         } catch (error) {
           console.error("Authorization error:", error);
@@ -69,9 +68,8 @@ const authOptions: NextAuthOptions = {
         token.bio = user.bio;
         token.phoneNumber = user.phoneNumber;
         token.profilePicture = user.profilePicture;
-
         token.coverPhoto = user.coverPhoto;
-        token.voltages = user.voltages;
+        token.badges = user.badges;
       }
       return token;
     },
@@ -86,7 +84,7 @@ const authOptions: NextAuthOptions = {
         session.user.profilePicture = token.profilePicture as string;
 
         session.user.coverPhoto = token.coverPhoto as string;
-        session.user.voltages = token.voltages as any[];
+        session.user.badges = token.badges as any[];
       }
       return session;
     },

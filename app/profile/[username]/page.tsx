@@ -1,6 +1,5 @@
 import React from "react";
 import { OtherVoltageContextProvider } from "@/context/OtherVoltageContext";
-
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
@@ -21,7 +20,23 @@ async function fetchUserData(username: string) {
     return null;
   }
 }
-//try again
+
+async function fetchUserVoltage(email: string) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/voltage/${email}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch user voltage data");
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 interface ProfileProps {
   params: {
     username: string;
@@ -31,20 +46,37 @@ interface ProfileProps {
 const Profile = async ({ params }: ProfileProps) => {
   const session = await getServerSession(authOptions);
 
+  if (!session) {
+    return <div>No user session found</div>;
+  }
+
   const { username } = params;
   console.log("Fetching data for username:", username);
 
-  const user = await fetchUserData(username);
+  // Step 1: Fetch the user data using the username
+  const userData = await fetchUserData(username);
 
-  if (!user) {
+  if (!userData || !userData.email) {
     return <div>User not found</div>;
   }
-  console.log("User found:", user);
+
+  const { email } = userData;
+  console.log("Email extracted from user data:", email);
+
+  // Step 2: Fetch the user voltage data using the extracted email
+  const userVoltage = await fetchUserVoltage(email);
+
+  if (!userVoltage) {
+    return <div>Voltage data not found</div>;
+  }
+
+  console.log("User voltage data found:", userVoltage);
+
   return (
     <>
       <Header session={session} />
-      <OtherVoltageContextProvider user={user}>
-        <OtherProfile user={user} />
+      <OtherVoltageContextProvider user={userVoltage}>
+        <OtherProfile userData={userData} userVoltage={userVoltage} />
       </OtherVoltageContextProvider>
     </>
   );

@@ -7,6 +7,9 @@ import OtherStepsChart from "./OtherStepsChart";
 import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import MobileNav from "./MobileNav";
 import { OtherVoltageContext } from "@/context/OtherVoltageContext";
+import { VoltageType } from "@/app/interfaces";
+import OtherDailyChart from "./OtherDailyChart";
+import OtherDailyStepBar from "./OtherDailyStepBar";
 
 interface User {
   username: string; // If this is always present
@@ -16,10 +19,14 @@ interface User {
 }
 
 interface OtherProfileProps {
-  user: User;
+  userData: User;
+  userVoltage: VoltageType;
 }
 
-const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
+const OtherProfile: React.FC<OtherProfileProps> = ({
+  userData,
+  userVoltage,
+}) => {
   const {
     totalAccumulatedVoltage,
     latestRecord,
@@ -30,12 +37,12 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
   } = useContext(OtherVoltageContext);
 
   const [activeCategory, setActiveCategory] = useState("voltage");
-
+  console.log(userVoltage);
   return (
     <>
       <div className="relative h-[330px] w-full">
         <Image
-          src={user.coverPhoto || "/images/cover--default.jpg"}
+          src={userData?.coverPhoto || "/images/cover--default.jpg"}
           alt="User's cover photo"
           className="w-full h-full object-cover"
           width={0}
@@ -44,7 +51,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
         />
         <div className="absolute w-11/12 lg:w-8/12 bottom-0 left-1/2 -translate-x-1/2 flex">
           <Image
-            src={user.profilePicture || "/images/profile--default.jpg"}
+            src={userData?.profilePicture || "/images/profile--default.jpg"}
             alt="User's profile picture"
             height={160}
             width={160}
@@ -52,7 +59,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
           />
           <div className="flex relative">
             <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
-              {user.username}
+              {userData?.username}
             </p>
           </div>
         </div>
@@ -79,7 +86,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
         <div className="w-11/12 lg:w-8/12 m-auto lg:flex-row flex-col flex gap-8">
           <div className="w-full lg:w-[40%]">
             <div className="rounded-lg py-4 px-4 bg-white mb-8">
-              <p className="text-sm">{user.bio}</p>
+              <p className="text-sm">{userData?.bio}</p>
             </div>
             <div className="bg-white rounded-lg py-4 px-4 grid grid-cols-3 gap-4 mb-8">
               <div>
@@ -125,10 +132,17 @@ const OtherProfile: React.FC<OtherProfileProps> = ({ user }) => {
 
           <div className="lg:flex-1 flex flex-col">
             {activeCategory === "voltage" && (
-              <OtherLast6DaysChart user={user} />
+              <OtherDailyChart userVoltage={userVoltage} />
             )}
-            {activeCategory === "voltage" && <OtherVoltlist user={user} />}
-            {activeCategory === "steps" && <OtherStepsChart user={user} />}
+            {activeCategory === "voltage" && (
+              <OtherVoltlist userVoltage={userVoltage} />
+            )}
+            {activeCategory === "steps" && (
+              <OtherDailyStepBar userVoltage={userVoltage} />
+            )}
+            {activeCategory === "steps" && (
+              <OtherStepsChart userVoltage={userVoltage} />
+            )}
           </div>
         </div>
       </div>

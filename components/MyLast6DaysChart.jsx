@@ -1,114 +1,108 @@
-"use client";
-
 import React, { useContext, useState, useEffect } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { VoltageContext } from "../context/VoltageContext";
-import VoltageChartInfo from "./VoltageChartInfo";
-import MyWeeklyChart from "./MyWeeklyChart";
+
+const COLORS = [
+  "#192524", // Dark Charcoal
+  "#3C5759", // Deep Slate Green
+  "#959D90", // Sage Gray
+  "#D1EBDB", // Light Mint Green
+  "#D0D5CE", // Pale Gray Green
+  "#EFECE9", // Soft Beige
+];
 
 const MyLast6DaysChart = () => {
-  const { voltageData, totalAccumulatedVoltage } = useContext(VoltageContext);
+  const { voltageData } = useContext(VoltageContext);
   const [aggregatedData, setAggregatedData] = useState([]);
-  const [activeChart, setActiveChart] = useState("last 6 days");
-  const [isChartInfoOpen, setIsChartInfoOpen] = useState(false);
 
   useEffect(() => {
-    if (voltageData && voltageData.length > 0) {
-      const data = voltageData.map((dayData) => {
-        const totalVoltage = dayData.voltages.reduce(
-          (acc, curr) => acc + curr.voltage,
-          0
-        );
-        return { day: dayData.day, totalVoltage };
-      });
-      setAggregatedData(data);
+    if (!voltageData || voltageData.length === 0) {
+      console.error("No voltage data available.");
+      return;
     }
+
+    const today = new Date();
+    const sixDaysAgo = new Date(today);
+    sixDaysAgo.setDate(today.getDate() - 6);
+
+    // Initialize data structure to accumulate voltage totals for each day of the week
+    const dayTotals = {};
+
+    // Track the most recent instance of each day
+    const latestDayInstances = {};
+
+    voltageData.forEach((dayData) => {
+      dayData.voltages.forEach((voltage) => {
+        const voltageDate = new Date(voltage.timestamp);
+
+        if (voltageDate >= sixDaysAgo && voltageDate <= today) {
+          const dayName = voltageDate.toLocaleDateString("en-US", {
+            weekday: "short",
+          });
+
+          // Check if this is the most recent instance of this day
+          if (
+            !latestDayInstances[dayName] ||
+            voltageDate > latestDayInstances[dayName]
+          ) {
+            // If it's more recent, update the day total and the latest instance
+            latestDayInstances[dayName] = voltageDate;
+            dayTotals[dayName] = voltage.voltage;
+          } else if (
+            voltageDate.getTime() === latestDayInstances[dayName].getTime()
+          ) {
+            // If it's the same date, sum the voltages
+            dayTotals[dayName] += voltage.voltage;
+          }
+        }
+      });
+    });
+
+    // Convert dayTotals object to an array of objects for the chart
+    const formattedData = Object.keys(dayTotals).map((day) => ({
+      day,
+      totalVoltage: dayTotals[day],
+    }));
+
+    console.log("Aggregated data:", formattedData);
+
+    setAggregatedData(formattedData);
   }, [voltageData]);
 
-  const handleChartChange = (e) => {
-    setActiveChart(e.target.value);
-  };
-
   if (!aggregatedData || aggregatedData.length === 0) {
-    return null;
+    return (
+      <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">
+        <p className="text-center text-sm">
+          No data available for the last 6 days
+        </p>
+      </div>
+    );
   }
 
-  const toggleChartInfo = () => {
-    setIsChartInfoOpen((prevStatus) => !prevStatus);
-
-    console.log(totalAccumulatedVoltage);
-  };
   return (
     <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">
-      <div className="flex justify-end relative mb-2">
-        <button
-          className="text-sm  text-customgreen"
-          onClick={() => toggleChartInfo()}
-        >
-          {isChartInfoOpen ? "Hide Details" : "View Details"}
-        </button>
-        {isChartInfoOpen && <VoltageChartInfo />}
-      </div>
-      <div>
-        {activeChart === "last 6 days" && (
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart
-              data={aggregatedData}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" fontSize={12} />
-              <YAxis fontSize={12} />
-              <Tooltip />
-              <Legend fontSize={12} />
-              <Line
-                type="monotone"
-                dataKey="totalVoltage"
-                stroke="#2FBFDE"
-                strokeWidth={2}
+      <ResponsiveContainer width="100%" height={400}>
+        <PieChart>
+          <Pie
+            data={aggregatedData}
+            dataKey="totalVoltage"
+            nameKey="day"
+            cx="50%"
+            cy="50%"
+            outerRadius={150}
+            fill="#8884d8"
+            label
+          >
+            {aggregatedData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
               />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
-        {activeChart === "weekly" && <MyWeeklyChart />}
-        <div className="flex gap-4">
-          <div>
-            <input
-              type="radio"
-              id="last6days"
-              value="last 6 days"
-              checked={activeChart === "last 6 days"}
-              onChange={handleChartChange}
-              className="mr-2"
-            />
-            <label htmlFor="last6days" className="text-text-gray text-xs">
-              Last 6 days
-            </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="weekly"
-              value="weekly"
-              checked={activeChart === "weekly"}
-              onChange={handleChartChange}
-              className="mr-2"
-            />
-            <label htmlFor="weekly" className="text-text-gray text-xs">
-              Weekly
-            </label>
-          </div>
-        </div>
-      </div>
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
     </div>
   );
 };

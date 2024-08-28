@@ -2,18 +2,14 @@ const mongoose = require("mongoose");
 
 const BadgeSchema = new mongoose.Schema({
   badgeId: {
-    type: Number,
-    required: true,
-  },
-  badgeName: {
     type: String,
     required: true,
   },
-  badgeIcon: {
+  name: {
     type: String,
     required: true,
   },
-  requirement: {
+  imgUrl: {
     type: String,
     required: true,
   },
@@ -23,10 +19,6 @@ const BadgeSchema = new mongoose.Schema({
   },
   completed: {
     type: Boolean,
-    required: true,
-  },
-  exp: {
-    type: Number,
     required: true,
   },
 });

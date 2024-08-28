@@ -1,6 +1,6 @@
 import { connectToDb } from "@/lib/utils";
-import { UserModel } from "@/models/User";
 import { NextResponse } from "next/server";
+import { VoltageModel } from "@/models/Voltage";
 import { NextRequest } from "next/server";
 
 export async function PATCH(
@@ -49,7 +49,7 @@ export async function PATCH(
     }
 
     console.log(`Searching for user with email: ${email}`);
-    const user = await UserModel.findOne({ email });
+    const user = await VoltageModel.findOne({ email });
 
     if (!user) {
       console.error(`User with email ${email} not found`);

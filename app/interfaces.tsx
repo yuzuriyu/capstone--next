@@ -20,3 +20,11 @@ export interface VoltageType {
   day: string;
   voltages: number[];
 }
+
+export interface BadgeType {
+  badge_id: string;
+  name: string;
+  description: string;
+  imgUrl: string;
+  completed: boolean;
+}
