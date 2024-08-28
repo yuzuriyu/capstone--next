@@ -18,7 +18,7 @@ declare module "next-auth" {
       title?: string;
       level?: number;
       coverPhoto?: string;
-      voltages?: any[];
+      badges?: any[];
     } & DefaultSession["user"];
   }
 
@@ -35,6 +35,6 @@ declare module "next-auth" {
     title?: string;
     level?: number;
     coverPhoto?: string;
-    voltages?: any[];
+    badges?: any[];
   }
 }
