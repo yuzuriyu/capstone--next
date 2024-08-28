@@ -34,7 +34,7 @@ const MyDailyStepChart = () => {
       const nextGoal = stepGoals.find((goal) => stepsForToday < goal) || 10000;
       setGoal(nextGoal);
     }
-  }, [voltageData]);
+  }, [voltageData]); // Removed stepGoals from the dependency array
 
   return (
     <div className="w-full bg-white py-4 px-4 rounded-lg mb-8">

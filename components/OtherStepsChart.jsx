@@ -50,7 +50,7 @@ const OtherStepsChart = ({ userVoltage }) => {
       }));
       setAggregatedData(data);
     }
-  }, [userVoltage]);
+  }, [userVoltage]); // COLORS is not a dependency
 
   const toggleStepChartInfo = () => {
     setIsStepChartInfoOpen((prevStatus) => !prevStatus);
