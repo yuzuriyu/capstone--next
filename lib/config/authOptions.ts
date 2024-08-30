@@ -2,7 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectToDb } from "@/lib/utils";
 import { UserModel } from "@/models/User";
-import { ObjectId } from "mongoose"; // Import ObjectId
+import { VoltageModel } from "@/models/Voltage"; // Import the VoltageModel
+import { ObjectId } from "mongoose";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -31,6 +32,13 @@ const authOptions: NextAuthOptions = {
           if (user.password !== password) {
             console.error("Invalid password for user:", email);
             return null;
+          }
+
+          // Check if voltage data exists for this user
+          let userVoltageData = await VoltageModel.findOne({ email });
+          if (!userVoltageData) {
+            // Create voltage data if it doesn't exist
+            await VoltageModel.create({ email, voltages: [] });
           }
 
           return {

@@ -8,17 +8,8 @@ import MyStepsChart from "../components/MyStepsChart";
 import { VoltageContext } from "@/context/VoltageContext";
 import { ClipLoader } from "react-spinners";
 import MyDailyChart from "./MyDailyChart";
-
-interface User {
-  username?: string;
-  bio?: string; // Allow bio to be undefined
-  profilePicture?: string;
-  coverPhoto?: string;
-}
-
-interface Session {
-  user: User;
-}
+import Badges from "./Badges";
+import { Session } from "@/app/interfaces";
 
 interface MyProfileProps {
   session: Session;
@@ -59,7 +50,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
             alt="Profile Picture"
             height={160}
             width={160}
-            className="align-baseline"
+            className="align-baseline object-cover"
           />
           <div className="flex relative">
             <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
@@ -134,6 +125,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
                 <p className="text-xs text-center">Standard Deviation</p>
               </div>
             </div>
+            <Badges session={session} />
           </div>
 
           <div className="lg:flex-1 flex flex-col">

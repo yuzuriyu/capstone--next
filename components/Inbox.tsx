@@ -5,27 +5,8 @@ import Image from "next/image";
 import { Session } from "next-auth";
 import EmailModal from "@/components/EmailModal";
 import { ClipLoader } from "react-spinners";
-
-interface Inquiry {
-  _id: string;
-  senderEmail: string;
-  recipientEmail: string;
-  senderName: string;
-  message: string;
-  timeStamp: string;
-  profilePicture?: string;
-  subject: string;
-  adminPrivilege?: boolean;
-}
-
-interface EmailData {
-  senderName: string;
-  senderEmail: string;
-  profilePicture?: string;
-  timeStamp: string;
-  subject: string;
-  message: string;
-}
+import { EmailData } from "@/app/interfaces";
+import { Inquiry } from "@/app/interfaces";
 
 interface InboxProps {
   session: Session | null;

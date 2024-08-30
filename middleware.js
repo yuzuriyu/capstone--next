@@ -4,7 +4,6 @@ export const config = {
   matcher: [
     "/",
     "/profile/:username*",
-    "/achievements",
     "/guide",
     "/contact",
     "/about",

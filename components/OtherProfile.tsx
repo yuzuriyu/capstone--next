@@ -4,19 +4,12 @@ import React, { useContext, useState } from "react";
 import OtherVoltlist from "./OtherVoltlist";
 import Image from "next/image";
 import OtherStepsChart from "./OtherStepsChart";
-import OtherLast6DaysChart from "./OtherLast6DaysChart";
 import MobileNav from "./MobileNav";
 import { OtherVoltageContext } from "@/context/OtherVoltageContext";
 import { VoltageType } from "@/app/interfaces";
 import OtherDailyChart from "./OtherDailyChart";
 import OtherDailyStepBar from "./OtherDailyStepBar";
-
-interface User {
-  username: string; // If this is always present
-  bio?: string;
-  coverPhoto?: string;
-  profilePicture?: string;
-}
+import { User } from "@/app/interfaces";
 
 interface OtherProfileProps {
   userData: User;
@@ -146,7 +139,6 @@ const OtherProfile: React.FC<OtherProfileProps> = ({
           </div>
         </div>
       </div>
-      <MobileNav />
     </>
   );
 };

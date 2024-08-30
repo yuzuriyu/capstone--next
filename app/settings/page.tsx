@@ -12,7 +12,7 @@ const SettingsPage = async () => {
     <>
       <Header session={session} />
       <Settings session={session} />;
-      <MobileNav />
+      <MobileNav session={session} />
     </>
   );
 };

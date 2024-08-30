@@ -7,13 +7,16 @@ export interface ToggleMenuProps {
   handleToggleMenu: () => void;
 }
 
-export interface InquiriesType {
-  name: string;
-  email: string;
-  subject: string;
+export interface Inquiry {
+  _id: string;
+  senderEmail: string;
+  recipientEmail: string;
+  senderName: string;
   message: string;
-  profilePicture: string;
-  timestamp: string;
+  timeStamp: string;
+  profilePicture?: string;
+  subject: string;
+  adminPrivilege?: boolean;
 }
 
 export interface VoltageType {
@@ -22,9 +25,32 @@ export interface VoltageType {
 }
 
 export interface BadgeType {
-  badge_id: string;
+  badgeId: string;
   name: string;
   description: string;
   imgUrl: string;
   completed: boolean;
+}
+
+export interface User {
+  username?: string;
+  bio?: string; // Allow bio to be undefined
+  profilePicture?: string;
+  email?: string;
+  coverPhoto?: string;
+  badges?: any[];
+  role?: string;
+}
+
+export interface Session {
+  user: User;
+}
+
+export interface EmailData {
+  senderName: string;
+  senderEmail: string;
+  profilePicture?: string;
+  timeStamp: string;
+  subject: string;
+  message: string;
 }

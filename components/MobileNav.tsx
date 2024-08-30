@@ -5,8 +5,13 @@ import Link from "next/link";
 import { PageContext } from "@/context/PageContext";
 import { signOut } from "next-auth/react";
 import Search from "./Search";
+import { Session } from "@/app/interfaces";
 
-const MobileNav = () => {
+interface MobileNavProps {
+  session: Session;
+}
+
+const MobileNav: React.FC<MobileNavProps> = ({ session }) => {
   const pageContext = useContext(PageContext);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -48,19 +53,21 @@ const MobileNav = () => {
       )}
       {isMobileNavOpen && (
         <div className="grid grid-cols-3 bg-white py-4 px-4 rounded-lg fixed bottom-4 right-0 lg:hidden z-50 shadow-2xl gap-3">
-          <div onClick={toggleSearch}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              className="cursor-pointer hover:fill-customgreen m-auto"
-              fill={`${activePage === "Search" ? "#4ABD4E" : "#A6ABC8"}`}
-            >
-              <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
-            </svg>
-            <p className="text-xs text-gray-400 text-center mt-2">Search</p>
-          </div>
+          {session?.user?.role === "admin" && (
+            <div onClick={toggleSearch}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                className="cursor-pointer hover:fill-customgreen m-auto"
+                fill={`${activePage === "Search" ? "#4ABD4E" : "#A6ABC8"}`}
+              >
+                <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
+              </svg>
+              <p className="text-xs text-gray-400 text-center mt-2">Search</p>
+            </div>
+          )}
 
           <Link href="/inbox">
             <svg
@@ -92,20 +99,22 @@ const MobileNav = () => {
             <p className="text-xs text-gray-400 text-center mt-2">Guide</p>
           </Link>
 
-          <Link href="/contact" className="mt-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              className="m-auto group-hover:fill-customblue"
-              onClick={() => handleActivePage("Contact")}
-              fill={`${activePage === "Contact" ? "#4ABD4E" : "#A6ABC8"}`}
-            >
-              <path d="M20.487 17.14l-4.065-3.696a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a.997.997 0 0 0-.085-1.39z"></path>
-            </svg>
-            <p className="text-xs text-gray-400 text-center mt-2">Contact</p>
-          </Link>
+          {session?.user?.role === "user" && (
+            <Link href="/contact" className="mt-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                className="m-auto group-hover:fill-customblue"
+                onClick={() => handleActivePage("Contact")}
+                fill={`${activePage === "Contact" ? "#4ABD4E" : "#A6ABC8"}`}
+              >
+                <path d="M20.487 17.14l-4.065-3.696a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a.997.997 0 0 0-.085-1.39z"></path>
+              </svg>
+              <p className="text-xs text-gray-400 text-center mt-2">Contact</p>
+            </Link>
+          )}
 
           <Link href="/" className="mt-2">
             <svg

@@ -3,14 +3,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { format } from "date-fns";
-import { Session } from "next-auth"; // Import Session type from next-auth
+import { Session } from "next-auth";
 
 interface ContactProps {
-  session: Session | null; // Define the session prop type
+  session: Session | null;
 }
 
 const Contact: React.FC<ContactProps> = ({ session }) => {
-  // State variables are declared outside of conditionals
   const [message, setMessage] = useState<string>("");
   const [subject, setSubject] = useState<string>("");
   const [notice, setNotice] = useState<string>("");

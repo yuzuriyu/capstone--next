@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import PageContextProvider from "@/context/PageContext";
 import SessionProvider from "@/context/SessionContext";
-import VoltageContextProvider from "@/context/VoltageContext";
 import BadgeContextProvider from "@/context/BadgeContext";
 import AllUserContextProvider from "@/context/AllUserContext";
 import { getServerSession } from "next-auth";
@@ -22,9 +21,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
-      <body className={`font-poppins bg-customgray`}>
+      <body className="font-poppins bg-customgray">
         <SessionProvider session={session}>
           <AllUserContextProvider>
             <BadgeContextProvider>

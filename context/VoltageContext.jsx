@@ -99,6 +99,8 @@ const VoltageContextProvider = ({ children, readings }) => {
     }
   }, [voltageData]);
   console.log(voltageData);
+
+  console.log(totalAccumulatedVoltage);
   return (
     <VoltageContext.Provider
       value={{

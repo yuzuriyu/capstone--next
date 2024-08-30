@@ -3,13 +3,13 @@
 import { createContext, useState, ReactNode } from "react";
 import { PageContextType } from "@/app/interfaces";
 
-interface Props {
+interface PageContextProps {
   children: ReactNode;
 }
 
 const PageContext = createContext<PageContextType | undefined>(undefined);
 
-const PageContextProvider: React.FC<Props> = ({ children }) => {
+const PageContextProvider: React.FC<PageContextProps> = ({ children }) => {
   const [activePage, setActivePage] = useState<string>("Overview");
 
   const handleActivePage = (page: string) => {

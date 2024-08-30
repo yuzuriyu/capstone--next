@@ -66,14 +66,6 @@ export default async function ProfilePage({ params }: ProfileProps) {
     return <div>Email not found in session</div>;
   }
 
-  // Ensure voltage data exists in the database
-  // const userVoltageData = await findOrCreateVoltageData(email);
-
-  // if (!userVoltageData) {
-  //   return <div>Could not find or create voltage data</div>;
-  // }
-
-  // Fetch the voltage data from the API
   const readings = await fetchUserVoltage(email);
 
   if (!readings) {
@@ -85,7 +77,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
       <VoltageContextProvider readings={readings}>
         <Header session={session} />
         <MyProfile session={session} />
-        <MobileNav />
+        <MobileNav session={session} />
       </VoltageContextProvider>
     </>
   );

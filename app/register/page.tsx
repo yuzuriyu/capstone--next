@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, FormEvent } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // Import useRouter for navigation
 
 const Register = () => {
   const [email, setEmail] = useState<string>("");
@@ -9,8 +10,8 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const router = useRouter(); // Initialize useRouter
 
-  // Default voltages structure
   const defaultVoltages = [
     { day: "Mon", voltages: [] },
     { day: "Tue", voltages: [] },
@@ -44,7 +45,7 @@ const Register = () => {
           email,
           username,
           password,
-          voltages: defaultVoltages, // Include the default voltages structure
+          voltages: defaultVoltages,
         }),
       });
 
@@ -54,17 +55,17 @@ const Register = () => {
         return;
       }
 
-      // Handle successful registration
       setError("");
-      alert("Registration successful!");
-      // Or use a routing library to navigate:
-      // router.push('/login');
+
+      // Redirect to login after a short delay
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000); // Adjust the delay as needed (2 seconds in this example)
     } catch (err) {
       setError("User registration failed");
       console.error("Registration error:", err);
     }
   };
-
   return (
     <div className="w-[366px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
       <div>

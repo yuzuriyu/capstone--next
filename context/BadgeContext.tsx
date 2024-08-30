@@ -1,6 +1,7 @@
 "use client";
 
 import React, { ReactNode, createContext, useEffect, useState } from "react";
+import { BadgeType } from "@/app/interfaces";
 
 interface Props {
   children: ReactNode;
@@ -8,16 +9,6 @@ interface Props {
 
 export interface BadgeContextType {
   badges: BadgeType[] | undefined;
-}
-
-export interface BadgeType {
-  badgeId: number;
-  badgeName: string;
-  badgeIcon: string;
-  requirement: string;
-  description: string;
-  completed: boolean;
-  exp: number;
 }
 
 const BadgeContext = createContext<BadgeContextType | undefined>(undefined);

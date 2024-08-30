@@ -2,22 +2,17 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
+import { EmailData } from "@/app/interfaces";
 
-interface EmailData {
-  senderName: string;
-  senderEmail: string;
-  profilePicture?: string;
-  timeStamp: string;
-  subject: string;
-  message: string;
-}
-
-interface Props {
+interface EmailModalProps {
   selectedEmail: EmailData | null;
   toggleEmailModal: () => void;
 }
 
-const EmailModal: React.FC<Props> = ({ selectedEmail, toggleEmailModal }) => {
+const EmailModal: React.FC<EmailModalProps> = ({
+  selectedEmail,
+  toggleEmailModal,
+}) => {
   const { data: session } = useSession();
 
   // Hooks are called unconditionally at the top

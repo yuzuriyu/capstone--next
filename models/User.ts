@@ -1,5 +1,65 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
+const defaultBadges: Badge[] = [
+  {
+    badgeId: "voltage_crusader",
+    name: "Voltage Crusader",
+    description: "Generate 5000 volts to earn this badge.",
+    imgUrl: "https://i.imgur.com/q2GQ6Uz.png",
+    completed: false,
+  },
+  {
+    badgeId: "energy_emission",
+    name: "Energy Emission",
+    description: "Generate 2500 volts to unlock this badge.",
+    imgUrl: "https://i.imgur.com/soFLKRj.png",
+    completed: false,
+  },
+
+  {
+    badgeId: "kinetic_keeper",
+    name: "Kinetic Keeper",
+    description: "Take 10,000 steps to earn this badge.",
+    imgUrl: "https://i.imgur.com/Vc3oPQ7.png",
+    completed: false,
+  },
+  {
+    badgeId: "power_pioneer",
+    name: "Power Pioneer",
+    description: "Accumulate 50,000 steps to unlock this badge.",
+    imgUrl: "https://i.imgur.com/6o5XDRP.png",
+    completed: false,
+  },
+  {
+    badgeId: "step_master",
+    name: "Step Master",
+    description: "Achieve 25,000 steps to earn this badge.",
+    imgUrl: "https://i.imgur.com/FwH2BVW.png",
+    completed: false,
+  },
+  {
+    badgeId: "step_shifter",
+    name: "Step Shifter",
+    description: "Reach 5,000 steps to unlock this badge.",
+    imgUrl: "https://i.imgur.com/4r5jdlW.png",
+    completed: false,
+  },
+  {
+    badgeId: "trailblazer",
+    name: "Trailblazer",
+    description: "Welcome to SparkStep!",
+    imgUrl: "https://i.imgur.com/Jota9bL.png",
+    completed: false,
+  },
+  {
+    badgeId: "voltage_voyager",
+    name: "Voltage Voyager",
+    description: "Generate 100 volts to unlock this badge.",
+    imgUrl: "https://i.imgur.com/7UHExWX.png",
+    completed: false,
+  },
+];
+
 // Define the Badge interface
 interface Badge {
   badgeId: string;
@@ -80,7 +140,7 @@ const userSchema = new Schema<User>({
   },
   badges: {
     type: [badgeSchema], // Add the badgeSchema to the badges field
-    default: [],
+    default: defaultBadges,
   },
 });
 
