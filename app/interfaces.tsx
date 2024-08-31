@@ -38,7 +38,7 @@ export interface User {
   profilePicture?: string;
   email?: string;
   coverPhoto?: string;
-  badges?: any[];
+  badges?: any[] | undefined;
   role?: string;
 }
 
