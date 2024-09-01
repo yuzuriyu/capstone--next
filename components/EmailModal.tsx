@@ -32,8 +32,8 @@ const EmailModal: React.FC<EmailModalProps> = ({
 
     try {
       const timestamp = getCurrentTimestamp();
-      const senderName = session?.user?.name || ""; // Corrected property from `username` to `name`
-      const profilePicture = session?.user?.image || ""; // Corrected property from `profilePicture` to `image`
+      const senderName = session?.user?.username || ""; // Corrected property from `username` to `name`
+      const profilePicture = session?.user?.profilePicture || ""; // Corrected property from `profilePicture` to `image`
       const senderEmail = session?.user?.email || "";
       const recipientEmail = selectedEmail?.senderEmail || "";
       const subject = selectedEmail?.subject || "";
@@ -125,7 +125,7 @@ const EmailModal: React.FC<EmailModalProps> = ({
             </div>
           </div>
         )}
-        {notice && <p className="text-xs text-red-400">{notice}</p>}
+        {notice && <p className="text-xs text-customgreen mt-2">{notice}</p>}
       </div>
     </div>
   );

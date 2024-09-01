@@ -93,8 +93,8 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
           height={0}
           sizes="100vw"
         />
-        <div className="absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 w-8/12 text-right">
-          <p className="text-5xl  mb-2 font-playfair ">Stay in the loop</p>
+        <div className="absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 w-8/12 ">
+          <p className="text-4xl  mb-2 font-playfair ">Stay in the loop</p>
           <p className="">
             Access your messages and updates quickly. Your private space for
             seamless communication.

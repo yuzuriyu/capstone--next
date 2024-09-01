@@ -39,10 +39,10 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
       }
 
       const timestamp = getCurrentTimestamp();
-      const senderName = session.user?.name || "";
-      const profilePicture = session.user?.image || "";
+      const senderName = session.user?.username || "";
+      const profilePicture = session.user?.profilePicture || "";
       const senderEmail = session.user?.email || "";
-      const recipientEmail = "ccole@gmail.com";
+      const recipientEmail = "admin";
 
       const fullFormData = {
         message,
@@ -89,15 +89,15 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
     <div className="">
       <div className="relative w-full md:h-[280px] h-[400px]">
         <Image
-          src={"/images/contact.jpg"}
+          src={"/images/contact.jpeg"}
           alt="Cover Photo"
           className="w-full h-full object-cover"
           width={0}
           height={0}
           sizes="100vw"
         />
-        <div className="absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 w-8/12">
-          <p className="text-5xl  mb-2 font-playfair ">Reach Out to Us</p>
+        <div className="absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 w-8/12 text-right">
+          <p className="text-4xl  mb-2 font-playfair ">Reach Out to Us</p>
           <p className="">
             Got a question or concern? Send us a message, and we&apos;ll get
             back to you shortly. Your voice matters!
