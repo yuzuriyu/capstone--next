@@ -51,13 +51,6 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
               </li>
             </Link>
 
-            <Link href={"/guide"}>
-              <li className="text-white mr-8 text-sm relative group">
-                {" "}
-                <div className="w-0 left-0 bottom-0 absolute transition-all ease-in-out duration-300 border-b border-white group-hover:w-full"></div>
-                Guide
-              </li>
-            </Link>
             {session?.user?.role !== "admin" && (
               <Link href={"/contact"}>
                 <li className="text-white mr-8 text-sm relative group">

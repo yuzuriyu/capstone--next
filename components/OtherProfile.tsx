@@ -10,6 +10,7 @@ import { VoltageType } from "@/app/interfaces";
 import OtherDailyChart from "./OtherDailyChart";
 import OtherDailyStepBar from "./OtherDailyStepBar";
 import { User } from "@/app/interfaces";
+import OtherBadges from "./OtherBadges";
 
 interface OtherProfileProps {
   userData: User;
@@ -121,6 +122,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({
                 <p className="text-xs text-center">Standard Deviation</p>
               </div>
             </div>
+            <OtherBadges userData={userData} />
           </div>
 
           <div className="lg:flex-1 flex flex-col">

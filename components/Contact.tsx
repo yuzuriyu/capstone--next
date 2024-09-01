@@ -43,7 +43,7 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
       const senderName = session.user?.name || ""; // Use session user's name
       const profilePicture = session.user?.image || ""; // Use session user's image
       const senderEmail = session.user?.email || "";
-      const recipientEmail = "admin@example.com"; // Replace with actual recipient email
+      const recipientEmail = "ccole@gmail.com"; // Replace with actual recipient email
 
       const fullFormData = {
         message,
@@ -92,86 +92,96 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
 
   return (
     <div className="">
-      <div className="w-11/12 lg:w-8/12 bg-white m-auto lg:my-20 rounded-lg px-4 my-4">
-        <div className="lg:w-1/2 m-auto py-10">
-          <h1 className="text-lg font-bold mb-4 text-center">
-            Get In Touch With Us
-          </h1>
-          <p className="text-sm text-gray-500 text-center">
-            For More Information About Our Project. Please Feel Free To Drop an
-            Email. Our Admin Will Be There To Help You Out. Do Not Hesitate!
+      <div className="relative w-full md:h-[280px] h-[400px]">
+        <Image
+          src={"/images/contact.jpg"}
+          alt="Cover Photo"
+          className="w-full h-full object-cover"
+          width={0}
+          height={0}
+          sizes="100vw"
+        />
+        <div className="absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 w-8/12">
+          <p className="text-5xl  mb-2 font-playfair ">Reach Out to Us</p>
+          <p className="">
+            Got a question or concern? Send us a message, and we'll get back to
+            you shortly. Your voice matters!
           </p>
         </div>
-        <div className="flex flex-col md:flex-row w-11/12 m-auto">
-          <div className="grid grid-cols-1 gap-8 md:w-1/2 mb-8">
-            <div className="flex">
-              <div className="mr-4">
-                <Image
-                  src={"/icons/location--dark.png"}
-                  alt="Location icon"
-                  className="w-6"
-                  width={40}
-                  height={40}
-                />
+      </div>
+      <div className="bg-white w-full">
+        <div className="w-11/12 lg:w-8/12 bg-white m-auto rounded-lg my-4">
+          <div className="flex flex-col md:flex-row py-10">
+            <div className="grid grid-cols-1 gap-8 md:w-1/2 mb-8">
+              <div className="flex">
+                <div className="mr-4">
+                  <Image
+                    src={"/icons/location--dark.png"}
+                    alt="Location icon"
+                    className="w-6"
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <div>
+                  <p className="font-bold text-sm">Address</p>
+                  <p className="text-sm">Camiling, Tarlac, Philippines</p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-sm">Address</p>
-                <p className="text-sm">Camiling, Tarlac, Philippines</p>
+              <div className="flex">
+                <div className="mr-4">
+                  <Image
+                    src={"/icons/phone--dark.png"}
+                    alt="Phone icon"
+                    className="w-5"
+                    width={40}
+                    height={40}
+                  />
+                </div>
+                <div>
+                  <p className="font-bold text-sm">Email</p>
+                  <p className="text-sm">ccole@gmail.com</p>
+                </div>
               </div>
             </div>
-            <div className="flex">
-              <div className="mr-4">
-                <Image
-                  src={"/icons/phone--dark.png"}
-                  alt="Phone icon"
-                  className="w-5"
-                  width={40}
-                  height={40}
-                />
-              </div>
-              <div>
-                <p className="font-bold text-sm">Email</p>
-                <p className="text-sm">carl@gmail.com</p>
-              </div>
+
+            <div className="w-full flex flex-col md:w-1/2">
+              <p className="text-sm mb-2">Subject</p>
+              <input
+                type="text"
+                placeholder="This is optional"
+                className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
+              <p className="text-sm mb-2">Message</p>
+              <textarea
+                placeholder="Hi! I'd like to ask about"
+                className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
+                  errors.message ? "border-red-500" : ""
+                }`}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+
+              <button
+                className="bg-customgreen text-white px-7 py-3 mt-4 rounded-lg w-[200px] mr-4 mb-4"
+                onClick={submitForm}
+              >
+                Submit
+              </button>
+              <p
+                className={`text-xs ${
+                  notice === "Submitted Successfully"
+                    ? "text-green-400"
+                    : "text-red-400"
+                }`}
+              >
+                {notice === "Submitted Successfully"
+                  ? "Submitted Successfully"
+                  : notice}
+              </p>
             </div>
-          </div>
-
-          <div className="w-full flex flex-col md:w-1/2">
-            <p className="text-sm mb-2">Subject</p>
-            <input
-              type="text"
-              placeholder="This is optional"
-              className="border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
-            <p className="text-sm mb-2">Message</p>
-            <textarea
-              placeholder="Hi! I'd like to ask about"
-              className={`border rounded-lg px-4 py-4 mb-4 flex-1 placeholder:text-sm ${
-                errors.message ? "border-red-500" : ""
-              }`}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-
-            <button
-              className="bg-customgreen text-white px-7 py-3 mt-4 rounded-lg w-[200px] mr-4 mb-4"
-              onClick={submitForm}
-            >
-              Submit
-            </button>
-            <p
-              className={`text-xs ${
-                notice === "Submitted Successfully"
-                  ? "text-green-400"
-                  : "text-red-400"
-              }`}
-            >
-              {notice === "Submitted Successfully"
-                ? "Submitted Successfully"
-                : notice}
-            </p>
           </div>
         </div>
       </div>

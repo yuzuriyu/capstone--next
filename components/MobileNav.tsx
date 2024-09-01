@@ -45,7 +45,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ session }) => {
             height="50"
             viewBox="0 0 24 24"
             fill="#4ABD4E"
-            className="bg-white p-1 rounded-lg"
+            className=""
           >
             <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
           </svg>

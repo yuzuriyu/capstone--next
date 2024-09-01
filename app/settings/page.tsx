@@ -9,9 +9,9 @@ const SettingsPage = async () => {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    // You can handle a redirect here or show an appropriate message
-    return <p>Please log in to access this page.</p>;
+    return <p>Unable to load session. Please try again later.</p>;
   }
+
   return (
     <>
       <Header session={session} />

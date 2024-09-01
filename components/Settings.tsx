@@ -171,7 +171,7 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
   };
 
   return (
-    <div className="w-11/12 lg:w-8/12 m-auto lg:my-20 bg-white rounded-lg overflow-hidden">
+    <div className="w-11/12 lg:w-8/12 m-auto lg:my-20 my-4 bg-white rounded-lg overflow-hidden">
       <div className="relative h-[100px] w-full">
         <Image
           src={session.user.coverPhoto || "/images/cover--default.jpg"}

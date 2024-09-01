@@ -7,11 +7,16 @@ import MobileNav from "@/components/MobileNav";
 
 const ContactPage = async () => {
   const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return <p>Unable to load session. Please try again later.</p>;
+  }
+
   return (
     <>
       <Header session={session} />
       <Contact session={session} />
-      <MobileNav />
+      <MobileNav session={session} />
     </>
   );
 };
