@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import authOptions from "@/lib/config/authOptions";
 import Header from "@/components/Header";
 import OtherProfile from "@/components/OtherProfile";
+import MobileNav from "@/components/MobileNav";
 
 async function fetchUserData(username: string) {
   try {
@@ -78,6 +79,7 @@ const Profile = async ({ params }: ProfileProps) => {
       <OtherVoltageContextProvider user={userVoltage}>
         <OtherProfile userData={userData} userVoltage={userVoltage} />
       </OtherVoltageContextProvider>
+      <MobileNav session={session} />
     </>
   );
 };
