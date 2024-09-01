@@ -24,7 +24,6 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
 
   const submitForm = async () => {
     try {
-      // Checking if any of the fields are empty
       if (!message) {
         setNotice("Please fill in all required fields.");
         setErrors({
@@ -40,10 +39,10 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
       }
 
       const timestamp = getCurrentTimestamp();
-      const senderName = session.user?.name || ""; // Use session user's name
-      const profilePicture = session.user?.image || ""; // Use session user's image
+      const senderName = session.user?.name || "";
+      const profilePicture = session.user?.image || "";
       const senderEmail = session.user?.email || "";
-      const recipientEmail = "ccole@gmail.com"; // Replace with actual recipient email
+      const recipientEmail = "ccole@gmail.com";
 
       const fullFormData = {
         message,
@@ -52,11 +51,10 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
         timeStamp: timestamp,
         recipientEmail,
         subject,
-        adminPrivilege: false, // Set adminPrivilege to true for admin replies
-        profilePicture, // Include profile picture
+        adminPrivilege: false,
+        profilePicture,
       };
 
-      // Log the full form data
       console.log("Full Form Data:", fullFormData);
 
       await fetch("/api/inquiries/new", {
@@ -69,7 +67,6 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
 
       setNotice("Submitted Successfully");
 
-      // Reset form data and errors after successful submission
       setMessage("");
       setSubject("");
       setErrors({
@@ -81,11 +78,9 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
       setNotice("Error submitting form");
     }
 
-    // Clear the notice after 5 seconds
     setTimeout(() => setNotice(""), 5000);
   };
 
-  // Move session check inside the return statement
   if (!session) {
     return <p>Please log in to submit a message.</p>;
   }
@@ -104,8 +99,8 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
         <div className="absolute top-1/2 -translate-y-1/2  left-1/2 -translate-x-1/2 w-8/12">
           <p className="text-5xl  mb-2 font-playfair ">Reach Out to Us</p>
           <p className="">
-            Got a question or concern? Send us a message, and we'll get back to
-            you shortly. Your voice matters!
+            Got a question or concern? Send us a message, and we&apos;ll get
+            back to you shortly. Your voice matters!
           </p>
         </div>
       </div>
@@ -113,32 +108,37 @@ const Contact: React.FC<ContactProps> = ({ session }) => {
         <div className="w-11/12 lg:w-8/12 bg-white m-auto rounded-lg my-4">
           <div className="flex flex-col md:flex-row py-10">
             <div className="grid grid-cols-1 gap-8 md:w-1/2 mb-8">
-              <div className="flex">
-                <div className="mr-4">
-                  <Image
-                    src={"/icons/location--dark.png"}
-                    alt="Location icon"
-                    className="w-6"
-                    width={40}
-                    height={40}
-                  />
+              <div className="flex  items-center">
+                <div className="mr-4 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="#A6ABC8"
+                  >
+                    <path d="m12 17 1-2V9.858c1.721-.447 3-2 3-3.858 0-2.206-1.794-4-4-4S8 3.794 8 6c0 1.858 1.279 3.411 3 3.858V15l1 2z"></path>
+                    <path d="m16.267 10.563-.533 1.928C18.325 13.207 20 14.584 20 16c0 1.892-3.285 4-8 4s-8-2.108-8-4c0-1.416 1.675-2.793 4.267-3.51l-.533-1.928C4.197 11.54 2 13.623 2 16c0 3.364 4.393 6 10 6s10-2.636 10-6c0-2.377-2.197-4.46-5.733-5.437z"></path>
+                  </svg>
                 </div>
                 <div>
                   <p className="font-bold text-sm">Address</p>
                   <p className="text-sm">Camiling, Tarlac, Philippines</p>
                 </div>
               </div>
-              <div className="flex">
-                <div className="mr-4">
-                  <Image
-                    src={"/icons/phone--dark.png"}
-                    alt="Phone icon"
-                    className="w-5"
-                    width={40}
-                    height={40}
-                  />
+              <div className="flex items-center ">
+                <div className="mr-4 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="#A6ABC8"
+                  >
+                    <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.7-8 5.334L4 8.7V6.297l8 5.333 8-5.333V8.7z"></path>
+                  </svg>
                 </div>
-                <div>
+                <div className="">
                   <p className="font-bold text-sm">Email</p>
                   <p className="text-sm">ccole@gmail.com</p>
                 </div>
