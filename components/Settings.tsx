@@ -171,166 +171,176 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
   };
 
   return (
-    <div className="w-11/12 lg:w-8/12 m-auto lg:my-20 my-4 bg-white rounded-lg overflow-hidden">
-      <div className="relative h-[100px] w-full">
-        <Image
-          src={session.user.coverPhoto || "/images/cover--default.jpg"}
-          alt="Cover Photo"
-          className="w-full h-full object-cover"
-          width={0}
-          height={0}
-          sizes="100vw"
-        />
-      </div>
-      <div className=" w-11/12 flex py-4 m-auto">
-        <Image
-          src={session.user.profilePicture || "/images/profile--default.jpg"}
-          alt="Profile Picture"
-          height={100}
-          width={100}
-          className="align-baseline rounded-full"
-        />
-        <div className="ml-2 flex flex-col justify-center">
-          <p className=" font-bold ">{session.user.username}</p>
-          <p className=" text-sm text-gray-500">{session.user.email}</p>
-        </div>
-      </div>
-      <div className=" w-11/12 m-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Username</p>
-          <input
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+    <div className="relative w-full h-screen">
+      <Image
+        src={"/images/walk.jpg"}
+        alt=""
+        height={0}
+        width={0}
+        sizes="100vw"
+        className="w-full h-full object-cover  -z-50 brightness-50"
+      />
+      <div className="w-11/12 lg:w-8/12 bg-white rounded-lg z-50 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 h-[90%] md:h-[75%] overflow-auto">
+        <div className="relative h-[100px] w-full">
+          <Image
+            src={session.user.coverPhoto || "/images/cover--default.jpg"}
+            alt="Cover Photo"
+            className="w-full h-full object-cover"
+            width={0}
+            height={0}
+            sizes="100vw"
           />
-          {isUsernameChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Username", username)}
-              >
-                Save Username
-              </button>
-              <p className="text-sm mt-2">{usernameMessage}</p>
-            </>
-          )}
         </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Email</p>
-          <input
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+        <div className=" w-11/12 flex py-4 m-auto">
+          <Image
+            src={session.user.profilePicture || "/images/profile--default.jpg"}
+            alt="Profile Picture"
+            height={100}
+            width={100}
+            className="align-baseline rounded-full"
           />
-          {isEmailChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Email", email)}
-              >
-                Save Email
-              </button>
-              <p className="text-sm mt-2">{emailMessage}</p>
-            </>
-          )}
+          <div className="ml-2 flex flex-col justify-center">
+            <p className=" font-bold ">{session.user.username}</p>
+            <p className=" text-sm text-gray-500">{session.user.email}</p>
+          </div>
         </div>
+        <div className=" w-11/12 m-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Username</p>
+            <input
+              placeholder=""
+              className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            {isUsernameChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={() => handleUpdate("Username", username)}
+                >
+                  Save Username
+                </button>
+                <p className="text-sm mt-2">{usernameMessage}</p>
+              </>
+            )}
+          </div>
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Email</p>
+            <input
+              placeholder=""
+              className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {isEmailChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={() => handleUpdate("Email", email)}
+                >
+                  Save Email
+                </button>
+                <p className="text-sm mt-2">{emailMessage}</p>
+              </>
+            )}
+          </div>
 
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Bio</p>
-          <textarea
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-          {isBioChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={() => handleUpdate("Bio", bio)}
-              >
-                Save Bio
-              </button>
-              <p className="text-sm mt-2">{bioMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Profile Picture URL</p>
-          <input
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
-            value={profilePicture}
-            onChange={(e) => setProfilePicture(e.target.value)}
-          />
-          {isProfilePictureChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={handleUpdateProfilePicture}
-              >
-                Save Picture
-              </button>
-              <p className="text-sm mt-2">{pictureMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Cover Photo URL</p>
-          <input
-            placeholder=""
-            className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
-            value={coverPhoto}
-            onChange={(e) => setCoverPhoto(e.target.value)}
-          />
-          {isCoverPhotoChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={handleUpdateCoverPhoto}
-              >
-                Save Cover Photo
-              </button>
-              <p className="text-sm mt-2">{coverMessage}</p>
-            </>
-          )}
-        </div>
-        <div className="mb-4">
-          <p className="mb-4 text-sm jpg">Change Password</p>
-          <input
-            placeholder="Current Password"
-            type="password"
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mb-2"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
-          <input
-            placeholder="New Password"
-            type="password"
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mb-2"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-          <input
-            placeholder="Confirm Password"
-            type="password"
-            className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {isPasswordChanged && (
-            <>
-              <button
-                className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
-                onClick={handleUpdatePassword}
-              >
-                Save Password
-              </button>
-              <p className="text-sm mt-2">{passwordMessage}</p>
-            </>
-          )}
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Bio</p>
+            <textarea
+              placeholder=""
+              className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
+            {isBioChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={() => handleUpdate("Bio", bio)}
+                >
+                  Save Bio
+                </button>
+                <p className="text-sm mt-2">{bioMessage}</p>
+              </>
+            )}
+          </div>
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Profile Picture URL</p>
+            <input
+              placeholder=""
+              className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+              value={profilePicture}
+              onChange={(e) => setProfilePicture(e.target.value)}
+            />
+            {isProfilePictureChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={handleUpdateProfilePicture}
+                >
+                  Save Picture
+                </button>
+                <p className="text-sm mt-2">{pictureMessage}</p>
+              </>
+            )}
+          </div>
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Cover Photo URL</p>
+            <input
+              placeholder=""
+              className="bg-bggray px-4 py-2 w-full text-sm rounded-lg  text-gray-500"
+              value={coverPhoto}
+              onChange={(e) => setCoverPhoto(e.target.value)}
+            />
+            {isCoverPhotoChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={handleUpdateCoverPhoto}
+                >
+                  Save Cover Photo
+                </button>
+                <p className="text-sm mt-2">{coverMessage}</p>
+              </>
+            )}
+          </div>
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Change Password</p>
+            <input
+              placeholder="Current Password"
+              type="password"
+              className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mb-2"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+            <input
+              placeholder="New Password"
+              type="password"
+              className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500 mb-2"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <input
+              placeholder="Confirm Password"
+              type="password"
+              className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            {isPasswordChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={handleUpdatePassword}
+                >
+                  Save Password
+                </button>
+                <p className="text-sm mt-2">{passwordMessage}</p>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
