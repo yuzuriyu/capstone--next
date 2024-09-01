@@ -45,13 +45,19 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
           sizes="100vw"
         />
         <div className="absolute w-11/12 lg:w-8/12 bottom-0 left-1/2 -translate-x-1/2 flex">
-          <Image
-            src={session.user.profilePicture || "/images/profile--default.jpg"}
-            alt="Profile Picture"
-            height={160}
-            width={160}
-            className="align-baseline object-cover"
-          />
+          <div className="h-[160px] w-[160px]">
+            <Image
+              src={
+                session.user.profilePicture || "/images/profile--default.jpg"
+              }
+              alt="Profile Picture"
+              height={0}
+              width={0}
+              sizes="100vw"
+              className="object-cover h-full w-full"
+            />
+          </div>
+
           <div className="flex relative">
             <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
               {session.user.username}

@@ -81,15 +81,16 @@ const EmailModal: React.FC<EmailModalProps> = ({
       >
         {selectedEmail && (
           <div className="flex">
-            <div>
+            <div className="w-[40px] h-[40px] mr-2">
               <Image
                 src={
                   selectedEmail.profilePicture || "/images/profile--default.jpg"
                 }
                 alt="Profile Picture"
-                width={40}
-                height={40}
-                className="rounded-full mr-2"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="rounded-full mr-2 w-full h-full object-cover"
               />
             </div>
             <div className="flex-1 flex flex-col relative h-[550px]">

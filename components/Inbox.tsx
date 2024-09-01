@@ -182,16 +182,20 @@ const Inbox: React.FC<InboxProps> = ({ session }) => {
                     >
                       <div className="flex justify-between items-center">
                         <div className="flex items-center">
-                          <Image
-                            src={
-                              inquiry.profilePicture ||
-                              "/images/profile--default.jpg"
-                            }
-                            alt=""
-                            width={40}
-                            height={40}
-                            className="rounded-full mr-2"
-                          />
+                          <div className="h-[40px] w-[40px] mr-2">
+                            <Image
+                              src={
+                                inquiry.profilePicture ||
+                                "/images/profile--default.jpg"
+                              }
+                              alt=""
+                              width={0}
+                              height={0}
+                              sizes="100vw"
+                              className="rounded-full mr-2 w-full h-full object-cover"
+                            />
+                          </div>
+
                           <div>
                             <p className="font-bold">{inquiry.senderName}</p>
                             <p className="text-gray-500 text-xs">

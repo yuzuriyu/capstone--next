@@ -87,15 +87,18 @@ const Header: React.FC<HeaderProps> = ({ session }) => {
             </div>
           )}
           <Link href={"/"}>
-            <Image
-              src={
-                session?.user?.profilePicture || "/images/profile--default.jpg"
-              }
-              alt=""
-              width={40}
-              height={40}
-              className="rounded-full cursor-pointer"
-            />
+            <div className="h-[40px] w-[40px]">
+              <Image
+                src={
+                  session.user.profilePicture || "/images/profile--default.jpg"
+                }
+                alt="Profile Picture"
+                height={0}
+                width={0}
+                sizes="100vw"
+                className="object-cover h-full w-full rounded-full"
+              />
+            </div>
           </Link>
 
           <div className="relative">

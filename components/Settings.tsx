@@ -192,13 +192,18 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
           />
         </div>
         <div className=" w-11/12 flex py-4 m-auto">
-          <Image
-            src={session.user.profilePicture || "/images/profile--default.jpg"}
-            alt="Profile Picture"
-            height={100}
-            width={100}
-            className="align-baseline rounded-full"
-          />
+          <div className="h-[100px] w-[100px]">
+            <Image
+              src={
+                session.user.profilePicture || "/images/profile--default.jpg"
+              }
+              alt="Profile Picture"
+              height={0}
+              width={0}
+              sizes="100vw"
+              className="object-cover h-full w-full rounded-full "
+            />
+          </div>
           <div className="ml-2 flex flex-col justify-center">
             <p className=" font-bold ">{session.user.username}</p>
             <p className=" text-sm text-gray-500">{session.user.email}</p>
