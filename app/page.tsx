@@ -8,8 +8,8 @@ import VoltageContextProvider from "@/context/VoltageContext";
 async function fetchUserVoltage(email: string) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/voltage/${email}`,
-      { cache: "no-store" }
+      `${process.env.NEXT_PUBLIC_API_URL}/api/voltage/${email}`
+      // { next: { revalidate: 0 } }
     );
     if (!res.ok) {
       throw new Error("Failed to fetch user data");
@@ -52,7 +52,7 @@ export default async function ProfilePage({ params }: ProfileProps) {
 
   return (
     <>
-      <VoltageContextProvider readings={readings}>
+      <VoltageContextProvider initialReadings={readings}>
         <Header session={session} />
         <MyProfile session={session} />
         <MobileNav session={session} />

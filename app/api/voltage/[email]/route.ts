@@ -20,3 +20,5 @@ export const GET = async (
     return NextResponse.json("failed to fetch user", { status: 500 });
   }
 };
+
+export const revalidate = 60;

@@ -57,11 +57,8 @@ const MyDailyChart = () => {
       }
     };
 
-    // Update the data initially
+    // Update the data when voltageData changes
     updateDailyData();
-
-    // Set an interval to update the data periodically (every minute)
-    const intervalId = setInterval(updateDailyData, 60000);
 
     // Reset data at 11:59 PM
     const resetTime = new Date();
@@ -72,9 +69,8 @@ const MyDailyChart = () => {
       updateDailyData(); // To start collecting data for the new day
     }, resetTime.getTime() - new Date().getTime());
 
-    // Cleanup interval and timeout on unmount
+    // Cleanup timeout on unmount
     return () => {
-      clearInterval(intervalId);
       clearTimeout(timeoutId);
     };
   }, [voltageData]);

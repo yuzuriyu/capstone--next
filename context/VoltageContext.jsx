@@ -5,10 +5,12 @@ import { useSession } from "next-auth/react";
 
 const VoltageContext = createContext();
 
-const VoltageContextProvider = ({ children, readings }) => {
+const VoltageContextProvider = ({ children, initialReadings }) => {
   const { data: session, status } = useSession();
+  const [voltageData, setVoltageData] = useState(
+    initialReadings?.voltages || []
+  );
   const [latestRecord, setLatestRecord] = useState(null);
-  const [voltageData, setVoltageData] = useState([]);
   const [totalAccumulatedVoltage, setTotalAccumulatedVoltage] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [averageVoltage, setAverageVoltage] = useState(0);
@@ -17,13 +19,36 @@ const VoltageContextProvider = ({ children, readings }) => {
   const [peakVoltage, setPeakVoltage] = useState(0);
   const [medianVoltage, setMedianVoltage] = useState(0);
 
-  useEffect(() => {
-    if (readings && Array.isArray(readings.voltages)) {
-      setVoltageData(readings.voltages);
-    } else if (status === "authenticated" && session?.user?.voltages) {
-      setVoltageData(session.user.voltages);
+  const fetchVoltageData = async () => {
+    if (!session?.user?.email) {
+      console.error("No email found in session");
+      return;
     }
-  }, [status, session, readings]);
+
+    try {
+      console.log("Fetching voltage data...");
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/voltage/${session.user.email}`,
+        { next: { revalidate: 0 } }
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      const data = await res.json();
+      console.log("Fetched voltage data:", data);
+      setVoltageData(data.voltages);
+    } catch (error) {
+      console.error("Error fetching voltage data:", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (session?.user?.email) {
+  //     fetchVoltageData();
+  //     const intervalId = setInterval(fetchVoltageData, 3000); // Poll every 60 seconds
+  //     return () => clearInterval(intervalId); // Cleanup interval on unmount
+  //   }
+  // }, [session?.user?.email]);
 
   useEffect(() => {
     if (voltageData.length > 0) {
@@ -49,7 +74,6 @@ const VoltageContextProvider = ({ children, readings }) => {
         }
       });
 
-      // Calculate average voltage
       const average = stepsCount > 0 ? totalVoltage / stepsCount : 0;
 
       // Calculate standard deviation
@@ -60,16 +84,13 @@ const VoltageContextProvider = ({ children, readings }) => {
         ) / stepsCount;
       const stdDeviation = Math.sqrt(variance);
 
-      // Calculate total voltage change
       const voltageChange =
         firstVoltage !== null && lastVoltage !== null
           ? lastVoltage - firstVoltage
           : 0;
 
-      // Find peak voltage
       const peak = Math.max(...voltagesArray);
 
-      // Calculate median voltage
       voltagesArray.sort((a, b) => a - b);
       const mid = Math.floor(voltagesArray.length / 2);
       const median =
@@ -77,7 +98,6 @@ const VoltageContextProvider = ({ children, readings }) => {
           ? voltagesArray[mid]
           : (voltagesArray[mid - 1] + voltagesArray[mid]) / 2;
 
-      // Convert to fixed decimal places and then parse it back to float
       totalVoltage = parseFloat(totalVoltage.toFixed(2));
       setTotalAccumulatedVoltage(totalVoltage);
       setTotalSteps(stepsCount);
@@ -87,7 +107,6 @@ const VoltageContextProvider = ({ children, readings }) => {
       setPeakVoltage(parseFloat(peak.toFixed(2)));
       setMedianVoltage(parseFloat(median.toFixed(2)));
 
-      // Set the latest record timestamp if available
       const latestVoltageData = voltageData[voltageData.length - 1];
       if (latestVoltageData && latestVoltageData.voltages.length > 0) {
         const latestTimestamp =
@@ -98,9 +117,7 @@ const VoltageContextProvider = ({ children, readings }) => {
       }
     }
   }, [voltageData]);
-  console.log(voltageData);
 
-  console.log(totalAccumulatedVoltage);
   return (
     <VoltageContext.Provider
       value={{
