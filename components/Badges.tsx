@@ -71,7 +71,7 @@ const Badges: React.FC<BadgesProps> = ({ session }) => {
           isCompleted = totalSteps >= 0;
           break;
         case "voltage_voyager":
-          isCompleted = totalAccumulatedVoltage >= 100;
+          isCompleted = totalAccumulatedVoltage >= 1000;
           break;
 
         default:
