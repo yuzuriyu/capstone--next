@@ -26,32 +26,26 @@ const OtherLast6DaysChart = ({ userVoltage }) => {
     sixDaysAgo.setDate(today.getDate() - 6);
 
     const dayTotals = {};
-    const latestDayInstances = {};
 
+    // Loop through each day's voltage data
     userVoltage.voltages.forEach((dayData) => {
       dayData.voltages.forEach((voltage) => {
         const voltageDate = new Date(voltage.timestamp);
 
+        // Check if the voltage reading is within the last 6 days
         if (voltageDate >= sixDaysAgo && voltageDate <= today) {
           const dayName = voltageDate.toLocaleDateString("en-US", {
             weekday: "short",
           });
 
-          if (
-            !latestDayInstances[dayName] ||
-            voltageDate > latestDayInstances[dayName]
-          ) {
-            latestDayInstances[dayName] = voltageDate;
-            dayTotals[dayName] = voltage.voltage;
-          } else if (
-            voltageDate.getTime() === latestDayInstances[dayName].getTime()
-          ) {
-            dayTotals[dayName] += voltage.voltage;
-          }
+          // Sum up voltages for each day and round to 2 decimals
+          dayTotals[dayName] = (dayTotals[dayName] || 0) + voltage.voltage;
+          dayTotals[dayName] = parseFloat(dayTotals[dayName].toFixed(2));
         }
       });
     });
 
+    // Prepare the data for the chart
     const formattedData = Object.keys(dayTotals).map((day, index) => ({
       day,
       totalVoltage: dayTotals[day],
@@ -83,13 +77,15 @@ const OtherLast6DaysChart = ({ userVoltage }) => {
           cx="50%"
           cy="50%"
           outerRadius={150}
-          label
+          label={({ day, totalVoltage }) =>
+            `${day}: ${totalVoltage.toFixed(2)}V`
+          }
         >
           {aggregatedData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>
-        <Tooltip />
+        <Tooltip formatter={(value) => `${value.toFixed(2)}V`} />
       </PieChart>
     </ResponsiveContainer>
   );

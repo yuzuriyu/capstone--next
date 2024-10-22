@@ -53,7 +53,13 @@ const MyWeeklyChart = () => {
       });
     });
 
-    setAggregatedData(weeklyAggregatedData);
+    // Format totalVoltage to two decimal places
+    const formattedData = weeklyAggregatedData.map((data) => ({
+      ...data,
+      totalVoltage: parseFloat(data.totalVoltage.toFixed(2)),
+    }));
+
+    setAggregatedData(formattedData);
   }, [voltageData]);
 
   if (!aggregatedData || aggregatedData.length === 0) {
@@ -68,8 +74,15 @@ const MyWeeklyChart = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="week" fontSize={12} />
-        <YAxis fontSize={12} />
-        <Tooltip fontSize={12} />
+        <YAxis
+          fontSize={12}
+          label={{
+            value: "Total Voltage (V)",
+            angle: -90,
+            position: "insideLeft",
+          }} // Add label
+        />
+        <Tooltip formatter={(value) => `${value} V`} /> {/* Add V for volts */}
         <Legend fontSize={12} />
         <Area
           type="monotone"

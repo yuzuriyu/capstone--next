@@ -41,7 +41,7 @@ const OtherDailyChart = ({ userVoltage }) => {
         if (todayData && todayData.voltages.length > 0) {
           const dataForToday = todayData.voltages.map((reading) => ({
             time: new Date(reading.timestamp).toLocaleTimeString(),
-            voltage: reading.voltage,
+            voltage: parseFloat(reading.voltage.toFixed(2)), // Round to 2 decimals
           }));
 
           // Keep only the most recent 60 data points
@@ -100,7 +100,9 @@ const OtherDailyChart = ({ userVoltage }) => {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" fontSize={12} />
             <YAxis fontSize={12} />
-            <Tooltip />
+            <Tooltip
+              formatter={(value) => `${value.toFixed(2)}V`} // Tooltip shows voltage with 2 decimals and "V"
+            />
             <Area
               type="monotone"
               dataKey="voltage"

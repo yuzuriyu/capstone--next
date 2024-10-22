@@ -31,11 +31,12 @@ const OtherStepsChart = ({ userVoltage }) => {
       sixDaysAgo.setDate(today.getDate() - 6);
 
       const filteredData = userVoltage.voltages.filter((dayData) => {
-        const dayDate = new Date(dayData.voltages[0]?.timestamp);
-        const localDayDate = new Date(
-          dayDate.getTime() + dayDate.getTimezoneOffset() * 60000
-        );
-        return localDayDate >= sixDaysAgo && localDayDate <= today;
+        const allVoltages = dayData.voltages;
+        const dayHasValidData = allVoltages.some((voltage) => {
+          const dayDate = new Date(voltage.timestamp);
+          return dayDate >= sixDaysAgo && dayDate <= today;
+        });
+        return dayHasValidData;
       });
 
       const total = filteredData.reduce((accumulator, dayData) => {
@@ -48,14 +49,23 @@ const OtherStepsChart = ({ userVoltage }) => {
         value: dayData.voltages.length,
         color: COLORS[index % COLORS.length],
       }));
-      setAggregatedData(data);
+
+      setAggregatedData(
+        data.length > 0
+          ? data
+          : [{ name: "No Data", value: 1, color: COLORS[0] }]
+      );
+    } else {
+      // Default handling when userVoltage is empty or undefined
+      setAggregatedData([{ name: "No Data", value: 1, color: COLORS[0] }]);
     }
-  }, [userVoltage]); // COLORS is not a dependency
+  }, [userVoltage]);
 
   const toggleStepChartInfo = () => {
     setIsStepChartInfoOpen((prevStatus) => !prevStatus);
   };
 
+  // Show a loading spinner if data is being fetched
   if (!aggregatedData || aggregatedData.length === 0) {
     return <ClipLoader color="#2FBFDE" loading={true} />;
   }
@@ -64,8 +74,8 @@ const OtherStepsChart = ({ userVoltage }) => {
     <div className="w-full bg-white py-4 px-4 rounded-lg">
       <div className="flex justify-end relative">
         <button
-          className=" text-customgreen text-sm"
-          onClick={() => toggleStepChartInfo()}
+          className="text-customgreen text-sm"
+          onClick={toggleStepChartInfo}
         >
           {isStepChartInfoOpen ? "Hide Details" : "View Details"}
         </button>
@@ -83,6 +93,11 @@ const OtherStepsChart = ({ userVoltage }) => {
             <Legend />
           </PieChart>
         </ResponsiveContainer>
+        {aggregatedData[0].name === "No Data" && ( // Display a message if there's no data
+          <div className="text-center text-gray-500 mt-2">
+            No steps recorded for the selected user in the past week.
+          </div>
+        )}
       </div>
     </div>
   );

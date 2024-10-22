@@ -28,9 +28,6 @@ const MyLast6DaysChart = () => {
     // Initialize data structure to accumulate voltage totals for each day of the week
     const dayTotals = {};
 
-    // Track the most recent instance of each day
-    const latestDayInstances = {};
-
     voltageData.forEach((dayData) => {
       dayData.voltages.forEach((voltage) => {
         const voltageDate = new Date(voltage.timestamp);
@@ -40,28 +37,20 @@ const MyLast6DaysChart = () => {
             weekday: "short",
           });
 
-          // Check if this is the most recent instance of this day
-          if (
-            !latestDayInstances[dayName] ||
-            voltageDate > latestDayInstances[dayName]
-          ) {
-            // If it's more recent, update the day total and the latest instance
-            latestDayInstances[dayName] = voltageDate;
-            dayTotals[dayName] = voltage.voltage;
-          } else if (
-            voltageDate.getTime() === latestDayInstances[dayName].getTime()
-          ) {
-            // If it's the same date, sum the voltages
+          // Sum all voltages for the same day
+          if (dayTotals[dayName]) {
             dayTotals[dayName] += voltage.voltage;
+          } else {
+            dayTotals[dayName] = voltage.voltage;
           }
         }
       });
     });
 
-    // Convert dayTotals object to an array of objects for the chart
+    // Convert dayTotals object to an array of objects for the chart and round totalVoltage to 2 decimals
     const formattedData = Object.keys(dayTotals).map((day) => ({
       day,
-      totalVoltage: dayTotals[day],
+      totalVoltage: parseFloat(dayTotals[day].toFixed(2)), // Round to 2 decimals
     }));
 
     console.log("Aggregated data:", formattedData);
@@ -91,7 +80,7 @@ const MyLast6DaysChart = () => {
             cy="50%"
             outerRadius={150}
             fill="#8884d8"
-            label
+            label={({ day, totalVoltage }) => `${day}: ${totalVoltage} V`} // Add 'V' to the label
           >
             {aggregatedData.map((entry, index) => (
               <Cell
@@ -100,7 +89,8 @@ const MyLast6DaysChart = () => {
               />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip formatter={(value) => `${value.toFixed(2)} V`} />{" "}
+          {/* Add 'V' to the tooltip */}
         </PieChart>
       </ResponsiveContainer>
     </div>

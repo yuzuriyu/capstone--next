@@ -33,14 +33,9 @@ const MyStepsChart = () => {
       sixDaysAgo.setDate(today.getDate() - 6);
 
       const filteredData = voltageData.filter((dayData) => {
-        // Flatten all voltages arrays into a single array
         const allVoltages = dayData.voltages;
         const dayHasValidData = allVoltages.some((voltage) => {
           const dayDate = new Date(voltage.timestamp);
-          if (isNaN(dayDate)) {
-            console.error("Timestamp missing or invalid:", voltage);
-            return false;
-          }
           return dayDate >= sixDaysAgo && dayDate <= today;
         });
         return dayHasValidData;
@@ -56,7 +51,15 @@ const MyStepsChart = () => {
         value: dayData.voltages.length,
         color: COLORS[index % COLORS.length],
       }));
-      setAggregatedData(data);
+
+      setAggregatedData(
+        data.length > 0
+          ? data
+          : [{ name: "No Data", value: 1, color: COLORS[0] }]
+      ); // Default handling
+    } else {
+      // Default handling when voltageData is empty or undefined
+      setAggregatedData([{ name: "No Data", value: 1, color: COLORS[0] }]);
     }
   }, [voltageData]);
 
@@ -73,7 +76,7 @@ const MyStepsChart = () => {
       <div className="flex justify-end relative">
         <button
           className=" text-customgreen text-sm"
-          onClick={() => toggleStepChartInfo()}
+          onClick={toggleStepChartInfo}
         >
           {isStepChartInfoOpen ? "Hide Details" : "View Details"}
         </button>
@@ -91,6 +94,11 @@ const MyStepsChart = () => {
             <Legend />
           </PieChart>
         </ResponsiveContainer>
+        {aggregatedData[0].name === "No Data" && ( // Display a message if there's no data
+          <div className="text-center text-gray-500 mt-2">
+            No steps recorded for today.
+          </div>
+        )}
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ const MyDailyChart = () => {
           )
           .map((reading) => ({
             time: new Date(reading.timestamp).toLocaleTimeString(),
-            voltage: reading.voltage,
+            voltage: parseFloat(reading.voltage.toFixed(2)), // Round voltage to 2 decimal places
           }));
 
         // Keep only the most recent 60 data points
@@ -100,8 +100,16 @@ const MyDailyChart = () => {
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="time" fontSize={12} />
-            <YAxis fontSize={12} />
-            <Tooltip />
+            <YAxis
+              fontSize={12}
+              label={{
+                value: "Voltage (V)",
+                angle: -90,
+                position: "insideLeft",
+              }}
+            />
+            <Tooltip formatter={(value) => `${value} V`} />{" "}
+            {/* Add V for volts */}
             <Area
               type="monotone"
               dataKey="voltage"

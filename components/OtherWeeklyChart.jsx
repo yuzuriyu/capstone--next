@@ -43,8 +43,12 @@ const OtherWeeklyChart = ({ userVoltage }) => {
           weekInMonth = Math.min(weekInMonth, weeklyAggregatedData.length); // Ensure weekInMonth is within bounds
 
           if (weeklyAggregatedData[weekInMonth - 1]) {
+            // Accumulate the total voltage and round to 2 decimals
             weeklyAggregatedData[weekInMonth - 1].totalVoltage +=
               voltage.voltage;
+            weeklyAggregatedData[weekInMonth - 1].totalVoltage = parseFloat(
+              weeklyAggregatedData[weekInMonth - 1].totalVoltage.toFixed(2)
+            );
           } else {
             console.error("Week not found:", weekInMonth);
           }
@@ -69,7 +73,7 @@ const OtherWeeklyChart = ({ userVoltage }) => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="week" fontSize={12} />
         <YAxis fontSize={12} />
-        <Tooltip fontSize={12} />
+        <Tooltip formatter={(value) => `${value.toFixed(2)}V`} fontSize={12} />
         <Legend fontSize={12} />
         <Area
           type="monotone"
