@@ -10,12 +10,14 @@ import { ClipLoader } from "react-spinners";
 import MyDailyChart from "./MyDailyChart";
 import Badges from "./Badges";
 import { Session } from "@/app/interfaces";
+import Map from "./Map";
 
 interface MyProfileProps {
   session: Session;
 }
 
 const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
+  console.log(session);
   const {
     totalAccumulatedVoltage,
     latestRecord,
@@ -23,6 +25,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
     averageVoltage,
     peakVoltage,
     standardDeviation,
+    voltageData,
   } = useContext(VoltageContext);
 
   const [activeCategory, setActiveCategory] = useState("voltage");
@@ -32,7 +35,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
       <ClipLoader />;
     }
   }, [session]);
-
+  console.log(session);
   return (
     <>
       <div className="relative h-[330px] w-full">
@@ -59,8 +62,14 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
           </div>
 
           <div className="flex relative">
-            <p className="text-lg font-bold ml-6 absolute bottom-4 text-white w-[150px]">
+            <p className="text-lg font-bold ml-6 absolute bottom-8 text-white w-[150px]">
               {session.user.username}
+            </p>
+          </div>
+
+          <div className="flex relative">
+            <p className=" ml-6 absolute bottom-2 text-white w-[150px]">
+              {session.user.address}
             </p>
           </div>
         </div>
@@ -81,6 +90,14 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
           onClick={() => setActiveCategory("steps")}
         >
           Steps
+        </p>
+        <p
+          className={`text-sm cursor-pointer ${
+            activeCategory === "map" ? "text-customgreen" : ""
+          }`}
+          onClick={() => setActiveCategory("map")}
+        >
+          Map
         </p>
       </div>
       <div className="w-full h-full py-8">
@@ -141,6 +158,7 @@ const MyProfile: React.FC<MyProfileProps> = ({ session }) => {
             {activeCategory === "steps" && <MyDailyStepChart />}
 
             {activeCategory === "steps" && <MyStepsChart />}
+            {activeCategory === "map" && <Map />}
           </div>
         </div>
       </div>

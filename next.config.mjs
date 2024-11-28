@@ -32,6 +32,13 @@ const nextConfig = {
       },
     ],
   },
+  webpack(config, { isServer }) {
+    // Ignore warnings related to ES Module require
+    if (!isServer) {
+      config.ignoreWarnings = [{ message: /require\(\) of ES Module/ }];
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

@@ -47,10 +47,12 @@ const authOptions: NextAuthOptions = {
             username: user.username || "",
             role: user.role || "",
             bio: user.bio || "",
+            address: user.address || "",
             phoneNumber: user.phoneNumber || "",
             profilePicture: user.profilePicture || "",
             coverPhoto: user.coverPhoto || "",
             badges: user.badges || [],
+            location: user.location || [], // Add location field
           };
         } catch (error) {
           console.error("Authorization error:", error);
@@ -74,10 +76,12 @@ const authOptions: NextAuthOptions = {
         token.username = user.username;
         token.role = user.role;
         token.bio = user.bio;
+        token.address = user.address;
         token.phoneNumber = user.phoneNumber;
         token.profilePicture = user.profilePicture;
         token.coverPhoto = user.coverPhoto;
         token.badges = user.badges;
+        token.location = user.location;
       }
       return token;
     },
@@ -88,11 +92,12 @@ const authOptions: NextAuthOptions = {
         session.user.username = token.username as string;
         session.user.role = token.role as string;
         session.user.bio = token.bio as string;
+        session.user.address = token.address as string;
         session.user.phoneNumber = token.phoneNumber as string;
         session.user.profilePicture = token.profilePicture as string;
-
         session.user.coverPhoto = token.coverPhoto as string;
         session.user.badges = token.badges as any[];
+        session.user.location = token.location as any[];
       }
       return session;
     },

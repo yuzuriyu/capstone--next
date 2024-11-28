@@ -29,7 +29,9 @@
     "context/VoltageContext.jsx",
     "lib/utils.js",
     "app/api/submit-voltage/route.ts",
-    "app/api/auth/[...nextauth]/route.js"
+    "app/api/auth/[...nextauth]/route.js",
+    "app/report/page.jsx",
+    "components/ReportPage.jsx"
   ],
   "exclude": ["node_modules"]
 }

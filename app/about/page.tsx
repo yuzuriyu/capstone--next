@@ -46,7 +46,6 @@ export default async function About() {
           </p>
         </div>
       </div>
-
       <MobileNav session={session} />
     </>
   );

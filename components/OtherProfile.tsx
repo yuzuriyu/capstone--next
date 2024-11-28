@@ -11,6 +11,7 @@ import OtherDailyChart from "./OtherDailyChart";
 import OtherDailyStepBar from "./OtherDailyStepBar";
 import { User } from "@/app/interfaces";
 import OtherBadges from "./OtherBadges";
+import ReportPage from "./ReportPage";
 
 interface OtherProfileProps {
   userData: User;
@@ -28,6 +29,7 @@ const OtherProfile: React.FC<OtherProfileProps> = ({
     averageVoltage,
     peakVoltage,
     standardDeviation,
+    voltageData,
   } = useContext(OtherVoltageContext);
 
   const [activeCategory, setActiveCategory] = useState("voltage");
@@ -123,6 +125,16 @@ const OtherProfile: React.FC<OtherProfileProps> = ({
               </div>
             </div>
             <OtherBadges userData={userData} />
+            <ReportPage
+              userData={userData}
+              totalAccumulatedVoltage={totalAccumulatedVoltage}
+              latestRecord={latestRecord}
+              totalSteps={totalSteps}
+              averageVoltage={averageVoltage}
+              peakVoltage={peakVoltage}
+              standardDeviation={standardDeviation}
+              voltageData={voltageData}
+            />
           </div>
 
           <div className="lg:flex-1 flex flex-col">

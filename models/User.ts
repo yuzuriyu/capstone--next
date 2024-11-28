@@ -69,6 +69,11 @@ interface Badge {
   completed: boolean;
 }
 
+interface Location {
+  latitude: number;
+  longitude: number;
+}
+
 // Define the badgeSchema
 const badgeSchema = new Schema<Badge>({
   badgeId: {
@@ -100,11 +105,26 @@ interface User extends Document {
   username: string;
   role: "user" | "admin";
   bio?: string;
+  address?: string;
   phoneNumber?: string;
   profilePicture?: string;
   coverPhoto?: string;
   badges: Badge[];
+  location?: Location[]; // Add location property
 }
+
+const locationSchema = new Schema<Location>({
+  latitude: {
+    type: Number,
+    required: true,
+    default: 15.6872, // Set the default latitude value
+  },
+  longitude: {
+    type: Number,
+    required: true,
+    default: 120.4183, // Set the default longitude value
+  },
+});
 
 const userSchema = new Schema<User>({
   email: {
@@ -129,6 +149,9 @@ const userSchema = new Schema<User>({
   bio: {
     type: String,
   },
+  address: {
+    type: String,
+  },
   phoneNumber: {
     type: String,
   },
@@ -141,6 +164,17 @@ const userSchema = new Schema<User>({
   badges: {
     type: [badgeSchema], // Add the badgeSchema to the badges field
     default: defaultBadges,
+  },
+  location: {
+    type: [
+      {
+        latitude: { type: Number, required: true },
+        longitude: { type: Number, required: true },
+      },
+    ],
+    default: [
+      { latitude: 15.6872, longitude: 120.4183 }, // Default coordinates
+    ],
   },
 });
 

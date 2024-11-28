@@ -32,13 +32,20 @@ export interface BadgeType {
   completed: boolean;
 }
 
+export interface Location {
+  latitude: number;
+  longitude: number;
+}
+
 export interface User {
   username?: string;
   bio?: string; // Allow bio to be undefined
+  address?: string;
   profilePicture?: string;
   email?: string;
   coverPhoto?: string;
   badges?: any[] | undefined;
+  location?: any[] | undefined; // Use Location type for more clarity
   role?: string;
 }
 

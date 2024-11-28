@@ -11,6 +11,8 @@ interface SettingsProps {
 const Settings: React.FC<SettingsProps> = ({ session }) => {
   const [username, setUsername] = useState(session?.user?.username || "");
   const [email, setEmail] = useState(session?.user?.email || "");
+  const [address, setAddress] = useState(session?.user?.address || "");
+
   const [bio, setBio] = useState(session?.user?.bio || "");
   const [profilePicture, setProfilePicture] = useState(
     session?.user?.profilePicture || ""
@@ -24,6 +26,8 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
   // States for messages
   const [usernameMessage, setUsernameMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
+  const [addressMessage, setAddressMessage] = useState("");
+
   const [passwordMessage, setPasswordMessage] = useState("");
   const [bioMessage, setBioMessage] = useState("");
   const [pictureMessage, setPictureMessage] = useState("");
@@ -32,6 +36,8 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
   useEffect(() => {
     setUsername(session?.user?.username || "");
     setEmail(session?.user?.email || "");
+    setAddress(session?.user?.address || "");
+
     setBio(session?.user?.bio || "");
     setProfilePicture(session?.user?.profilePicture || "");
     setCoverPhoto(session?.user?.coverPhoto || "");
@@ -43,6 +49,8 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
 
   const isUsernameChanged = username !== session?.user?.username;
   const isEmailChanged = email !== session?.user?.email;
+  const isAddressChanged = address !== session?.user?.address;
+
   const isBioChanged = bio !== session?.user?.bio;
   const isProfilePictureChanged =
     profilePicture !== session?.user?.profilePicture;
@@ -64,6 +72,8 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
       if (res.ok) {
         if (field === "Username") setUsernameMessage(data.message);
         if (field === "Email") setEmailMessage(data.message);
+        if (field === "Address") setAddressMessage(data.message);
+
         if (field === "Password") setPasswordMessage(data.message);
         if (field === "Bio") setBioMessage(data.message);
         if (field === "profilePicture") setPictureMessage(data.message);
@@ -79,6 +89,8 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
       console.error("Error updating field:", error);
       if (field === "Username") setUsernameMessage("Error updating username");
       if (field === "Email") setEmailMessage("Error updating email");
+      if (field === "Address") setAddressMessage("Error updating address");
+
       if (field === "Password") setPasswordMessage("Error updating password");
       if (field === "Bio") setBioMessage("Error updating bio");
       if (field === "profilePicture")
@@ -88,6 +100,8 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
     setTimeout(() => {
       if (field === "Username") setUsernameMessage("");
       if (field === "Email") setEmailMessage("");
+      if (field === "Address") setAddressMessage("");
+
       if (field === "Password") setPasswordMessage("");
       if (field === "Bio") setBioMessage("");
       if (field === "profilePicture") setPictureMessage("");
@@ -247,6 +261,26 @@ const Settings: React.FC<SettingsProps> = ({ session }) => {
                   Save Email
                 </button>
                 <p className="text-sm mt-2">{emailMessage}</p>
+              </>
+            )}
+          </div>
+          <div className="mb-4">
+            <p className="mb-4 text-sm jpg">Address</p>
+            <input
+              placeholder=""
+              className="bg-bggray px-4 py-2 w-full rounded-lg  text-gray-500"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            {isAddressChanged && (
+              <>
+                <button
+                  className="bg-customgreen text-white rounded-lg px-4 py-2 text-sm mt-4"
+                  onClick={() => handleUpdate("Address", address)}
+                >
+                  Save Adress
+                </button>
+                <p className="text-sm mt-2">{addressMessage}</p>
               </>
             )}
           </div>
